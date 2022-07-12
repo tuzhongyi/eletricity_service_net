@@ -1,0 +1,76 @@
+/* You can add global styles to this file, and also import other style files */
+html,
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  border: none;
+  overflow: hidden;
+  font-family: 'Howell Light';
+}
+
+
+
+
+button {
+
+  border: solid #07a990 1px;
+  color: white;
+  background-color: rgba(0, 103, 100, 0.5);
+  margin-left: 15px;
+  cursor: pointer;
+  height: 34px;
+  font-size: 18px;
+  padding: 0 10px;
+}
+
+button:first-child {
+  margin-left: 0;
+}
+
+button:hover {
+  border-color: #f46855;
+  background-color: rgba(194, 83, 68, 0.5);
+}
+
+button.selected {
+  border-color: rgba(239, 111, 89, 0.7);
+  background-color: rgba(244, 104, 85, 0.5);
+}
+
+
+
+::-webkit-scrollbar-track-piece {
+  /* 内层轨道 */
+  background-color: rgba(50, 131, 229, 0);
+}
+
+::-webkit-scrollbar-corner {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+  position: absolute;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(193, 255, 245, 0.5);
+  background-clip: padding-box;
+  border-radius: 8px;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(193, 255, 245, 0.7);
+}
+
+
+.title {
+  color: white;
+  font-size: 24px;
+  height: 24px;
+  margin-bottom: 20px;
+}

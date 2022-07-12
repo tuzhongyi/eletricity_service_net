@@ -1,0 +1,12 @@
+<div class="header">
+  <div class="header-title">{{ title }}</div>
+  <div class="header-navigation">
+    <howell-header-navigation
+      [path]="path"
+      (changed)="onpathchanged($event)"
+    ></howell-header-navigation>
+  </div>
+  <div class="header-info">
+    <howell-header-information></howell-header-information>
+  </div>
+</div>

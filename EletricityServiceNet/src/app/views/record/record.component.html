@@ -1,0 +1,19 @@
+<div class="record">
+  <howell-card>
+    <div>
+      <input
+        type="text"
+        DateTimePicker
+        [format]="'yyyy-MM-dd HH:mm'"
+        [startView]="DateTimePickerView.day"
+        [minView]="DateTimePickerView.hour"
+        [date]="date"
+        (change)="changeDate($event)"
+        class=""
+      />
+    </div>
+    <div>
+      <howell-record-event-table></howell-record-event-table>
+    </div>
+  </howell-card>
+</div>

@@ -1,0 +1,22 @@
+<div class="eletricity-service-net">
+  <div class="eletricity-service-net-header">
+    <howell-header
+      [path]="path"
+      (navigate)="onnavigate($event)"
+    ></howell-header>
+  </div>
+  <div class="eletricity-service-net-body">
+    <ng-container *ngIf="path === NavigationPath.realtime">
+      <howell-realtime></howell-realtime>
+    </ng-container>
+    <ng-container *ngIf="path === NavigationPath.passenger">
+      <howell-passenger></howell-passenger>
+    </ng-container>
+    <ng-container *ngIf="path === NavigationPath.record">
+      <howell-record></howell-record>
+    </ng-container>
+    <ng-container *ngIf="path === NavigationPath.video">
+      <howell-video></howell-video>
+    </ng-container>
+  </div>
+</div>
