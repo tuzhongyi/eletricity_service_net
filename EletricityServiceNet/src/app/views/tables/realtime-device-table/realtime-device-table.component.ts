@@ -30,7 +30,7 @@ export class RealtimeDeviceListTableComponent
     this.business = business;
   }
 
-  width = ['25%', '25%', '25%', '25%'];
+  width = ['40%', '20%', '20%', '20%'];
 
   Language = Language;
 

@@ -74,6 +74,13 @@ class BusinessHallsCamerasUrl implements InnerUrl {
   list() {
     return `${this.basic()}/List`;
   }
+
+  picture(cameraId: string) {
+    return `${this.item(cameraId)}/Picture`;
+  }
+  capturePicture(cameraId: string) {
+    return `${this.item(cameraId)}/CapturePicture`;
+  }
 }
 
 class BusinessHallsPassengerFlowsUrl {

@@ -4,8 +4,10 @@
       <tbody>
         <tr *ngFor="let item of datas">
           <td [width]="width[0]">{{ item.name }}</td>
-          <td class="right" [width]="width[1]">{{ item.floor }}</td>
-          <td [width]="width[2]">{{ Language.EventType(item.event) }}</td>
+          <td [width]="width[1]">{{ item.floor }}</td>
+          <td [width]="width[2]">
+            {{ Language.EventType(item.event) }}
+          </td>
           <td [width]="width[3]">{{ item.time }}</td>
         </tr>
       </tbody>

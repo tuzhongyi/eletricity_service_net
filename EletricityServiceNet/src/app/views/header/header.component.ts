@@ -10,7 +10,7 @@ export class HeaderComponent implements OnInit {
   @Input()
   path: NavigationPath = NavigationPath.realtime;
   @Input()
-  title: string = '某某电力营业厅';
+  title: string = '';
   @Output()
   navigate: EventEmitter<NavigationPath> = new EventEmitter();
 

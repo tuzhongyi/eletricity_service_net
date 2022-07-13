@@ -57,7 +57,7 @@ export class BusinessHallRequestService {
     return this.type.put(url, model);
   }
 
-  list(params: GetBusinessHallsParams) {
+  list(params: GetBusinessHallsParams = new GetBusinessHallsParams()) {
     let url = BusinessHallsUrl.list();
     return this.type.paged(url, params);
   }
@@ -198,6 +198,15 @@ class BusinessHallCameraRequestService {
     let url = BusinessHallsUrl.camera().list();
     return this.type.paged(url, params);
   }
+
+  picture(hallId: string, cameraId: string, base64: string) {
+    let url = BusinessHallsUrl.camera(hallId).picture(cameraId);
+    return this.type.post(url, base64);
+  }
+  //  capturePicture(hallId:string, cameraId:string){
+  //   let url = BusinessHallsUrl.camera(hallId).capturePicture(cameraId);
+  //   return this.basic
+  //  }
 }
 
 class BusinessHallPassengerFlowRequestService {

@@ -5,6 +5,7 @@ const PROXY_CONFIG = [
       '/api/howell/ver10/aiop_service/',
       '/video/wsplayer/',
       '/amap/',
+      '/api/howell/ver10/businesshall_service/',
     ],
     //target: 'http://garbage01.51hws.cn',
     target: 'http://192.168.21.122:9400',

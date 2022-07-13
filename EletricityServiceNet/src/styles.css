@@ -25,6 +25,10 @@ button {
   padding: 0 10px;
 }
 
+button.full {
+  background-color: #07a990;
+}
+
 button:first-child {
   margin-left: 0;
 }

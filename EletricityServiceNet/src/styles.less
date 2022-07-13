@@ -1,0 +1,29 @@
+app-root {
+  @import url(assets/styles/howell.less);
+}
+
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  &:active,
+  &:focus {
+    border-color: rgba(239, 111, 89, 0.7);
+    background-color: rgba(244, 104, 85, 0.5);
+  }
+
+
+  option {
+    outline: none;
+    border: none;
+    background-color: #855a58;
+
+
+    &:hover {
+      border-color: #f46855;
+      background-color: rgba(194, 83, 68, 0.5);
+    }
+  }
+}

@@ -33,8 +33,6 @@ import {
   MAT_PAGINATOR_DEFAULT_OPTIONS,
   _MatPaginatorBase,
 } from '@angular/material/paginator';
-import { ToastrService } from 'ngx-toastr';
-import { fromEvent } from 'rxjs';
 import { PaginatorIntl } from './paginator-intl';
 
 export type Constructor<T> = new (...args: any[]) => T;
@@ -51,7 +49,8 @@ export type Constructor<T> = new (...args: any[]) => T;
 })
 export class PaginatorComponent
   extends _MatPaginatorBase<MatPaginatorDefaultOptions>
-  implements AfterViewInit, OnChanges {
+  implements AfterViewInit, OnChanges
+{
   @Input()
   override get pageIndex() {
     return super.pageIndex;
@@ -82,7 +81,6 @@ export class PaginatorComponent
   public jumpToIndex: string = '';
 
   constructor(
-    private _toastrService: ToastrService,
     public intl: PaginatorIntl,
     private changeDetectorRef: ChangeDetectorRef,
     @Optional()
@@ -187,9 +185,6 @@ export class PaginatorComponent
     // console.log(this.getNumberOfPages());
     let index = +this.jumpToIndex;
     if (index == 0 || index > this.getNumberOfPages()) {
-      this._toastrService.error('无效的页码', '', {
-        // positionClass: 'toast-top-right',
-      });
       return;
     } else {
       this.swipePage(index - 1);

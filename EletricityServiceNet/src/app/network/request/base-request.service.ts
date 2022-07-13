@@ -27,7 +27,11 @@ export class BaseRequestService {
   ): Promise<T>;
   async post<T>(url: string, type: ClassConstructor<T>, model?: T): Promise<T>;
 
-  async post<T>(url: string, type: ClassConstructor<T>, args?: T | IParams) {
+  async post<T>(
+    url: string,
+    type: ClassConstructor<T>,
+    args?: T | IParams | string
+  ) {
     let data = classToPlain(args) as T | IParams;
     let response = await firstValueFrom(
       this.http.post<HowellResponse<T>>(url, data)
@@ -47,7 +51,7 @@ export class BaseRequestService {
       data = classToPlain(params) as IParams;
     }
     let response = await firstValueFrom(
-      this.http.post<HowellResponse<Array<T>>>(url, data)
+      this.http.get<HowellResponse<Array<T>>>(url, data)
     );
 
     return ServiceHelper.ResponseProcess(response!, type);
@@ -79,7 +83,8 @@ export class BaseTypeRequestService<T> {
   }
   async post(url: string, model?: T): Promise<T>;
   async post(url: string, params?: IParams): Promise<T>;
-  async post(url: string, args?: T | IParams) {
+  async post(url: string, base64?: string): Promise<T>;
+  async post(url: string, args?: T | IParams | string) {
     return this._service.post(url, this.type, args);
   }
   async delete(url: string) {

@@ -18,14 +18,14 @@
       <tbody>
         <tr *ngFor="let item of datas">
           <td [width]="width[0]">{{ item.name }}</td>
-          <td [width]="width[1]">{{ item.name }}</td>
-          <td [width]="width[2]">{{ item.name }}</td>
-          <td [width]="width[3]">{{ item.name }}</td>
-          <td [width]="width[4]">{{ item.name }}</td>
+          <td [width]="width[1]">{{ item.floor }}</td>
+          <td [width]="width[2]">{{ item.zone }}</td>
+          <td [width]="width[3]">{{ item.type }}</td>
+          <td [width]="width[4]">{{ item.datetime }}</td>
           <td [width]="width[5]">
             <div class="operation">
               <div class="preview">
-                <i class="howell-icon-video"></i>
+                <i class="glyphicon glyphicon-picture"></i>
               </div>
               <div class="playback">
                 <i class="howell-icon-video"></i>
@@ -35,5 +35,24 @@
         </tr>
       </tbody>
     </table>
+  </div>
+  <div class="footer" *ngIf="page">
+    <div class="footer-item">
+      <div class="footer-info">
+        <div class="info-item">当前数量: {{ page && page.RecordCount }}</div>
+        <div class="info-item">总数量: {{ page && page.TotalRecordCount }}</div>
+      </div>
+    </div>
+    <div class="footer-item">
+      <app-paginator
+        [length]="page ? page.TotalRecordCount : 0"
+        [pageSize]="page ? page.PageSize : 0"
+        [pagerCount]="5"
+        [pageIndex]="page.PageIndex"
+        [showFirstLastButtons]="true"
+        (page)="pageEvent($event)"
+      >
+      </app-paginator>
+    </div>
   </div>
 </div>

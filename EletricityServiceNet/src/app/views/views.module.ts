@@ -5,19 +5,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { Directives } from '../directives';
 import { MaterialModule } from '../material.module';
-import { CardComponent } from './card/card.component';
-import { HeaderComponent } from './header/header.component';
 import { HeaderComponents } from './header/header.module';
 import { IndexComponent } from './index/index.component';
+import { PaginatorComponent } from './paginator/paginator.component';
 import { PassengerComponents } from './passenger/passenger.module';
 import { RealtimeComponents } from './realtime/realtime.module';
 import { RecordComponents } from './record/record.module';
 import { TableComponents } from './tables/tables.module';
 import { VideoComponents } from './video/video.module';
+import { components } from '../components/components.module';
 
-const components = [
+const ViewComponents = [
   IndexComponent,
-  CardComponent,
   ...HeaderComponents,
   ...RealtimeComponents,
   ...PassengerComponents,
@@ -25,10 +24,13 @@ const components = [
   ...VideoComponents,
   ...TableComponents,
   ...Directives,
+  PaginatorComponent,
+
+  components,
 ];
 
 @NgModule({
-  declarations: components,
+  declarations: ViewComponents,
   imports: [
     CommonModule,
     FormsModule,
@@ -37,6 +39,6 @@ const components = [
     ReactiveFormsModule,
     MaterialModule,
   ],
-  exports: components,
+  exports: ViewComponents,
 })
 export class ViewComponentsModule {}

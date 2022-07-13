@@ -1,3 +1,19 @@
 <div class="video">
-  <howell-card></howell-card>
+  <howell-card>
+    <div class="video-content">
+      <div>
+        <howell-video-source-list></howell-video-source-list>
+      </div>
+      <div>
+        <app-image-video-mult-control
+          [models]="model"
+          [operation]="operation"
+          [playback]="toPlayback"
+          (onplayed)="onvideoplayed($event)"
+          (onstoped)="onvideostoped($event)"
+        >
+        </app-image-video-mult-control>
+      </div>
+    </div>
+  </howell-card>
 </div>

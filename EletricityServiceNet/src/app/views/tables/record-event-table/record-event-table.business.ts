@@ -5,6 +5,7 @@ import {
   IPromiseConverter,
 } from 'src/app/interfaces/converter.interface';
 import { EventRecord } from 'src/app/models/event-record.model';
+import { Page, PagedList } from 'src/app/models/page.model';
 import { GetEventRecordsParams } from 'src/app/network/request/events/event-request.params';
 import { EventRecordRequestService } from 'src/app/network/request/events/event-request.service';
 import { RecordEventTableConverter } from './record-event-table.converter';
@@ -15,43 +16,57 @@ import {
 
 @Injectable()
 export class RecordEventTableBusiness
-  implements IBusiness<EventRecord[], RecordEventTableItemModel[]>
+  implements
+    IBusiness<PagedList<EventRecord>, PagedList<RecordEventTableItemModel>>
 {
   constructor(private service: EventRecordRequestService) {}
   Converter: IConverter<
-    EventRecord[],
-    RecordEventTableItemModel<EventRecord>[]
+    PagedList<EventRecord>,
+    PagedList<RecordEventTableItemModel>
   > = new RecordEventTableConverter();
   loading?: EventEmitter<void> | undefined;
   async load(
     opts: RecordEventTableOptions
-  ): Promise<RecordEventTableItemModel<EventRecord>[]> {
+  ): Promise<PagedList<RecordEventTableItemModel>> {
     let data = await this.getData(opts).catch((x) => {
-      let array = new Array();
-      for (let i = 0; i < 10; i++) {
+      let paged = new PagedList<EventRecord>();
+      paged.Page = new Page();
+      paged.Page.PageCount = 1;
+      paged.Page.PageIndex = opts.pageIndex;
+      paged.Page.PageSize = opts.pageSize;
+      paged.Page.RecordCount = 10;
+      paged.Page.TotalRecordCount = 10;
+      paged.Data = [];
+      for (let i = 0; i < paged.Page.TotalRecordCount; i++) {
         let record = new EventRecord();
         record.Id = i.toString();
         record.ResourceName = '测试';
         record.EventTime = new Date();
-        array.push(record);
+        paged.Data.push(record);
       }
-      return array;
+      return paged;
     });
 
     let model = this.Converter.Convert(data);
     return model;
   }
-  async getData(opts: RecordEventTableOptions): Promise<EventRecord[]> {
+  async getData(
+    opts: RecordEventTableOptions
+  ): Promise<PagedList<EventRecord>> {
     let params = new GetEventRecordsParams();
     params.BeginTime = opts.begin;
     params.EndTime = opts.end;
+    params.PageIndex = opts.pageIndex;
+    params.PageSize = opts.pageSize;
     if (opts.floor) {
       params.FloorIds = [opts.floor];
     }
     if (opts.type) {
       params.EventTypes = [opts.type];
     }
-    let paged = await this.service.list(params);
-    return paged.Data;
+    if (opts.name) {
+      params.ResouceName = opts.name;
+    }
+    return this.service.list(params);
   }
 }

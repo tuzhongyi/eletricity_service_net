@@ -1,7 +1,8 @@
 .paginator-outer-container {
   display: flex;
-  color: #cfd7ff;
+  color: white;
   font-size: 14px;
+
   .paginator-container {
     display: flex;
     align-items: center;
@@ -13,8 +14,9 @@
     .paginator-range-actions {
       display: flex;
       align-items: center;
-      > .mat-button {
-        background: #1f2e57;
+
+      >.mat-button {
+        background: rgba(0, 103, 100, 0.5);
         padding: 0;
         min-width: 30px;
         height: 30px;
@@ -26,8 +28,9 @@
         justify-content: center;
 
         svg {
-          fill: #cfd7ff;
+          fill: white;
         }
+
         &.paginator-navigation-last,
         &.paginator-navigation-first {
           span {
@@ -35,12 +38,14 @@
             width: 100%;
           }
         }
+
         &.mat-button-disabled {
           cursor: not-allowed;
 
           span {
             color: gray;
           }
+
           svg {
             fill: gray;
           }
@@ -48,13 +53,15 @@
 
         &.pager {
           padding: 0 5px;
+
           &.active,
           &:hover {
-            background-color: #2d76ce;
+            background-color: rgba(244, 104, 85, 0.5);
             color: #fff;
           }
         }
       }
+
       .jump-to {
         display: flex;
         align-items: center;
@@ -71,11 +78,11 @@
           box-sizing: border-box;
           height: 24px;
           width: 40px;
-          color: #cfd7ff;
-          border: 1px solid #5e6ebf;
+          color: white;
+          border: solid #07a990 1px;
           font-size: 14px;
           border-radius: unset;
-          background-color: #1d233b;
+          background-color: rgba(0, 103, 100, 0.5);
           outline: none;
           display: flex;
           align-items: center;
@@ -85,10 +92,12 @@
           line-height: 24px;
           text-align: center;
           overflow: hidden;
+
           &:focus-visible {
-            border-color: #3a93ff;
+            border-color: rgba(239, 111, 89, 0.7);
           }
         }
+
         .jump-to-input {
           width: 40px;
           height: 24px;
@@ -97,13 +106,14 @@
           padding: 0;
           box-sizing: border-box;
           margin: 0 5px;
-          background-color: #1d233b;
-          color: #cfd7ff;
-          border: 1px solid #5e6ebf;
+          background-color: rgba(0, 103, 100, 0.5);
+          color: white;
+          border: solid #07a990 1px;
           outline: none;
         }
+
         .jump-to-button {
-          background: #1f2e57;
+          background: rgba(0, 103, 100, 0.5);
           cursor: pointer;
           min-width: 30px;
           height: 24px;
@@ -113,9 +123,10 @@
 
           display: flex;
           align-items: center;
+
           &:hover {
-            background-color: #2d76ce;
-            color: #fff;
+            border-color: #f46855;
+            background-color: rgba(194, 83, 68, 0.5);
           }
         }
       }

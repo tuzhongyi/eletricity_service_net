@@ -19,7 +19,7 @@ export class RealtimeRecordTableBusiness
 
   async load(
     duration: DurationParams,
-    type?: EventType
+    type?: EventType[]
   ): Promise<RealtimeRecordModel[]> {
     let data = await this.getData(duration, type).catch((x) => {
       let array = new Array();
@@ -40,13 +40,13 @@ export class RealtimeRecordTableBusiness
   }
   async getData(
     duration: DurationParams,
-    type?: EventType
+    type?: EventType[]
   ): Promise<EventRecord[]> {
     let params = new GetEventRecordsParams();
     params.BeginTime = duration.BeginTime;
     params.EndTime = duration.EndTime;
     if (type) {
-      params.EventTypes = [type];
+      params.EventTypes = type;
     }
     let paged = await this.service.list(params);
     return paged.Data;
