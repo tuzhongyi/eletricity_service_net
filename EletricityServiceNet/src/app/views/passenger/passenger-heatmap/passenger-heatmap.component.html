@@ -1,0 +1,46 @@
+<div class="passenger-heatmap">
+  <div class="passenger-heatmap-filter">
+    <div class="left">
+      <div class="passenger-heatmap-filter-date">
+        <div class="passenger-heatmap-filter-title">开始时间：</div>
+        <input
+          type="text"
+          DateTimePicker
+          [format]="'yyyy-MM-dd HH:mm'"
+          [startView]="DateTimePickerView.month"
+          [minView]="DateTimePickerView.hour"
+          [date]="duration.begin"
+          (change)="changeBegin($event)"
+          class=""
+        />
+      </div>
+      <div class="passenger-heatmap-filter-date">
+        <div class="passenger-heatmap-filter-title">结束时间：</div>
+        <input
+          type="text"
+          DateTimePicker
+          [format]="'yyyy-MM-dd HH:mm'"
+          [startView]="DateTimePickerView.month"
+          [minView]="DateTimePickerView.hour"
+          [date]="duration.end"
+          (change)="changeEnd($event)"
+          class=""
+        />
+      </div>
+      <div>
+        <div class="passenger-heatmap-filter-title">选择楼层：</div>
+        <div>
+          <select width="150px" name="" id="" (change)="changeFloor($event)">
+            <option *ngFor="let item of floors" [value]="item.value">
+              {{ item.language }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <button class="full"><i class="mdi mdi-magnify"></i> 查询</button>
+      </div>
+    </div>
+  </div>
+  <div class="passenger-heatmap-chart"></div>
+</div>

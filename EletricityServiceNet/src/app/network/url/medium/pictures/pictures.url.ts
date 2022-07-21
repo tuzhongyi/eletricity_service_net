@@ -11,16 +11,7 @@ export abstract class PicturesUrl extends MediumUrl {
   static item(id: string) {
     return `${this.basic}/${id}`;
   }
-  static binary() {
-    return `${this.basic}/Binary`;
-  }
-  static fromFile() {
-    return `${this.basic}/FromFile`;
-  }
   static data(id: string) {
-    return `${this.basic}/${id}/Data`;
-  }
-  static jpg(id: string) {
-    return `${this.basic}/${id}.jpg`;
+    return `${this.item(id)}/Data`;
   }
 }

@@ -15,6 +15,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { StreamType } from 'src/app/enums/stream-type.enum';
 import { VideoModel } from 'src/app/models/video.model';
 import { base64encode, utf16to8 } from 'src/app/tools/base64';
+import { wait } from 'src/app/tools/tools';
 
 @Component({
   selector: 'app-video-player',
@@ -31,7 +32,7 @@ export class VideoPlayerComponent
   model?: VideoModel;
 
   @Input()
-  webUrl: string = '/video/wsplayer/wsplayer.html';
+  webUrl: string = 'http://192.168.21.241:9000/video/wsplayer/wsplayer.html';
 
   @Input()
   name: string = '';
@@ -50,6 +51,8 @@ export class VideoPlayerComponent
   onViewerDoubleClicked: EventEmitter<void> = new EventEmitter();
   @Output()
   onRuleStateChanged: EventEmitter<boolean> = new EventEmitter();
+  @Output()
+  onViewerClicked: EventEmitter<void> = new EventEmitter();
 
   src?: SafeResourceUrl;
 
@@ -101,6 +104,14 @@ export class VideoPlayerComponent
         let src = this.getSrc(this.webUrl, this.url, this.name);
         this.src = this.sanitizer.bypassSecurityTrustResourceUrl(src);
         this.loaded = true;
+        wait(
+          () => {
+            return !!this.player;
+          },
+          () => {
+            this.eventRegist();
+          }
+        );
       }
     }
   }
@@ -147,6 +158,9 @@ export class VideoPlayerComponent
       };
       this.player.onViewerDoubleClicked = () => {
         this.onViewerDoubleClicked.emit();
+      };
+      this.player.onViewerClicked = () => {
+        this.onViewerClicked.emit();
       };
     }
   }

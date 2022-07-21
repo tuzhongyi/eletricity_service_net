@@ -5,29 +5,27 @@ export class Medium {
 
   static default = '/assets/img/timg-pic.jpg';
 
-  static binary() {
-    return PicturesUrl.binary();
-  }
-
-  static jpg(id?: string) {
-    if (!id) return this.default;
-    return PicturesUrl.jpg(id);
-  }
   static data(id?: string) {
     if (!id) return this.default;
     return PicturesUrl.data(id);
   }
 
-  static img(url?: string): Promise<string> {
+  static img(url?: string): Promise<{ url: string; error: boolean }> {
     return new Promise((resolve) => {
-      let img = url ? Medium.jpg(url) : '';
+      let img = url ? Medium.data(url) : '';
       var image = new Image();
       image.src = img;
       image.onerror = () => {
-        resolve('/assets/img/timg-pic.jpg');
+        resolve({
+          url: '/assets/images/image-error.png',
+          error: true,
+        });
       };
       image.onload = () => {
-        resolve(img);
+        resolve({
+          url: img,
+          error: false,
+        });
       };
     });
   }

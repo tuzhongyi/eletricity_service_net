@@ -10,7 +10,7 @@
 
 .datetimepicker.dropdown-menu {
 
-  background-color: #421c17;
+  background-color: #003a3b;
   color: white;
 }
 
@@ -24,7 +24,7 @@
 .datetimepicker table tr td span.active.disabled:hover.active {
 
   background-image: none;
-  background-color: rgba(23, 241, 198, 1);
+  background-color: rgba(23, 241, 198, 0.7);
 }
 
 .datetimepicker table tr td.active:active,
@@ -37,20 +37,20 @@
 .datetimepicker table tr td.active.disabled:hover.active {
 
   background-image: none;
-  background-color: rgba(23, 241, 198, 1);
+  background-color: rgba(23, 241, 198, 0.7);
 }
 
 .datetimepicker table tr td span:hover {
-  background-color: rgba(0, 103, 100, 1);
+  background-color: rgba(23, 241, 198, 0.5);
 }
 
 .datetimepicker thead tr:first-child th:hover,
 .datetimepicker tfoot th:hover {
-  background-color: rgba(0, 103, 100, 1);
+  background-color: rgba(23, 241, 198, 0.5);
 }
 
 .datetimepicker table tr td.day:hover {
-  background-color: rgba(0, 103, 100, 1);
+  background-color: rgba(23, 241, 198, 0.5);
 }
 
 .datetimepicker.dropdown-menu {

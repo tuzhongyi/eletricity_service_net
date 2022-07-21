@@ -78,14 +78,12 @@ export class BusinessHallRequestService {
     return this._camera;
   }
 
-  private _passengerFloor?: BusinessHallPassengerFlowRequestService;
-  public get passengerFloor(): BusinessHallPassengerFlowRequestService {
-    if (!this._passengerFloor) {
-      this._passengerFloor = new BusinessHallPassengerFlowRequestService(
-        this.basic
-      );
+  private _passenger?: BusinessHallPassengerFlowRequestService;
+  public get passenger(): BusinessHallPassengerFlowRequestService {
+    if (!this._passenger) {
+      this._passenger = new BusinessHallPassengerFlowRequestService(this.basic);
     }
-    return this._passengerFloor;
+    return this._passenger;
   }
 
   private _heatMap?: BusinessHallHeatMapRequestService;

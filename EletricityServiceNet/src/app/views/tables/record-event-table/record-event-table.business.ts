@@ -65,7 +65,7 @@ export class RecordEventTableBusiness
       params.EventTypes = [opts.type];
     }
     if (opts.name) {
-      params.ResouceName = opts.name;
+      params.ResourceName = opts.name;
     }
     return this.service.list(params);
   }

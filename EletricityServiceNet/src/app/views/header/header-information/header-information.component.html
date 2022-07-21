@@ -1,11 +1,11 @@
 <div class="header-information">
-  <div class="left">
-    <div class="weather">23℃ 阴</div>
-    <div class="line"></div>
-    <div class="time">22:22:22</div>
+  <div class="weather">
+    {{ model.low }}℃~{{ model.high }}℃ {{ model.weather }}
   </div>
+  <div class="line"></div>
+  <div class="time">{{ model.time }}</div>
   <div class="date">
-    <div class="">星期四</div>
-    <div class="">2022年7月7日</div>
+    <div class="">{{ model.week }}</div>
+    <div class="">{{ model.date }}</div>
   </div>
 </div>

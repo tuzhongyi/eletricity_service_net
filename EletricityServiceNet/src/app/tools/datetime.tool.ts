@@ -1,7 +1,8 @@
 import { TimeUnit } from '../enums/time-unit.enum';
+import { Duration } from '../models/duration.model';
 
 export class DateTimeTool {
-  static TimeUnit(unit: TimeUnit, date: Date, firstDay = 1) {
+  static TimeUnit(unit: TimeUnit, date: Date, firstDay = 1): Duration {
     switch (unit) {
       case TimeUnit.Month:
         return this.allMonth(date);
@@ -14,7 +15,7 @@ export class DateTimeTool {
     }
   }
 
-  static allMonth(date: Date) {
+  static allMonth(date: Date): Duration {
     let duration = {
       begin: new Date(),
       end: new Date(),
@@ -26,7 +27,7 @@ export class DateTimeTool {
     duration.end = next;
     return duration;
   }
-  static allDay(date: Date) {
+  static allDay(date: Date): Duration {
     let duration = {
       begin: new Date(),
       end: new Date(),
@@ -41,7 +42,7 @@ export class DateTimeTool {
     duration.end = next;
     return duration;
   }
-  static allWeek(date: Date, firstDay = 0) {
+  static allWeek(date: Date, firstDay = 1): Duration {
     let duration = {
       begin: new Date(),
       end: new Date(),
@@ -62,7 +63,7 @@ export class DateTimeTool {
     return duration;
   }
 
-  static beforeAndAfter(date: Date, seconds: number = 30) {
+  static beforeAndAfter(date: Date, seconds: number = 30): Duration {
     let duration = {
       begin: new Date(),
       end: new Date(),

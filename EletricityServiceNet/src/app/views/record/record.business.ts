@@ -9,11 +9,10 @@ export class RecordBusiness {
     private service: BusinessHallRequestService
   ) {}
 
-  getFloors(hallId?: string) {
+  async getFloors(hallId?: string) {
     if (!hallId) {
-      if (this.store.BusinessHall) {
-        hallId = this.store.BusinessHall.Id;
-      }
+      let hall = await this.store.getBusinessHall();
+      hallId = hall.Id;
     }
     return this.service.floor.array(hallId!);
   }

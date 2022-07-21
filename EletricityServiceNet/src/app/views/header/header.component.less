@@ -19,15 +19,18 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    width: 600px;
+    width: 570px;
   }
 
   &-navigation {
     padding: 17px;
-    width: 800px;
+    width: 700px;
   }
 
   &-info {
-    padding-right: 40px;
+    width: calc(100% - 570px - 700px - 20px * 2 - 17px * 2);
+    padding: 0 20px;
+    padding-right: 30px;
+    box-sizing: border-box;
   }
 }

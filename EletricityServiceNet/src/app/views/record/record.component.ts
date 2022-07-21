@@ -1,6 +1,11 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ClassConstructor } from 'class-transformer';
 import { DateTimePickerView } from 'src/app/directives/date-time-picker.directive';
 import { EventType } from 'src/app/enums/event-type.enum';
+import { Camera } from 'src/app/models/camera.model';
+import { EventRecord } from 'src/app/models/event-record.model';
+import { IModel } from 'src/app/models/model.interface';
+import { SelectItem } from 'src/app/models/select-item.model';
 import { DateTimeTool } from 'src/app/tools/datetime.tool';
 import { Language } from 'src/app/tools/language';
 import { RecordEventTableOptions } from '../tables/record-event-table/record-event-table.model';
@@ -13,6 +18,11 @@ import { RecordBusiness } from './record.business';
   providers: [RecordBusiness],
 })
 export class RecordComponent implements OnInit {
+  @Output()
+  picture: EventEmitter<EventRecord> = new EventEmitter();
+  @Output()
+  playback: EventEmitter<EventRecord> = new EventEmitter();
+
   constructor(private business: RecordBusiness) {}
 
   options: RecordEventTableOptions = {
@@ -54,38 +64,15 @@ export class RecordComponent implements OnInit {
 
   initEventTypes() {
     this.eventTypes.push({ value: 0, language: '全部' });
-    this.eventTypes.push({
-      value: EventType.Business,
-      language: Language.EventType(EventType.Business),
-    });
-    this.eventTypes.push({
-      value: EventType.Falldown,
-      language: Language.EventType(EventType.Falldown),
-    });
-    this.eventTypes.push({
-      value: EventType.LeavePosition,
-      language: Language.EventType(EventType.LeavePosition),
-    });
-    this.eventTypes.push({
-      value: EventType.Loitering,
-      language: Language.EventType(EventType.Loitering),
-    });
-    this.eventTypes.push({
-      value: EventType.Offline,
-      language: Language.EventType(EventType.Offline),
-    });
-    this.eventTypes.push({
-      value: EventType.Online,
-      language: Language.EventType(EventType.Online),
-    });
-    this.eventTypes.push({
-      value: EventType.Spacing,
-      language: Language.EventType(EventType.Spacing),
-    });
-    this.eventTypes.push({
-      value: EventType.Voilence,
-      language: Language.EventType(EventType.Voilence),
-    });
+
+    for (const key in EventType) {
+      let value = parseInt(EventType[key]);
+      if (Number.isNaN(value)) continue;
+      this.eventTypes.push({
+        value: value,
+        language: Language.EventType(value),
+      });
+    }
   }
 
   changeBegin(date: Date) {
@@ -99,12 +86,24 @@ export class RecordComponent implements OnInit {
     let select = event.target as HTMLSelectElement;
     this.options.floor = select.value;
   }
-  onsearch() {
+
+  changeType(event: Event) {
+    let select = event.target as HTMLSelectElement;
+    if (select.value) {
+      this.options.type = parseInt(select.value);
+    } else {
+      this.options.type = undefined;
+    }
+  }
+
+  onSearch() {
     this.load.emit(this.options);
   }
-}
 
-class SelectItem<T> {
-  value!: T;
-  language: string = '';
+  onPicture(model: EventRecord) {
+    this.picture.emit(model);
+  }
+  onPlayback(model: EventRecord) {
+    this.playback.emit(model);
+  }
 }

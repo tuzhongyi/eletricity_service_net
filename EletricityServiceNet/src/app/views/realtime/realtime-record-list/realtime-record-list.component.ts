@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
+import { interval } from 'rxjs';
 import { EventType } from 'src/app/enums/event-type.enum';
 
 @Component({
@@ -9,7 +10,11 @@ import { EventType } from 'src/app/enums/event-type.enum';
 export class RealtimeRecordListComponent implements OnInit {
   constructor() {}
   EventType = EventType;
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    interval(60 * 1000).subscribe((x) => {
+      this.load.emit();
+    });
+  }
 
   types?: EventType[];
   type?: EventType;
@@ -26,10 +31,12 @@ export class RealtimeRecordListComponent implements OnInit {
           EventType.Loitering,
           EventType.Spacing,
           EventType.Voilence,
+          EventType.Run,
+          EventType.HighDensity,
         ];
         break;
       case EventType.Offline:
-        this.types = [EventType.Offline];
+        this.types = [EventType.Online, EventType.Offline];
         break;
       default:
         this.types = undefined;

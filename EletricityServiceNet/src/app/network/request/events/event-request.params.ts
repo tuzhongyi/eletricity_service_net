@@ -10,7 +10,7 @@ export class GetEventRecordsParams
   /**	String[]	资源ID	O */
   ResourceIds?: string[];
   /**	String	资源名称	O */
-  ResouceName?: string;
+  ResourceName?: string;
   /**	String[]	营业厅ID	O */
   HallIds?: string[];
   /**	String	营业厅名称	O */

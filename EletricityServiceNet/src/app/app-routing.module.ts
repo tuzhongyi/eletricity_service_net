@@ -21,6 +21,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [], //, HeaderComponent
   imports: [RouterModule.forRoot(routes), ViewComponentsModule],
-  exports: [RouterModule],
+  exports: [RouterModule, ViewComponentsModule],
 })
 export class AppRoutingModule {}

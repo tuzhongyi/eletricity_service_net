@@ -37,6 +37,8 @@
       .right {
         width: 300px;
         justify-content: end;
+
+
       }
 
       &-item {
@@ -57,6 +59,16 @@
 
         select {
           width: 150px;
+        }
+
+        &.search {
+          &>* {
+            margin-right: 10px;
+
+            &:last-child {
+              margin-right: 0;
+            }
+          }
         }
       }
 

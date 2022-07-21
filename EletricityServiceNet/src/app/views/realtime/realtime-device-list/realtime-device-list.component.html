@@ -1,6 +1,10 @@
 <div class="realtime-device-list">
   <div class="realtime-device-list-title title">设备运行状态</div>
   <div class="realtime-device-list-table">
-    <howell-realtime-device-table></howell-realtime-device-table>
+    <howell-realtime-device-table
+      [load]="load"
+      (preview)="onPreview($event)"
+      (playback)="onPlayback($event)"
+    ></howell-realtime-device-table>
   </div>
 </div>

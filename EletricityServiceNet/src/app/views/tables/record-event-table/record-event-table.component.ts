@@ -5,12 +5,14 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { TimeUnit } from 'src/app/enums/time-unit.enum';
 import { IBusiness } from 'src/app/interfaces/business.interface';
 import { IComponent } from 'src/app/interfaces/component.interfact';
+import { EventRecord } from 'src/app/models/event-record.model';
 import { IModel } from 'src/app/models/model.interface';
 import { Page, PagedList } from 'src/app/models/page.model';
 import { DateTimeTool } from 'src/app/tools/datetime.tool';
@@ -40,6 +42,10 @@ export class RecordEventTableComponent
   options: RecordEventTableOptions;
   @Input()
   load?: EventEmitter<RecordEventTableOptions>;
+  @Output()
+  picture: EventEmitter<EventRecord> = new EventEmitter();
+  @Output()
+  playback: EventEmitter<EventRecord> = new EventEmitter();
 
   constructor(business: RecordEventTableBusiness) {
     this.business = business;
@@ -89,5 +95,12 @@ export class RecordEventTableComponent
     this.options.pageSize = page.pageSize;
 
     this.loadData();
+  }
+
+  onPicture(item: RecordEventTableItemModel) {
+    this.picture.emit(item.data);
+  }
+  onPlayback(item: RecordEventTableItemModel) {
+    this.playback.emit(item.data);
   }
 }

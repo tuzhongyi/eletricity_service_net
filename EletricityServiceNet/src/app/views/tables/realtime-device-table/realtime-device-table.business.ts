@@ -5,18 +5,27 @@ import { BusinessHallRequestService } from 'src/app/network/request/business-hal
 import { RealtimeDeviceModel } from './realtime-device-table.model';
 import { RealtimeDeviceListTableConverter } from './realtime-device-table.converter';
 import { Camera } from 'src/app/models/camera.model';
+import { GetCamerasParams } from 'src/app/network/request/business-hall/business-hall-request.params';
+import { StoreService } from 'src/app/tools/service/store.service';
 
 @Injectable()
 export class RealtimeDeviceListTableBusiness
   implements IBusiness<Camera[], RealtimeDeviceModel<Camera>[]>
 {
-  constructor(private service: BusinessHallRequestService) {}
+  constructor(
+    private store: StoreService,
+    private service: BusinessHallRequestService
+  ) {}
 
   Converter: IConverter<Camera[], RealtimeDeviceModel<Camera>[]> =
     new RealtimeDeviceListTableConverter();
   loading?: EventEmitter<void> | undefined;
-  async load(...args: any): Promise<RealtimeDeviceModel<Camera>[]> {
-    let data = await this.getData().catch(() => {
+  async load(hallId?: string): Promise<RealtimeDeviceModel<Camera>[]> {
+    if (!hallId) {
+      let hall = await this.store.getBusinessHall();
+      hallId = hall.Id;
+    }
+    let data = await this.getData(hallId).catch(() => {
       let cameras = new Array();
       for (let i = 0; i < 14; i++) {
         let camera = new Camera();
@@ -29,8 +38,10 @@ export class RealtimeDeviceListTableBusiness
     let model = this.Converter.Convert(data);
     return model;
   }
-  async getData(...args: any): Promise<Camera[]> {
-    let paged = await this.service.camera.list();
+  async getData(hallId: string): Promise<Camera[]> {
+    let params = new GetCamerasParams();
+    params.HallIds = [hallId];
+    let paged = await this.service.camera.list(params);
     return paged.Data;
   }
 }

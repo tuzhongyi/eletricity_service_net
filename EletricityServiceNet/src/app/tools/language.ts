@@ -1,8 +1,51 @@
+import { formatDate } from '@angular/common';
 import { CameraUsage } from '../enums/camera-usage.enum';
 import { DeviceStatus } from '../enums/device-status.enum';
 import { EventType } from '../enums/event-type.enum';
+import { WeatherType } from '../enums/weather-type.enum';
 
 export class Language {
+  static Week(day: number, format: string = '周') {
+    let name = ['日', '一', '二', '三', '四', '五', '六', '日'];
+    return `${format}${name[day]}`;
+  }
+
+  static DateTime(date: Date, format: string) {
+    return formatDate(date, format, 'en');
+  }
+
+  static Weather(weather: WeatherType) {
+    switch (weather) {
+      case WeatherType.Sunny:
+        return '晴';
+      case WeatherType.Cloudy:
+        return '多云';
+      case WeatherType.Overcast:
+        return '阴';
+      case WeatherType.Shower:
+        return '阵雨';
+      case WeatherType.Thunder:
+        return '雷阵雨';
+      case WeatherType.Sleet:
+        return '雨夹雪';
+      case WeatherType.LightRain:
+        return '小雨';
+      case WeatherType.Hailstone:
+        return '冰雹';
+      case WeatherType.ModerateRain:
+        return '中雨';
+      case WeatherType.HeavyRain:
+        return '大雨';
+      case WeatherType.Rainstorm:
+        return '暴雨';
+      case WeatherType.Snow:
+        return '阵雪';
+
+      default:
+        return '';
+    }
+  }
+
   static CameraUsage(usage: CameraUsage) {
     switch (usage) {
       case CameraUsage.AI:
@@ -47,6 +90,10 @@ export class Language {
         return '剧烈运动';
       case EventType.Spacing:
         return '间距异常';
+      case EventType.Run:
+        return '人员奔跑';
+      case EventType.HighDensity:
+        return '人员聚集';
       default:
         return '';
     }

@@ -16,6 +16,10 @@ export enum EventType {
   Voilence = 6,
   /**	间距异常	7 */
   Spacing = 7,
+  /**	人员奔跑	8 */
+  Run = 8,
+  /**	人员聚集	9 */
+  HighDensity = 9,
   /**	业务行为，递交材料	11 */
   Business = 11,
 }

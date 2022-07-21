@@ -12,8 +12,8 @@
                 type="text"
                 DateTimePicker
                 [format]="'yyyy-MM-dd HH:mm'"
-                [startView]="DateTimePickerView.day"
-                [minView]="DateTimePickerView.hour"
+                [startView]="DateTimePickerView.month"
+                [minView]="DateTimePickerView.day"
                 [date]="options.begin"
                 (change)="changeBegin($event)"
                 class=""
@@ -28,8 +28,8 @@
                 type="text"
                 DateTimePicker
                 [format]="'yyyy-MM-dd HH:mm'"
-                [startView]="DateTimePickerView.day"
-                [minView]="DateTimePickerView.hour"
+                [startView]="DateTimePickerView.month"
+                [minView]="DateTimePickerView.day"
                 [date]="options.end"
                 (change)="changeEnd($event)"
                 class=""
@@ -54,7 +54,7 @@
           <div class="record-content-filter-item">
             <div>报警类型：</div>
             <div>
-              <select width="150px" name="" id="">
+              <select width="150px" name="" id="" (change)="changeType($event)">
                 <option *ngFor="let item of eventTypes" [value]="item.value">
                   {{ item.language }}
                 </option>
@@ -62,23 +62,31 @@
             </div>
           </div>
           <div class="record-content-filter-item">
-            <button class="full" (click)="onsearch()">查询</button>
+            <button class="full" (click)="onSearch()">查询</button>
           </div>
         </div>
         <div class="right">
-          <div class="record-content-filter-item">
+          <div class="record-content-filter-item search">
             <div>
-              <input type="text" [(ngModel)]="options.name" />
+              <input
+                type="text"
+                [(ngModel)]="options.name"
+                [placeholder]="'请输入摄像机名...'"
+              />
             </div>
             <div>
-              <button class="full" (click)="onsearch()">搜索</button>
+              <button class="full" (click)="onSearch()">搜索</button>
             </div>
           </div>
         </div>
       </div>
 
       <div class="record-content-table">
-        <howell-record-event-table [load]="load"></howell-record-event-table>
+        <howell-record-event-table
+          [load]="load"
+          (picture)="onPicture($event)"
+          (playback)="onPlayback($event)"
+        ></howell-record-event-table>
       </div>
     </div>
   </howell-card>

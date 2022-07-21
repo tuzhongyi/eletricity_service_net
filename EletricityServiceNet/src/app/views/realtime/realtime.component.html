@@ -1,7 +1,10 @@
 <div class="realtime">
   <div class="left">
     <howell-card>
-      <howell-realtime-device-list></howell-realtime-device-list>
+      <howell-realtime-device-list
+        (preview)="onPreview($event)"
+        (playback)="onPlayback($event)"
+      ></howell-realtime-device-list>
     </howell-card>
 
     <howell-card>

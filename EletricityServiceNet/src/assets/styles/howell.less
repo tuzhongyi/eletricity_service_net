@@ -3,10 +3,10 @@
   height: 34px;
   padding: 0 10px;
   color: white;
-  border: solid #07a990 1px;
+  border: solid #17f1c6 1px;
   font-size: 18px;
   border-radius: unset;
-  background-color: rgba(0, 103, 100, 0.5);
+  background-color: rgba(rgba(6, 153, 156, 0.3));
   box-sizing: border-box;
   outline: none;
   font-family: "Howell Light";
@@ -34,8 +34,6 @@ textarea {
 input[type="text"]:focus,
 textarea:focus {
   background-color: rgba(194, 83, 68, 0.1);
-  border: 1px solid #f46855;
-  color: #f46855;
 }
 
 input[type="text"][disabled],
@@ -50,6 +48,18 @@ select {
   appearance: none;
   background-position: right 0.75rem center;
   background-repeat: no-repeat;
+  background-image: url(../images/select.svg);
+
+
+  option {
+    background-color: #003a3b;
+
+    &:hover,
+    &:selection,
+    &::-moz-selection {
+      background-color: #003a3b;
+    }
+  }
 }
 
 // 特殊属性
