@@ -1,0 +1,13 @@
+<div class="settings-map">
+  <div *ngIf="!url">
+    <i class="howell-icon-plus"></i>
+  </div>
+  <div *ngIf="!!url">
+    <howell-map-chart
+      [url]="url"
+      [points]="points"
+      (onclick)="onClick($event)"
+      (onpointclick)="onPointClick($event)"
+    ></howell-map-chart>
+  </div>
+</div>

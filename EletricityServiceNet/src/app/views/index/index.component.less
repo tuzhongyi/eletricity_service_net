@@ -1,0 +1,31 @@
+.eletricity-service-net {
+  background-image: url(/assets/images/bg.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+
+
+  @header-height: 91px;
+
+  &-header {
+    height: @header-height;
+  }
+
+  &-body {
+    background-image: url(/assets/images/bg-body.png);
+    height: calc(100% - @header-height);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    background-size: 100% 100%;
+
+    &>* {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

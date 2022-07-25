@@ -1,0 +1,73 @@
+<div class="passenger-statistic">
+  <div class="passenger-statistic-filter">
+    <div class="left">
+      <div class="passenger-statistic-filter-date">
+        <div class="passenger-statistic-filter-title">开始时间：</div>
+
+        <input
+          type="text"
+          DateTimePicker
+          [format]="config.datetime.format"
+          [startView]="DateTimePickerView.month"
+          [minView]="config.datetime.min"
+          [date]="duration.begin"
+          (change)="changeBegin($event)"
+          class=""
+        />
+      </div>
+      <div class="passenger-statistic-filter-date">
+        <div class="passenger-statistic-filter-title">结束时间：</div>
+        <input
+          type="text"
+          DateTimePicker
+          [format]="config.datetime.format"
+          [startView]="DateTimePickerView.month"
+          [minView]="config.datetime.min"
+          [date]="duration.end"
+          (change)="changeEnd($event)"
+          class=""
+        />
+      </div>
+      <div>
+        <button class="full" (click)="search()">
+          <i class="mdi mdi-magnify"></i> 查询
+        </button>
+      </div>
+      <div>
+        <button class="full"><i class="howell-icon-export"></i> 导出</button>
+      </div>
+    </div>
+    <div class="right">
+      <div>
+        <select width="150px" name="" id="" (change)="changeTimeUnit($event)">
+          <option *ngFor="let item of units" [value]="item.value">
+            {{ item.language }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <select width="150px" name="" id="" (change)="changeChart($event)">
+          <option *ngFor="let item of charts" [value]="item.value">
+            {{ item.language }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="passenger-statistic-chart">
+    <ng-container *ngIf="chart === ChartType.bar">
+      <howell-bar-chart
+        [theme]="config.bar.theme"
+        [options]="config.bar.options"
+        [merge]="config.bar.merge"
+      ></howell-bar-chart>
+    </ng-container>
+    <ng-container *ngIf="chart === ChartType.line">
+      <howell-line-chart
+        [theme]="config.line.theme"
+        [options]="config.line.options"
+        [merge]="config.line.merge"
+      ></howell-line-chart>
+    </ng-container>
+  </div>
+</div>

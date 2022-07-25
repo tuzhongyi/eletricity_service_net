@@ -1,0 +1,37 @@
+.passenger {
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+
+
+
+  &-title {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    border-bottom: 1px solid #006764;
+    padding-bottom: 20px;
+
+
+    &>* {
+      margin-right: 20px;
+      cursor: pointer;
+
+    }
+
+    &>.selected {
+      color: #ff8373;
+      padding-bottom: 20px;
+      margin-bottom: -20px;
+      border-bottom: solid 2px #ff8373;
+    }
+
+
+
+  }
+
+  &-content {
+    height: calc(100% - 45px - 20px);
+  }
+}

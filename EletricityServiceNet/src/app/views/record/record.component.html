@@ -1,0 +1,93 @@
+<div class="record">
+  <howell-card>
+    <div class="record-content">
+      <div class="record-content-title title">报警记录</div>
+      <div class="record-content-filter">
+        <div class="left">
+          <div class="record-content-filter-item">
+            <div>开始时间：</div>
+            <div>
+              <input
+                width="200px"
+                type="text"
+                DateTimePicker
+                [format]="'yyyy-MM-dd HH:mm'"
+                [startView]="DateTimePickerView.month"
+                [minView]="DateTimePickerView.day"
+                [date]="options.begin"
+                (change)="changeBegin($event)"
+                class=""
+              />
+            </div>
+          </div>
+          <div class="record-content-filter-item">
+            <div>结束时间：</div>
+            <div>
+              <input
+                width="200px"
+                type="text"
+                DateTimePicker
+                [format]="'yyyy-MM-dd HH:mm'"
+                [startView]="DateTimePickerView.month"
+                [minView]="DateTimePickerView.day"
+                [date]="options.end"
+                (change)="changeEnd($event)"
+                class=""
+              />
+            </div>
+          </div>
+          <div class="record-content-filter-item">
+            <div>选择楼层：</div>
+            <div>
+              <select
+                width="150px"
+                name=""
+                id=""
+                (change)="floorChange($event)"
+              >
+                <option *ngFor="let item of floors" [value]="item.value">
+                  {{ item.language }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="record-content-filter-item">
+            <div>报警类型：</div>
+            <div>
+              <select width="150px" name="" id="" (change)="changeType($event)">
+                <option *ngFor="let item of eventTypes" [value]="item.value">
+                  {{ item.language }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="record-content-filter-item">
+            <button class="full" (click)="onSearch()">查询</button>
+          </div>
+        </div>
+        <div class="right">
+          <div class="record-content-filter-item search">
+            <div>
+              <input
+                type="text"
+                [(ngModel)]="options.name"
+                [placeholder]="'请输入摄像机名...'"
+              />
+            </div>
+            <div>
+              <button class="full" (click)="onSearch()">搜索</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="record-content-table">
+        <howell-record-event-table
+          [load]="load"
+          (picture)="onPicture($event)"
+          (playback)="onPlayback($event)"
+        ></howell-record-event-table>
+      </div>
+    </div>
+  </howell-card>
+</div>

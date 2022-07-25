@@ -1,0 +1,34 @@
+.video-source-list {
+  width: 100%;
+  height: 100%;
+  border: solid #07a990 1px;
+  padding: 10px;
+  box-sizing: border-box;
+
+  @filter-height: 34px;
+
+  &-filter {
+    height: @filter-height;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+    &>* {
+      margin-right: 10px;
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      button {
+        width: 80px;
+      }
+    }
+  }
+
+  &-table {
+    height: calc(100% - @filter-height - 10px);
+    width: calc(100% - 10px);
+  }
+}

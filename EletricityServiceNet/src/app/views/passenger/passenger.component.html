@@ -1,0 +1,26 @@
+<div class="passenger">
+  <howell-card>
+    <div class="passenger-title title">
+      <div
+        (click)="changePath(PassengerPath.statistic)"
+        [class.selected]="path === PassengerPath.statistic"
+      >
+        客流统计
+      </div>
+      <div
+        (click)="changePath(PassengerPath.heatmap)"
+        [class.selected]="path === PassengerPath.heatmap"
+      >
+        客流热力
+      </div>
+    </div>
+    <div class="passenger-content">
+      <ng-container *ngIf="path === PassengerPath.statistic">
+        <howell-passenger-statistic></howell-passenger-statistic>
+      </ng-container>
+      <ng-container *ngIf="path === PassengerPath.heatmap">
+        <howell-passenger-heatmap></howell-passenger-heatmap>
+      </ng-container>
+    </div>
+  </howell-card>
+</div>

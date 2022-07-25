@@ -1,0 +1,33 @@
+app-root {
+  @import url(assets/styles/howell.less);
+  @import url(assets/styles/mat-tree.less);
+}
+
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  &:active,
+  &:focus {
+    background-color: #003a3b;
+  }
+
+
+  option {
+    outline: none;
+    border: none;
+    background-color: #003a3b;
+    padding: 5px;
+
+
+    &:hover,
+    &:focus,
+    &:target,
+    &:visited {
+
+      background-color: rgba(23, 241, 198, 0.7);
+    }
+  }
+}

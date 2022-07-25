@@ -1,0 +1,56 @@
+<div class="video">
+  <howell-card>
+    <div class="video-title title">
+      <div class="left">
+        <div
+          (click)="playModeChange(PlayMode.live)"
+          [class.selected]="mode === PlayMode.live"
+        >
+          实时视频
+        </div>
+        <div
+          (click)="playModeChange(PlayMode.vod)"
+          [class.selected]="mode === PlayMode.vod"
+        >
+          视频回放
+        </div>
+      </div>
+      <div class="right">
+        <button
+          (click)="screenModeChange(ScreenMode.one)"
+          [class.selected]="screen === ScreenMode.one"
+        >
+          <i class="icon-sign-blank"></i>
+        </button>
+        <button
+          (click)="screenModeChange(ScreenMode.four)"
+          [class.selected]="screen === ScreenMode.four"
+        >
+          <i class="icon-th-large"></i>
+        </button>
+      </div>
+    </div>
+    <div class="video-content">
+      <div class="left">
+        <div
+          class="video-content-source"
+          [class.playback]="mode === PlayMode.vod"
+        >
+          <howell-video-source-list
+            (select)="onCameraSelect($event)"
+          ></howell-video-source-list>
+        </div>
+        <div *ngIf="mode === PlayMode.vod" class="config">
+          <howell-video-playback-config (playback)="onPlayback($event)">
+          </howell-video-playback-config>
+        </div>
+      </div>
+      <div class="right">
+        <howell-video-player-list
+          [mode]="screen"
+          [play]="play"
+        ></howell-video-player-list>
+      </div>
+    </div>
+  </howell-card>
+</div>

@@ -1,0 +1,36 @@
+.header {
+  width: 100%;
+  height: 91px;
+  display: flex;
+  align-items: center;
+  background-image: url(/assets/images/bg-header.png);
+  margin-top: -1px;
+  padding-top: 1px;
+  padding-bottom: 10px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  box-sizing: border-box;
+
+  &-title {
+    height: 100%;
+    padding: 0 20px;
+    font-size: 48px;
+    color: white;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    width: 570px;
+  }
+
+  &-navigation {
+    padding: 17px;
+    width: 700px;
+  }
+
+  &-info {
+    width: calc(100% - 570px - 700px - 20px * 2 - 17px * 2);
+    padding: 0 20px;
+    padding-right: 30px;
+    box-sizing: border-box;
+  }
+}

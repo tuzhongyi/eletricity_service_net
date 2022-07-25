@@ -1,0 +1,15 @@
+<div class="video-source-list">
+  <div class="video-source-list-filter">
+    <div>
+      <input type="text" [placeholder]="'请输入摄像机名...'" />
+    </div>
+    <div>
+      <button class="full">查询</button>
+    </div>
+  </div>
+  <div class="video-source-list-table">
+    <howell-video-source-table
+      (select)="onselect($event)"
+    ></howell-video-source-table>
+  </div>
+</div>
