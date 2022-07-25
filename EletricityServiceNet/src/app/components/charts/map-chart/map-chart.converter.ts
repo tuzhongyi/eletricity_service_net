@@ -7,6 +7,11 @@ export class MapChartPointConverter
   implements IConverter<IPoint, MapChartPoint>
 {
   Convert(source: IPoint, ...res: any[]): MapChartPoint {
-    return new MapChartPoint('assets/images/camera.png', source.position, 200);
+    return new MapChartPoint(
+      source.id,
+      'assets/images/camera.png',
+      source.position,
+      200
+    );
   }
 }

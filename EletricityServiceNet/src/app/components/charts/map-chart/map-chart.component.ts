@@ -31,6 +31,8 @@ export class MapChartComponent implements OnInit, AfterViewInit, OnChanges {
   input_points: Array<IPoint> = [];
   @Output()
   onclick: EventEmitter<Position> = new EventEmitter();
+  @Output()
+  onpointclick: EventEmitter<IPoint> = new EventEmitter();
   @Input()
   url: string = '';
 
@@ -113,7 +115,10 @@ export class MapChartComponent implements OnInit, AfterViewInit, OnChanges {
     if (!this.option) return;
     this.getPoints();
     (this.option.series as echarts.SeriesOption).data = this.points.map((x) => {
-      return [x.position.X, x.position.Y, x.radius];
+      return {
+        name: x.id,
+        value: [x.position.X, x.position.Y, x.radius],
+      };
     });
     this.echarts.setOption(this.option);
   }
@@ -177,6 +182,7 @@ export class MapChartComponent implements OnInit, AfterViewInit, OnChanges {
           //   { geoIndex: 0 },
           //   pixelPoint
           // );
+          console.log(params);
           if (this.element) {
             let position = new Position();
             position.X =
@@ -185,6 +191,25 @@ export class MapChartComponent implements OnInit, AfterViewInit, OnChanges {
               params.offsetY / this.element.nativeElement.offsetHeight;
             this.onclick.emit(position);
           }
+        });
+        this.echarts.on('click', 'series.scatter', (trigger: any) => {
+          console.log(trigger);
+          let pixel = this.echarts.convertToPixel(
+            { geoIndex: 0 },
+            trigger.data.value
+          ) as unknown as number[];
+          console.log('point', pixel);
+          let width = this.element ? this.element.nativeElement.offsetWidth : 0;
+          let height = this.element
+            ? this.element.nativeElement.offsetHeight
+            : 0;
+          this.onpointclick.emit({
+            id: trigger.data.name,
+            position: {
+              X: width ? pixel[0] / width : pixel[0],
+              Y: height ? pixel[1] / height : pixel[1],
+            },
+          });
         });
       }
     });

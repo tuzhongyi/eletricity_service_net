@@ -1,5 +1,6 @@
 import { CardComponent } from './card/card.component';
 import { CHART_COMPONENTS } from './charts/charts.module';
+import { CommonTreeComponent } from './common-tree/common-tree.component';
 import { ImageControlComponent } from './image-control/image-control.component';
 import { ImageVideoControlComponent } from './image-video-control/image-video-control.component';
 import { ImageVideoMultControlComponent } from './image-video-mult-control/image-video-mult-control.component';
@@ -16,4 +17,5 @@ export const components = [
   TimeControlComponent,
   WindowComponent,
   ...CHART_COMPONENTS,
+  CommonTreeComponent,
 ];

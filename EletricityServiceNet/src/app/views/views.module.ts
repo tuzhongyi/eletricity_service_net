@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { Directives } from '../directives';
@@ -22,6 +22,8 @@ import 'echarts/theme/shine.js';
 import 'echarts/theme/vintage.js';
 import { AngularResizeEventModule } from 'angular-resize-event';
 import { WindowComponents } from './windows/windows.module';
+import { SettingComponents } from './settings/settings.module';
+import { TreeComponents } from './trees/trees.module';
 
 echarts.registerTheme('adsame', Adsame);
 
@@ -35,8 +37,8 @@ const ViewComponents = [
   ...TableComponents,
   ...Directives,
   ...WindowComponents,
-  PaginatorComponent,
-
+  ...SettingComponents,
+  ...TreeComponents,
   components,
 ];
 
@@ -54,6 +56,6 @@ const ViewComponents = [
     }),
     AngularResizeEventModule,
   ],
-  exports: ViewComponents,
+  exports: [...ViewComponents],
 })
 export class ViewComponentsModule {}

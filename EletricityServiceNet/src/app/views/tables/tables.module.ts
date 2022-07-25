@@ -1,3 +1,4 @@
+import { PaginatorComponent } from '../paginator/paginator.component';
 import { DefaultTableComponent } from './default-table/default-table.component';
 import { RealtimeDeviceListTableComponent } from './realtime-device-table/realtime-device-table.component';
 import { RealtimeRecordTableComponent } from './realtime-record-table/realtime-record-table.component';
@@ -10,4 +11,5 @@ export const TableComponents = [
   RecordEventTableComponent,
   VideoSourceTableComponent,
   DefaultTableComponent,
+  PaginatorComponent,
 ];

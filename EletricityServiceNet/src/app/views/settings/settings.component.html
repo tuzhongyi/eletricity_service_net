@@ -1,0 +1,24 @@
+<div class="settings">
+  <howell-card>
+    <div class="settings-title title">
+      <div
+        (click)="changePath(SettingPath.camera_position)"
+        [class.selected]="path === SettingPath.camera_position"
+      >
+        相机配置
+      </div>
+      <div
+        (click)="changePath(SettingPath.camera_zone)"
+        [class.selected]="path === SettingPath.camera_zone"
+      >
+        区域配置
+      </div>
+    </div>
+    <div class="settings-content">
+      <ng-container *ngIf="path === SettingPath.camera_position">
+        <howell-camera-position-setting></howell-camera-position-setting>
+      </ng-container>
+      <ng-container *ngIf="path === SettingPath.camera_zone"> </ng-container>
+    </div>
+  </howell-card>
+</div>

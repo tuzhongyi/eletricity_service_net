@@ -1,0 +1,11 @@
+<div class="floor-camera-tree">
+  <div class="tree-container">
+    <howell-common-tree
+      [showButton]="true"
+      [dataSubject]="datas"
+      [holdStatus]="holdStatus"
+      (selectTreeNode)="selectTreeNodeHandler($event)"
+      (nodeButtonClick)="nodeButtonClicked($event)"
+    ></howell-common-tree>
+  </div>
+</div>

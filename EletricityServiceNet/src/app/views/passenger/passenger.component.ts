@@ -14,7 +14,7 @@ export class PassengerComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  pathChange(path: PassengerPath) {
+  changePath(path: PassengerPath) {
     this.path = path;
   }
 }

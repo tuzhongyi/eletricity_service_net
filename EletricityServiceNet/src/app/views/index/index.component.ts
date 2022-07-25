@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { CurrentDayPassengerFlow } from 'src/app/models/current-day-passenger-flow.model';
 import { StoreService } from 'src/app/tools/service/store.service';
 import { NavigationPath } from '../header/header-navigation/navigarion-path.enum';
@@ -19,13 +20,22 @@ export class IndexComponent implements OnInit {
     private business: IndexBusiness,
     private store: StoreService,
     public window: IndexWindowBusiness,
-    public trigger: IndexEventTriggerBusiness
+    public trigger: IndexEventTriggerBusiness,
+    private route: ActivatedRoute
   ) {}
   title: string = '';
   path: NavigationPath = NavigationPath.realtime;
   NavigationPath = NavigationPath;
   current?: CurrentDayPassengerFlow;
   async ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      for (const key in params) {
+        let lower = key.toLocaleLowerCase();
+        if (lower == 'config') {
+          this.path = NavigationPath.setting;
+        }
+      }
+    });
     let hall = await this.store.getBusinessHall();
     this.title = hall.Name;
     this.titleService.setTitle(hall.Name);

@@ -3,4 +3,5 @@ export enum NavigationPath {
   passenger = 'passenger',
   record = 'record',
   video = 'video',
+  setting = 'setting',
 }

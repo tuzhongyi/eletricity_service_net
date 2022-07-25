@@ -2,13 +2,13 @@
   <howell-card>
     <div class="passenger-title title">
       <div
-        (click)="pathChange(PassengerPath.statistic)"
+        (click)="changePath(PassengerPath.statistic)"
         [class.selected]="path === PassengerPath.statistic"
       >
         客流统计
       </div>
       <div
-        (click)="pathChange(PassengerPath.heatmap)"
+        (click)="changePath(PassengerPath.heatmap)"
         [class.selected]="path === PassengerPath.heatmap"
       >
         客流热力
