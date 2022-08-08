@@ -1,4 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpContext,
+  HttpHeaders,
+  HttpParams,
+  HttpParamsOptions,
+} from '@angular/common/http';
 import { ClassConstructor, classToPlain } from 'class-transformer';
 import { firstValueFrom, lastValueFrom } from 'rxjs';
 import { PagedList } from 'src/app/models/page.model';
@@ -39,6 +45,31 @@ export class BaseRequestService {
     return ServiceHelper.ResponseProcess(response, type);
   }
 
+  public postString<T = any, R = HowellResponse<T>>(
+    url: string,
+    base64: string,
+    params?: HttpParams
+  ): Promise<R> {
+    const httpOptions = {
+      params: params,
+      'Content-Type': 'text/plain',
+    };
+    let response = this.http.post<R>(url, base64, httpOptions);
+    let promise = firstValueFrom(response);
+    return promise;
+  }
+
+  async base64<T>(url: string, type: ClassConstructor<T>, base64: string) {
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json-patch+json', //'application/json',
+    });
+    let response = await firstValueFrom(
+      this.http.post<HowellResponse<T>>(url, `\"` + base64 + `\"`, {
+        headers: headers,
+      })
+    );
+    return ServiceHelper.ResponseProcess(response, type);
+  }
   async delete<T>(url: string, type: ClassConstructor<T>) {
     let response = await firstValueFrom(
       this.http.delete<HowellResponse<T>>(url)

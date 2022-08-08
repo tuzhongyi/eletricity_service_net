@@ -3,9 +3,11 @@
     <howell-common-tree
       [showButton]="true"
       [dataSubject]="datas"
-      [holdStatus]="holdStatus"
+      [holdStatus]="config.tree.holdStatus"
+      [defaultIds]="config.tree.defaultIds"
+      [depth]="config.tree.depth"
       (selectTreeNode)="selectTreeNodeHandler($event)"
-      (nodeButtonClick)="nodeButtonClicked($event)"
+      (nodeButtonClick)="onNodeButtonClicked($event)"
     ></howell-common-tree>
   </div>
 </div>

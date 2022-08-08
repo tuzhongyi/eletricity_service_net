@@ -39,6 +39,7 @@ export class TreeFloorItemConverter
     node.ChildrenLoaded = true;
     node.ParentNode = null;
     node.IconClass = 'howell-icon-Floor';
+
     // node.IconClass = RegionNodeIconType.get(item.RegionType) ?? ''
     node.RawData = source;
     return node;
@@ -62,6 +63,8 @@ export class TreeCameraItemConverter
     if (source.FloorId) {
       node.ParentNode = getter.floor(source.FloorId);
     }
+
+    node.ButtonIconClasses = ['howell-icon-Unlink'];
     // node.IconClass = RegionNodeIconType.get(item.RegionType) ?? ''
     node.RawData = source;
     return node;

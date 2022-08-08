@@ -2,8 +2,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
@@ -31,27 +33,41 @@ import { FloorCameraTreeBusiness } from './floor-camera-tree.business';
 })
 export class FloorCameraTreeComponent
   extends CommonTree
-  implements IComponent<IModel[], CommonNestNode<IModel>[]>, OnInit
+  implements IComponent<IModel[], CommonNestNode<IModel>[]>, OnInit, OnChanges
 {
-  @Input() holdStatus = true;
-
-  // 第一个节点被选中
-  @Input() selectOnFirst = true;
-
   @Output() selectTreeNode: EventEmitter<CommonFlatNode[]> = new EventEmitter<
     CommonFlatNode[]
   >();
 
   @Output()
-  nodeButtonClick: EventEmitter<CommonFlatNode> = new EventEmitter<CommonFlatNode>();
+  nodeButtonClick: EventEmitter<Camera> = new EventEmitter<Camera>();
+  @Input()
+  load?: EventEmitter<string>;
 
   constructor(business: FloorCameraTreeBusiness) {
     super();
     this.business = business;
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['load']) {
+      if (this.load) {
+        this.load.subscribe((x) => {
+          this.loadData();
+        });
+      }
+    }
+  }
   business: IBusiness<IModel[], CommonNestNode<IModel>[]>;
 
   datas = new BehaviorSubject<CommonNestNode<IModel>[]>([]);
+
+  config: Config = {
+    tree: {
+      defaultIds: [],
+      depth: 0,
+      holdStatus: true,
+    },
+  };
 
   ngOnInit(): void {
     this.loadData();
@@ -60,5 +76,26 @@ export class FloorCameraTreeComponent
   async loadData() {
     let datas = await this.business.load();
     this.datas.next(datas);
+
+    if (datas && datas.length > 0) {
+      this.config.tree.defaultIds = [datas[0].Id];
+      this.config.tree.depth = 1;
+    }
   }
+
+  async onNodeButtonClicked(node: CommonFlatNode) {
+    let datas = await this.business.load();
+    this.datas.next(datas);
+    this.nodeButtonClick.emit(node.RawData);
+  }
+}
+
+interface Config {
+  tree: TreeConfig;
+}
+
+interface TreeConfig {
+  defaultIds: string[];
+  depth: number;
+  holdStatus: boolean;
 }

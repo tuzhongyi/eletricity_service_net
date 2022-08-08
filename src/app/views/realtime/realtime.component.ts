@@ -21,4 +21,8 @@ export class RealtimeComponent implements OnInit {
   onPreview(camera: Camera) {
     this.preview.emit(camera);
   }
+
+  onPointClicked(camera: Camera) {
+    this.onPreview(camera);
+  }
 }

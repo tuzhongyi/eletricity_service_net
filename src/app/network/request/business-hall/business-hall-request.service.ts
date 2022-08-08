@@ -1,5 +1,6 @@
 import {
   HttpClient,
+  HttpContext,
   HttpEventType,
   HttpHeaders,
   HttpParams,
@@ -7,18 +8,23 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { plainToClass } from 'class-transformer';
+import { Base64 } from 'js-base64';
+import { firstValueFrom } from 'rxjs';
 import { BusinessHall } from 'src/app/models/business-hall.model';
 import { Camera } from 'src/app/models/camera.model';
 import { CurrentDayPassengerFlow } from 'src/app/models/current-day-passenger-flow.model';
 import { Floor } from 'src/app/models/floor.model';
 import { HeatMap } from 'src/app/models/heat-map.model';
 import { PassengerFlow } from 'src/app/models/passenger-flow.model';
+import { Plan } from 'src/app/models/plan.model';
 import { Zone } from 'src/app/models/zone.model';
 import { BusinessHallsUrl } from '../../url/businesshall_service/business-halls.url';
 import {
   BaseRequestService,
   BaseTypeRequestService,
 } from '../base-request.service';
+import { Medium } from '../medium/medium';
 import {
   GetBusinessHallsParams,
   GetCamerasParams,
@@ -31,7 +37,7 @@ import {
   providedIn: 'root',
 })
 export class BusinessHallRequestService {
-  private basic: BaseRequestService;
+  basic: BaseRequestService;
   private type: BaseTypeRequestService<BusinessHall>;
   constructor(http: HttpClient) {
     this.basic = new BaseRequestService(http);
@@ -119,7 +125,7 @@ class BusinessHallFloorRequestService {
   }
   update(model: Floor) {
     let url = BusinessHallsUrl.floor(model.HallId).item(model.Id);
-    return this.type.delete(url);
+    return this.type.put(url, model);
   }
 
   private _zone?: BusinessHallFloorZoneRequestService;
@@ -128,6 +134,32 @@ class BusinessHallFloorRequestService {
       this._zone = new BusinessHallFloorZoneRequestService(this.basic);
     }
     return this._zone;
+  }
+
+  private _plan?: BusinessHallFloorPlanRequestService;
+  public get plan(): BusinessHallFloorPlanRequestService {
+    if (!this._plan) {
+      this._plan = new BusinessHallFloorPlanRequestService(this.basic);
+    }
+    return this._plan;
+  }
+}
+
+class BusinessHallFloorPlanRequestService {
+  constructor(private basic: BaseRequestService) {}
+
+  async post(hallId: string, floorId: string, svg: string): Promise<Plan> {
+    let code = encodeURIComponent(svg);
+    let base64 = Base64.encode(code);
+    let url = BusinessHallsUrl.floor(hallId).plan(floorId);
+    return this.basic.base64(url, Plan, base64);
+  }
+
+  async get(id: string) {
+    let url = Medium.data(id);
+    let observable = this.basic.http.get(url, { responseType: 'text' });
+    let result = await firstValueFrom(observable);
+    return decodeURIComponent(result);
   }
 }
 
@@ -189,7 +221,7 @@ class BusinessHallCameraRequestService {
   }
   update(hallId: string, model: Camera) {
     let url = BusinessHallsUrl.camera(hallId).item(model.Id);
-    return this.type.delete(url);
+    return this.type.put(url, model);
   }
 
   list(params: GetCamerasParams = new GetCamerasParams()) {

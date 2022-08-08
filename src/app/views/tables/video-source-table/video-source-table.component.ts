@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { IBusiness } from 'src/app/interfaces/business.interface';
 import { IComponent } from 'src/app/interfaces/component.interfact';
 import { IModel } from 'src/app/models/model.interface';
@@ -12,14 +20,31 @@ import { VideoSourceTableItemModel } from './video-source-table.model';
   providers: [VideoSourceTableBusiness],
 })
 export class VideoSourceTableComponent
-  implements IComponent<IModel, VideoSourceTableItemModel[]>, OnInit
+  implements IComponent<IModel, VideoSourceTableItemModel[]>, OnInit, OnChanges
 {
   @Input()
   business: IBusiness<IModel, VideoSourceTableItemModel[]>;
   @Output()
   select: EventEmitter<VideoSourceTableItemModel> = new EventEmitter();
+  @Input()
+  filter: string[] = [];
+  @Input()
+  load?: EventEmitter<string>;
+
   constructor(business: VideoSourceTableBusiness) {
     this.business = business;
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['filter']) {
+      this.loadData();
+    }
+    if (changes['load']) {
+      if (this.load) {
+        this.load.subscribe((name) => {
+          this.loadData(name);
+        });
+      }
+    }
   }
 
   selected?: VideoSourceTableItemModel;
@@ -31,9 +56,16 @@ export class VideoSourceTableComponent
     this.loadData();
   }
 
-  loadData() {
-    this.business.load().then((x) => {
-      this.datas = x;
+  loadData(name?: string) {
+    this.business.load(name).then((datas) => {
+      for (let i = 0; i < this.filter.length; i++) {
+        const id = this.filter[i];
+        let index = datas.findIndex((x) => x.id == id);
+        if (index < 0) continue;
+        datas.splice(index, 1);
+      }
+
+      this.datas = datas;
     });
   }
 

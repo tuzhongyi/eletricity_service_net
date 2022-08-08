@@ -5,6 +5,7 @@ import {
   IPromiseConverter,
 } from 'src/app/interfaces/converter.interface';
 import { Camera } from 'src/app/models/camera.model';
+import { GetCamerasParams } from 'src/app/network/request/business-hall/business-hall-request.params';
 import { BusinessHallRequestService } from 'src/app/network/request/business-hall/business-hall-request.service';
 import { StoreService } from 'src/app/tools/service/store.service';
 import { VideoSourceTableConverter } from './video-source-table.converter';
@@ -21,16 +22,23 @@ export class VideoSourceTableBusiness
   Converter: IConverter<Camera[], VideoSourceTableItemModel<Camera>[]> =
     new VideoSourceTableConverter();
   loading?: EventEmitter<void> | undefined;
-  async load(hallId?: string): Promise<VideoSourceTableItemModel<Camera>[]> {
+  async load(
+    name?: string,
+    hallId?: string
+  ): Promise<VideoSourceTableItemModel<Camera>[]> {
     if (!hallId) {
       let hall = await this.store.getBusinessHall();
       hallId = hall.Id;
     }
-    let data = await this.getData(hallId);
+    let data = await this.getData(hallId, name);
     let model = this.Converter.Convert(data);
     return model;
   }
-  getData(hallId: string): Promise<Camera[]> {
-    return this.service.camera.array(hallId);
+  async getData(hallId: string, name?: string): Promise<Camera[]> {
+    let params = new GetCamerasParams();
+    params.Name = name;
+    params.HallIds = [hallId];
+    let paged = await this.service.camera.list(params);
+    return paged.Data;
   }
 }

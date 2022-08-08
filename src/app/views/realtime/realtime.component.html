@@ -13,7 +13,9 @@
   </div>
   <div class="right">
     <howell-card>
-      <howell-realtime-heatmap></howell-realtime-heatmap>
+      <howell-realtime-heatmap
+        (pointClick)="onPointClicked($event)"
+      ></howell-realtime-heatmap>
     </howell-card>
   </div>
 </div>

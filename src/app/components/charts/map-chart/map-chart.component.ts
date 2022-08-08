@@ -27,14 +27,16 @@ declare let $: any;
   styleUrls: ['./map-chart.component.less'],
 })
 export class MapChartComponent implements OnInit, AfterViewInit, OnChanges {
+  @Input()
+  url: string = '';
   @Input('points')
-  input_points: Array<IPoint> = [];
+  input_points: IPoint[] = [];
   @Output()
   onclick: EventEmitter<Position> = new EventEmitter();
   @Output()
   onpointclick: EventEmitter<IPoint> = new EventEmitter();
-  @Input()
-  url: string = '';
+  @Output()
+  ondblclick: EventEmitter<Position> = new EventEmitter();
 
   constructor() {}
 
@@ -68,10 +70,8 @@ export class MapChartComponent implements OnInit, AfterViewInit, OnChanges {
         this.init(this.url);
       }
     }
-    if (changes['points']) {
-      timer(500).subscribe(() => {
-        this.displayPoints();
-      });
+    if (!changes['input_points'].firstChange) {
+      this.displayPoints();
     }
   }
 
@@ -124,94 +124,106 @@ export class MapChartComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   init(url: string, registEvent = false) {
-    $.get(url, (svg: any) => {
-      echarts.registerMap('sicily', { svg: svg });
-      this.option = {
-        // -------------
-        // Make buttons
-        geo: [
-          {
-            map: 'sicily',
-            roam: true,
-            layoutCenter: ['50%', '50%'],
-            layoutSize: '100%',
-            selectedMode: 'single',
-          },
-        ],
-        grid: {
-          top: 10,
-          left: 'center',
-          width: 180,
-          height: 520,
+    echarts.registerMap('sicily', { svg: url });
+    this.option = {
+      // -------------
+      // Make buttons
+      geo: [
+        {
+          map: 'sicily',
+          roam: true,
+          layoutCenter: ['50%', '50%'],
+          layoutSize: '100%',
+          selectedMode: 'single',
         },
-        xAxis: {
-          axisLine: { show: false },
-          splitLine: { show: false },
-          axisLabel: { show: false },
-          axisTick: { show: false },
+      ],
+      grid: {
+        top: 10,
+        left: 'center',
+        width: 180,
+        height: 520,
+      },
+      xAxis: {
+        axisLine: { show: false },
+        splitLine: { show: false },
+        axisLabel: { show: false },
+        axisTick: { show: false },
+      },
+      yAxis: {
+        axisLine: { show: false },
+        splitLine: { show: false },
+        axisLabel: { show: false },
+        axisTick: { show: false },
+      },
+      series: {
+        type: 'scatter',
+        coordinateSystem: 'geo',
+        geoIndex: 0,
+        symbolSize: function (params) {
+          return (params[2] / 100) * 15 + 5;
         },
-        yAxis: {
-          axisLine: { show: false },
-          splitLine: { show: false },
-          axisLabel: { show: false },
-          axisTick: { show: false },
+        encode: {
+          tooltip: 2,
         },
-        series: {
-          type: 'scatter',
-          coordinateSystem: 'geo',
-          geoIndex: 0,
-          symbolSize: function (params) {
-            return (params[2] / 100) * 15 + 5;
-          },
-          encode: {
-            tooltip: 2,
-          },
-          symbol: `image://assets/images/camera.png`,
-        },
-        // Make buttons end
-        // -----------------
-      };
+        label: {
+          formatter: (args: any) => {
+            console.log(args);
+            let point = this.points.find((x) => x.id == args.name);
 
-      if (!this.echarts) return;
-      this.echarts.setOption(this.option);
+            return point ? point.name : '';
+          },
+          position: 'bottom',
+          show: true,
+        },
+        symbol: `image://assets/images/camera.png`,
+      },
+      // Make buttons end
+      // -----------------
+    };
 
-      if (registEvent) {
-        this.echarts.getZr().on('click', (params: any) => {
-          // var pixelPoint = [params.offsetX, params.offsetY];
-          // var dataPoint = this.echarts.convertFromPixel(
-          //   { geoIndex: 0 },
-          //   pixelPoint
-          // );
-          console.log(params);
-          if (this.element) {
-            let position = new Position();
-            position.X =
-              params.offsetX / this.element.nativeElement.offsetWidth;
-            position.Y =
-              params.offsetY / this.element.nativeElement.offsetHeight;
-            this.onclick.emit(position);
-          }
+    if (!this.echarts) return;
+    this.echarts.setOption(this.option!);
+
+    if (registEvent) {
+      this.echarts.getZr().on('click', (params: any) => {
+        // var pixelPoint = [params.offsetX, params.offsetY];
+        // var dataPoint = this.echarts.convertFromPixel(
+        //   { geoIndex: 0 },
+        //   pixelPoint
+        // );
+        if (this.element) {
+          let position = new Position();
+          position.X = params.offsetX / this.element.nativeElement.offsetWidth;
+          position.Y = params.offsetY / this.element.nativeElement.offsetHeight;
+          this.onclick.emit(position);
+        }
+      });
+      this.echarts.getZr().on('dblclick', (params: any) => {
+        if (this.element) {
+          let position = new Position();
+          position.X = params.offsetX / this.element.nativeElement.offsetWidth;
+          position.Y = params.offsetY / this.element.nativeElement.offsetHeight;
+          this.ondblclick.emit(position);
+        }
+      });
+      this.echarts.on('click', 'series.scatter', (trigger: any) => {
+        console.log(trigger);
+        let pixel = this.echarts.convertToPixel(
+          { geoIndex: 0 },
+          trigger.data.value
+        ) as unknown as number[];
+        console.log('point', pixel);
+        let width = this.element ? this.element.nativeElement.offsetWidth : 0;
+        let height = this.element ? this.element.nativeElement.offsetHeight : 0;
+        this.onpointclick.emit({
+          id: trigger.data.name,
+          name: '',
+          position: {
+            X: width ? pixel[0] / width : pixel[0],
+            Y: height ? pixel[1] / height : pixel[1],
+          },
         });
-        this.echarts.on('click', 'series.scatter', (trigger: any) => {
-          console.log(trigger);
-          let pixel = this.echarts.convertToPixel(
-            { geoIndex: 0 },
-            trigger.data.value
-          ) as unknown as number[];
-          console.log('point', pixel);
-          let width = this.element ? this.element.nativeElement.offsetWidth : 0;
-          let height = this.element
-            ? this.element.nativeElement.offsetHeight
-            : 0;
-          this.onpointclick.emit({
-            id: trigger.data.name,
-            position: {
-              X: width ? pixel[0] / width : pixel[0],
-              Y: height ? pixel[1] / height : pixel[1],
-            },
-          });
-        });
-      }
-    });
+      });
+    }
   }
 }

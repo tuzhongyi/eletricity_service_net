@@ -9,6 +9,7 @@ export class MapChartPointConverter
   Convert(source: IPoint, ...res: any[]): MapChartPoint {
     return new MapChartPoint(
       source.id,
+      source.name,
       'assets/images/camera.png',
       source.position,
       200

@@ -3,16 +3,33 @@
     <div class="camera-position-setting-cameras-binded">
       <howell-floor-camera-tree
         (selectTreeNode)="selectTreeNode($event)"
+        (nodeButtonClick)="cameraUnbind($event)"
+        [load]="loadSource"
       ></howell-floor-camera-tree>
     </div>
     <div class="camera-position-setting-cameras-unbind">
-      <howell-video-source-list></howell-video-source-list>
+      <howell-video-source-list
+        [filter]="filter"
+        [load]="loadSource"
+        (select)="onUnbindCameraSelected($event)"
+      ></howell-video-source-list>
     </div>
   </div>
   <div class="camera-position-setting-map">
-    <div class="camera-position-setting-map-head"></div>
-    <div class="camera-position-setting-map-content">
-      <howell-settings-map></howell-settings-map>
+    <div class="camera-position-setting-map-head">
+      <div class="title" *ngIf="!!floor">{{ floor.Name }}</div>
+      <div class="operation">
+        <button class="full" (click)="onMapChanged()">更改地图</button>
+      </div>
+    </div>
+    <div class="camera-position-setting-map-content bind">
+      <howell-settings-map
+        [url]="url"
+        [upload]="upload"
+        [points]="points"
+        (svgSelected)="onsvg($event)"
+        (ondblclick)="onMapDoubleClicked($event)"
+      ></howell-settings-map>
     </div>
   </div>
 </div>

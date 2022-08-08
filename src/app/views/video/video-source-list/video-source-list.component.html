@@ -1,14 +1,20 @@
 <div class="video-source-list">
   <div class="video-source-list-filter">
     <div>
-      <input type="text" [placeholder]="'请输入摄像机名...'" />
+      <input
+        type="text"
+        [(ngModel)]="name"
+        [placeholder]="'请输入摄像机名...'"
+      />
     </div>
     <div>
-      <button class="full">查询</button>
+      <button class="full" (click)="search()">查询</button>
     </div>
   </div>
   <div class="video-source-list-table">
     <howell-video-source-table
+      [filter]="filter"
+      [load]="load"
       (select)="onselect($event)"
     ></howell-video-source-table>
   </div>

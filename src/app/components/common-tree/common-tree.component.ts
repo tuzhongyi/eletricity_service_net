@@ -46,6 +46,16 @@ export class CommonTreeComponent implements OnInit, OnChanges {
 
   @Input() showButton = false;
 
+  private _depth: number = 0;
+  public get depth(): number {
+    return this._depth;
+  }
+  @Input()
+  public set depth(v: number) {
+    this._depth = v;
+    this.expandNodeRecursively(this.dataSubject.getValue(), this._depth);
+  }
+
   @Output() loadChildrenEvent = new EventEmitter<CommonFlatNode>();
   @Output() selectTreeNode: EventEmitter<SelectionChange<CommonFlatNode>> =
     new EventEmitter<SelectionChange<CommonFlatNode>>();

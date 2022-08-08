@@ -43,6 +43,10 @@ class BusinessHallsFloorsUrl implements InnerUrl {
     return `${this.basic()}/${floorId}`;
   }
 
+  plan(floorId: string) {
+    return `${this.item(floorId)}/Plan`;
+  }
+
   zone(floorId: string) {
     return new BusinessHallsFloorsZonesUrl(this.item(floorId));
   }

@@ -11,15 +11,10 @@ export abstract class CommonTree {
   public tree?: CommonTreeComponent;
 
   abstract selectTreeNode: EventEmitter<CommonFlatNode[]>;
-  abstract nodeButtonClick: EventEmitter<CommonFlatNode>;
 
   selectTreeNodeHandler(change: SelectionChange<CommonFlatNode>) {
     let nodes = change.source.selected;
     this.selectTreeNode.emit(nodes);
-  }
-
-  nodeButtonClicked(node: CommonFlatNode) {
-    this.nodeButtonClick.emit(node);
   }
 
   addNode(node: CommonNestNode) {
