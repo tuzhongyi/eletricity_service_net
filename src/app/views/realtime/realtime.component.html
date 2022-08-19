@@ -2,20 +2,26 @@
   <div class="left">
     <howell-card>
       <howell-realtime-device-list
+        (loaded)="onDeviceLoaded($event)"
         (preview)="onPreview($event)"
         (playback)="onPlayback($event)"
       ></howell-realtime-device-list>
     </howell-card>
 
     <howell-card>
-      <howell-realtime-record-list></howell-realtime-record-list>
+      <howell-realtime-record-list
+        (loaded)="onRecordLoaded($event)"
+        (playback)="onPlayback($event)"
+        (picture)="onPicture($event)"
+      ></howell-realtime-record-list>
     </howell-card>
   </div>
   <div class="right">
     <howell-card>
-      <howell-realtime-heatmap
+      <!-- <howell-realtime-heatmap
         (pointClick)="onPointClicked($event)"
-      ></howell-realtime-heatmap>
+      ></howell-realtime-heatmap> -->
+      <howell-realtime-statistic> </howell-realtime-statistic>
     </howell-card>
   </div>
 </div>

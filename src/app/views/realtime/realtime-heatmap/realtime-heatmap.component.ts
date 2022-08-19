@@ -48,10 +48,6 @@ export class RealtimeHeatmapComponent
     }
   }
 
-  onClick(position: Position) {
-    // console.log(position);
-  }
-
   onPointClick(point: IPoint) {
     if (this.selected) {
       let source = this.selected.points.find((x) => x.id === point.id);

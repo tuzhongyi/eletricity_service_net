@@ -1,24 +1,17 @@
-import {
-  HttpClient,
-  HttpContext,
-  HttpEventType,
-  HttpHeaders,
-  HttpParams,
-  HttpRequest,
-  HttpResponse,
-} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { plainToClass } from 'class-transformer';
 import { Base64 } from 'js-base64';
 import { firstValueFrom } from 'rxjs';
+import { BusinessHallStatistic } from 'src/app/models/business-hall-statistic.model';
 import { BusinessHall } from 'src/app/models/business-hall.model';
 import { Camera } from 'src/app/models/camera.model';
+import { CurrentBusinessHallStatistic } from 'src/app/models/current-business-hall-statistic.model';
 import { CurrentDayPassengerFlow } from 'src/app/models/current-day-passenger-flow.model';
 import { Floor } from 'src/app/models/floor.model';
 import { HeatMap } from 'src/app/models/heat-map.model';
 import { PassengerFlow } from 'src/app/models/passenger-flow.model';
 import { Plan } from 'src/app/models/plan.model';
-import { Zone } from 'src/app/models/zone.model';
+import { CameraZone } from 'src/app/models/zone.model';
 import { BusinessHallsUrl } from '../../url/businesshall_service/business-halls.url';
 import {
   BaseRequestService,
@@ -27,6 +20,7 @@ import {
 import { Medium } from '../medium/medium';
 import {
   GetBusinessHallsParams,
+  GetBusinessHallStatisticsParams,
   GetCamerasParams,
   GetHeatMapParams,
   GetPassengerFlowsParams,
@@ -68,6 +62,11 @@ export class BusinessHallRequestService {
     return this.type.paged(url, params);
   }
 
+  syncCenterID(hallId: string) {
+    let url = BusinessHallsUrl.sync(hallId);
+    return this.basic.post(url);
+  }
+
   private _floor?: BusinessHallFloorRequestService;
   public get floor(): BusinessHallFloorRequestService {
     if (!this._floor) {
@@ -99,8 +98,26 @@ export class BusinessHallRequestService {
     }
     return this._heatMap;
   }
-}
 
+  private _statistic?: BusinessHallStatisticRequestService;
+  public get statistic(): BusinessHallStatisticRequestService {
+    if (!this._statistic) {
+      this._statistic = new BusinessHallStatisticRequestService(this.basic);
+    }
+    return this._statistic;
+  }
+}
+class BusinessHallStatisticRequestService {
+  constructor(private basic: BaseRequestService) {}
+  current(hallId: string) {
+    let url = BusinessHallsUrl.statistic(hallId).current();
+    return this.basic.get(url, CurrentBusinessHallStatistic);
+  }
+  list(params: GetBusinessHallStatisticsParams) {
+    let url = BusinessHallsUrl.statistic().list();
+    return this.basic.paged(url, BusinessHallStatistic, params);
+  }
+}
 class BusinessHallFloorRequestService {
   constructor(private basic: BaseRequestService) {
     this.type = basic.type(Floor);
@@ -165,15 +182,15 @@ class BusinessHallFloorPlanRequestService {
 
 class BusinessHallFloorZoneRequestService {
   constructor(basic: BaseRequestService) {
-    this.type = basic.type(Zone);
+    this.type = basic.type(CameraZone);
   }
-  type: BaseTypeRequestService<Zone>;
+  type: BaseTypeRequestService<CameraZone>;
 
   array(hallId: string, floorId: string) {
     let url = BusinessHallsUrl.floor(hallId).zone(floorId).basic();
     return this.type.array(url);
   }
-  create(model: Zone) {
+  create(model: CameraZone) {
     let url = BusinessHallsUrl.floor(model.HallId).zone(model.FloorId).basic();
     return this.type.post(url, model);
   }
@@ -181,7 +198,7 @@ class BusinessHallFloorZoneRequestService {
     let url = BusinessHallsUrl.floor(hallId).zone(floorId).item(zoneId);
     return this.type.get(url);
   }
-  update(model: Zone) {
+  update(model: CameraZone) {
     let url = BusinessHallsUrl.floor(model.HallId)
       .zone(model.FloorId)
       .item(model.Id);
@@ -229,14 +246,64 @@ class BusinessHallCameraRequestService {
     return this.type.paged(url, params);
   }
 
-  picture(hallId: string, cameraId: string, base64: string) {
+  picture(
+    hallId: string,
+    cameraId: string,
+    picture: string,
+    base64: boolean = true
+  ) {
     let url = BusinessHallsUrl.camera(hallId).picture(cameraId);
-    return this.type.post(url, base64);
+    if (base64) {
+      let code = Base64.encode(picture);
+      return this.type.base64(url, code);
+    } else {
+      return this.type.base64(url, picture);
+    }
   }
-  //  capturePicture(hallId:string, cameraId:string){
-  //   let url = BusinessHallsUrl.camera(hallId).capturePicture(cameraId);
-  //   return this.basic
-  //  }
+  async capturePicture(hallId: string, cameraId: string) {
+    let url = BusinessHallsUrl.camera(hallId).capturePicture(cameraId);
+    await this.basic.post<string>(url);
+    return url;
+  }
+
+  private _zone?: BusinessHallCameraZoneRequestService;
+  public get zone(): BusinessHallCameraZoneRequestService {
+    if (!this._zone) {
+      this._zone = new BusinessHallCameraZoneRequestService(this.basic);
+    }
+    return this._zone;
+  }
+}
+class BusinessHallCameraZoneRequestService {
+  constructor(private basic: BaseRequestService) {
+    this.type = basic.type(CameraZone);
+  }
+  type: BaseTypeRequestService<CameraZone>;
+
+  array(hallId: string, cameraId: string) {
+    let url = BusinessHallsUrl.camera(hallId).zone(cameraId).basic();
+    return this.type.array(url);
+  }
+  create(model: CameraZone) {
+    let url = BusinessHallsUrl.camera(model.HallId)
+      .zone(model.CameraId!)
+      .basic();
+    return this.type.post(url, model);
+  }
+  get(hallId: string, cameraId: string, zoneId: string) {
+    let url = BusinessHallsUrl.camera(hallId).zone(cameraId).item(zoneId);
+    return this.type.get(url);
+  }
+  update(model: CameraZone) {
+    let url = BusinessHallsUrl.camera(model.HallId)
+      .zone(model.CameraId!)
+      .item(model.Id);
+    return this.type.put(url, model);
+  }
+  remove(hallId: string, cameraId: string, zoneId: string) {
+    let url = BusinessHallsUrl.camera(hallId).zone(cameraId).item(zoneId);
+    return this.type.delete(url);
+  }
 }
 
 class BusinessHallPassengerFlowRequestService {

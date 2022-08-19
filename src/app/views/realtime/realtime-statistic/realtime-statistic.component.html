@@ -1,0 +1,82 @@
+<div class="realtime-statistic">
+  <div class="realtime-statistic-head">
+    <div class="">
+      <howell-realtime-statistic-head-item
+        [icon]="'howell-icon-people-in2'"
+        [value]="data.in"
+        [title]="'流入客流'"
+      >
+      </howell-realtime-statistic-head-item>
+    </div>
+    <div class="">
+      <howell-realtime-statistic-head-item
+        [icon]="'howell-icon-people-out2'"
+        [value]="data.out"
+        [title]="'流出客流'"
+      >
+      </howell-realtime-statistic-head-item>
+    </div>
+    <div class="">
+      <howell-realtime-statistic-head-item
+        [icon]="'howell-icon-task_misson'"
+        [value]="data.record"
+        [title]="'总事件数'"
+      >
+      </howell-realtime-statistic-head-item>
+    </div>
+    <div class="">
+      <howell-realtime-statistic-head-item
+        [icon]="'howell-icon-work'"
+        [value]="data.business"
+        [title]="'今日业务'"
+      >
+      </howell-realtime-statistic-head-item>
+    </div>
+    <div class="">
+      <howell-realtime-statistic-head-item
+        [icon]="'howell-icon-details'"
+        [value]="data.delivery"
+        [title]="'每笔业务递交材料'"
+      >
+      </howell-realtime-statistic-head-item>
+    </div>
+  </div>
+  <div class="realtime-statistic-body">
+    <howell-realtime-statistic-body-item
+      style="top: 10%; left: 25%"
+      [value]="data.LeavePosition"
+      [title]="'离岗'"
+    >
+    </howell-realtime-statistic-body-item>
+    <howell-realtime-statistic-body-item
+      style="top: 10%; right: 25%"
+      [value]="data.Voilence"
+      [title]="'剧烈运动'"
+    >
+    </howell-realtime-statistic-body-item>
+    <howell-realtime-statistic-body-item
+      style="top: 40%; left: 10%"
+      [value]="data.Falldown"
+      [title]="'倒地'"
+    >
+    </howell-realtime-statistic-body-item>
+    <howell-realtime-statistic-body-item
+      style="top: 40%; right: 10%"
+      [value]="data.HighDensity"
+      [title]="'人员聚集'"
+    >
+    </howell-realtime-statistic-body-item>
+    <howell-realtime-statistic-body-item
+      style="bottom: 0%; left: 25%"
+      [value]="data.Loitering"
+      [title]="'徘徊'"
+    >
+    </howell-realtime-statistic-body-item>
+    <howell-realtime-statistic-body-item
+      style="bottom: 0%; right: 25%"
+      [value]="data.Unattended"
+      [title]="'遗留物品'"
+    >
+    </howell-realtime-statistic-body-item>
+  </div>
+</div>

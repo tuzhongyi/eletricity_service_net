@@ -2,9 +2,10 @@
   <div class="camera-position-setting-cameras">
     <div class="camera-position-setting-cameras-binded">
       <howell-floor-camera-tree
+        [operation]="true"
+        [load]="loadSource"
         (selectTreeNode)="selectTreeNode($event)"
         (nodeButtonClick)="cameraUnbind($event)"
-        [load]="loadSource"
       ></howell-floor-camera-tree>
     </div>
     <div class="camera-position-setting-cameras-unbind">
@@ -17,7 +18,7 @@
   </div>
   <div class="camera-position-setting-map">
     <div class="camera-position-setting-map-head">
-      <div class="title" *ngIf="!!floor">{{ floor.Name }}</div>
+      <div class="title">{{ floor ? floor.Name : "" }}</div>
       <div class="operation">
         <button class="full" (click)="onMapChanged()">更改地图</button>
       </div>

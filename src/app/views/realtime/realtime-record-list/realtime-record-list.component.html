@@ -21,6 +21,9 @@
     <howell-realtime-record-table
       [types]="types"
       [load]="load"
+      (loaded)="onLoaded($event)"
+      (picture)="onPicture($event)"
+      (playback)="onPlayback($event)"
     ></howell-realtime-record-table>
   </div>
 </div>

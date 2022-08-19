@@ -41,6 +41,7 @@ export class RecordEventTableItemConverter
     model.datetime = formatDate(source.EventTime, 'yyyy-MM-dd HH:mm:ss', 'en');
 
     model.data = source;
+    model.hasPic = !!source.ImageUrl;
 
     return model;
   }

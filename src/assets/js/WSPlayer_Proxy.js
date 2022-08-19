@@ -15,6 +15,7 @@ var WSPlayerState = {
   closed: 255
 }
 function WSPlayerProxy (iframeId) {
+
   var iframe = function () {
     return document.getElementById(iframeId)
   }
@@ -118,18 +119,19 @@ function WSPlayerProxy (iframeId) {
 
       switch (data.command) {
         case "onStoping":
+          console.log(e)
           if (that.onStoping) {
-            that.onStoping();
+            that.onStoping(parseInt(parseInt(data.index)));
           }
           break;
         case "onPlaying":
           if (that.onPlaying) {
-            that.onPlaying();
+            that.onPlaying(parseInt(data.index));
           }
           break;
         case "getPosition":
           if (that.getPosition) {
-            that.getPosition(parseFloat(data.value));
+            that.getPosition(parseInt(data.index), parseFloat(data.value));
           }
           if (that.tools) {
             (function (val) {
@@ -162,22 +164,22 @@ function WSPlayerProxy (iframeId) {
           break;
         case "onButtonClicked":
           if (that.onButtonClicked) {
-            that.onButtonClicked(data.value);
+            that.onButtonClicked(parseInt(data.index), data.value);
           }
           break;
         case "onViewerDoubleClicked":
           if (that.onViewerDoubleClicked) {
-            that.onViewerDoubleClicked();
+            that.onViewerDoubleClicked(parseInt(data.index));
           }
           break;
         case "onViewerClicked":
           if (that.onViewerClicked) {
-            that.onViewerClicked();
+            that.onViewerClicked(parseInt(data.index));
           }
           break;
         case "onRuleStateChanged":
           if (that.onRuleStateChanged) {
-            that.onRuleStateChanged(data.value)
+            that.onRuleStateChanged(parseInt(data.index), data.value)
           }
         default:
           break;

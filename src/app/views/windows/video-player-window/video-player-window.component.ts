@@ -87,11 +87,19 @@ export class VideoPlayerWindowComponent
   changeDate(date: Date) {
     this.date = date;
   }
+  changeMode(mode: PlayMode) {
+    this.mode = mode;
+    if (mode == PlayMode.live) {
+      this.preview();
+    }
+  }
   async preview() {
+    this.mode = PlayMode.live;
     this.data = await this.business.load(this.cameraId, this.mode);
   }
-
+  webUrl?: string;
   async playback() {
+    this.mode = PlayMode.vod;
     let duration = {
       begin: this.duration.begin.toDate(this.date),
       end: this.duration.end.toDate(this.date),

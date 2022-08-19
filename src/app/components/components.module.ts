@@ -1,3 +1,4 @@
+import { CanvasComponent } from './canvas/canvas.component';
 import { CardComponent } from './card/card.component';
 import { CHART_COMPONENTS } from './charts/charts.module';
 import { CommonTreeComponent } from './common-tree/common-tree.component';
@@ -18,4 +19,5 @@ export const components = [
   WindowComponent,
   ...CHART_COMPONENTS,
   CommonTreeComponent,
+  CanvasComponent,
 ];

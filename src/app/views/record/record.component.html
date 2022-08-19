@@ -62,11 +62,7 @@
             </div>
           </div>
           <div class="record-content-filter-item">
-            <button class="full" (click)="onSearch()">查询</button>
-          </div>
-        </div>
-        <div class="right">
-          <div class="record-content-filter-item search">
+            <div>摄像机名称：</div>
             <div>
               <input
                 type="text"
@@ -74,9 +70,16 @@
                 [placeholder]="'请输入摄像机名...'"
               />
             </div>
-            <div>
-              <button class="full" (click)="onSearch()">搜索</button>
-            </div>
+          </div>
+          <div class="record-content-filter-item">
+            <button class="full" (click)="onSearch()">
+              <i class="howell-icon-search2"></i> 查询
+            </button>
+          </div>
+          <div class="record-content-filter-item">
+            <button class="full" (click)="onExport()">
+              <i class="howell-icon-export2"></i> 导出
+            </button>
           </div>
         </div>
       </div>
@@ -84,6 +87,7 @@
       <div class="record-content-table">
         <howell-record-event-table
           [load]="load"
+          [exportExcel]="exportExcel"
           (picture)="onPicture($event)"
           (playback)="onPlayback($event)"
         ></howell-record-event-table>

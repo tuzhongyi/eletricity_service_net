@@ -11,9 +11,10 @@
   >
     <app-video-player
       *ngIf="!!datas[i]"
+      [index]="i"
       [model]="datas[i]"
-      (onViewerClicked)="onscreenclicked(i)"
-      (onStoping)="onstop(i)"
+      (onViewerClicked)="onscreenclicked($event)"
+      (onStoping)="onstop($event)"
     ></app-video-player>
   </div>
 </div>

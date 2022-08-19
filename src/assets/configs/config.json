@@ -2,5 +2,6 @@
   "playback":{
     "begin":-15,
     "end":15
-  }
+  },
+  "videoUrl":"http://192.168.21.241:9000/video/wsplayer/wsplayer.html"
 }

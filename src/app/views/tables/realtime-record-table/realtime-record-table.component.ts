@@ -5,18 +5,23 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
+import { VideoArgsConverter } from 'src/app/converters/args/video-args.converter';
 import { EventType } from 'src/app/enums/event-type.enum';
 import { TimeUnit } from 'src/app/enums/time-unit.enum';
 import { IBusiness } from 'src/app/interfaces/business.interface';
 import { IComponent } from 'src/app/interfaces/component.interfact';
 import { IModel } from 'src/app/models/model.interface';
+import { VideoArgs } from 'src/app/models/args/video.args';
 import { DurationParams } from 'src/app/network/request/IParams.interface';
 import { DateTimeTool } from 'src/app/tools/datetime.tool';
 import { Language } from 'src/app/tools/language';
 import { RealtimeRecordTableBusiness } from './realtime-record-table.business';
 import { RealtimeRecordModel } from './realtime-record-table.model';
+import { PictureArgs } from 'src/app/models/args/picture.args';
+import { PictureArgsConverter } from 'src/app/converters/args/picture-args.converter';
 
 @Component({
   selector: 'howell-realtime-record-table',
@@ -39,6 +44,12 @@ export class RealtimeRecordTableComponent
   types?: EventType[];
   @Input()
   load?: EventEmitter<EventType[]>;
+  @Output()
+  loaded: EventEmitter<RealtimeRecordModel[]> = new EventEmitter();
+  @Output()
+  picture: EventEmitter<PictureArgs> = new EventEmitter();
+  @Output()
+  playback: EventEmitter<VideoArgs> = new EventEmitter();
 
   constructor(business: RealtimeRecordTableBusiness) {
     this.business = business;
@@ -58,7 +69,7 @@ export class RealtimeRecordTableComponent
       }
     }
   }
-  width = ['40%', '20%', '20%', '20%'];
+  width = ['30%', '10%', '20%', '20%', '20%'];
 
   datas?: RealtimeRecordModel[];
   Language = Language;
@@ -74,6 +85,16 @@ export class RealtimeRecordTableComponent
       this.datas.sort((a, b) => {
         return b.time.localeCompare(a.time);
       });
+      this.loaded.emit(this.datas);
     });
+  }
+
+  onPicture(item: RealtimeRecordModel) {
+    let args = PictureArgsConverter.Convert(item.data);
+    this.picture.emit(args);
+  }
+  onPlayback(item: RealtimeRecordModel) {
+    let args = VideoArgsConverter.Convert(item.data);
+    this.playback.emit(args);
   }
 }

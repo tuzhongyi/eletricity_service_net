@@ -9,25 +9,32 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { RecordEventTableExportConverter } from 'src/app/converters/exports/record-event-table-export.converter';
+import { VideoArgsConverter } from 'src/app/converters/args/video-args.converter';
+import { ExportType } from 'src/app/enums/export-type.enum';
 import { TimeUnit } from 'src/app/enums/time-unit.enum';
 import { IBusiness } from 'src/app/interfaces/business.interface';
 import { IComponent } from 'src/app/interfaces/component.interfact';
-import { EventRecord } from 'src/app/models/event-record.model';
+import { IExportConverter } from 'src/app/interfaces/converter.interface';
 import { IModel } from 'src/app/models/model.interface';
 import { Page, PagedList } from 'src/app/models/page.model';
+import { VideoArgs } from 'src/app/models/args/video.args';
 import { DateTimeTool } from 'src/app/tools/datetime.tool';
 import { Language } from 'src/app/tools/language';
+import { RecordEventTableExportBusiness } from './record-event-table-export.business';
 import { RecordEventTableBusiness } from './record-event-table.business';
 import {
   RecordEventTableItemModel,
   RecordEventTableOptions,
 } from './record-event-table.model';
+import { PictureArgs } from 'src/app/models/args/picture.args';
+import { PictureArgsConverter } from 'src/app/converters/args/picture-args.converter';
 
 @Component({
   selector: 'howell-record-event-table',
   templateUrl: './record-event-table.component.html',
   styleUrls: ['../table.less', './record-event-table.component.less'],
-  providers: [RecordEventTableBusiness],
+  providers: [RecordEventTableBusiness, RecordEventTableExportBusiness],
 })
 export class RecordEventTableComponent
   implements
@@ -43,21 +50,27 @@ export class RecordEventTableComponent
   @Input()
   load?: EventEmitter<RecordEventTableOptions>;
   @Output()
-  picture: EventEmitter<EventRecord> = new EventEmitter();
+  picture: EventEmitter<PictureArgs> = new EventEmitter();
   @Output()
-  playback: EventEmitter<EventRecord> = new EventEmitter();
+  playback: EventEmitter<VideoArgs> = new EventEmitter();
+  @Input()
+  exportExcel?: EventEmitter<void>;
 
-  constructor(business: RecordEventTableBusiness) {
+  constructor(
+    business: RecordEventTableBusiness,
+    private exports: RecordEventTableExportBusiness
+  ) {
     this.business = business;
     let duration = DateTimeTool.TimeUnit(TimeUnit.Day, new Date());
     this.options = {
       begin: duration.begin,
       end: duration.end,
       name: '',
-      pageIndex: -1,
+      pageIndex: 1,
       pageSize: 10,
     };
   }
+
   datas?: RecordEventTableItemModel[];
   width = ['20%', '16%', '16%', '16%', '16%', '16%'];
   Language = Language;
@@ -74,6 +87,13 @@ export class RecordEventTableComponent
         this.load.subscribe((x) => {
           this.options = x;
           this.loadData();
+        });
+      }
+    }
+    if (changes['exportExcel']) {
+      if (this.exportExcel) {
+        this.exportExcel.subscribe((x) => {
+          this.onexport();
         });
       }
     }
@@ -98,9 +118,20 @@ export class RecordEventTableComponent
   }
 
   onPicture(item: RecordEventTableItemModel) {
-    this.picture.emit(item.data);
+    let args = PictureArgsConverter.Convert(item.data);
+    this.picture.emit(args);
   }
   onPlayback(item: RecordEventTableItemModel) {
-    this.playback.emit(item.data);
+    let args = VideoArgsConverter.Convert(item.data);
+    this.playback.emit(args);
   }
+
+  onexport() {
+    if (this.datas) {
+      this.exports.Export(ExportType.excel, this.datas, this.options);
+    }
+  }
+
+  exportConverter: IExportConverter<RecordEventTableItemModel<any>[]> =
+    new RecordEventTableExportConverter();
 }

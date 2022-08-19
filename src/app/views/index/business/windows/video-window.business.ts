@@ -8,7 +8,9 @@ export class IndexVideoWindow extends WindowViewModel {
 
   cameraId?: string;
   mode: PlayMode = PlayMode.live;
+
   title: string = '';
+
   autoplay: boolean = false;
   time?: Date;
   style = {

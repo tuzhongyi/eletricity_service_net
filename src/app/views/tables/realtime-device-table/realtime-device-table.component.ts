@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -11,11 +10,12 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { VideoArgsConverter } from 'src/app/converters/args/video-args.converter';
 import { IBusiness } from 'src/app/interfaces/business.interface';
 import { IComponent } from 'src/app/interfaces/component.interfact';
 import { Camera } from 'src/app/models/camera.model';
-import { ImageControlModelArray } from 'src/app/models/image-control.model';
 import { IModel } from 'src/app/models/model.interface';
+import { VideoArgs } from 'src/app/models/args/video.args';
 import { Language } from 'src/app/tools/language';
 import { RealtimeDeviceListTableBusiness } from './realtime-device-table.business';
 import { RealtimeDeviceModel } from './realtime-device-table.model';
@@ -36,12 +36,15 @@ export class RealtimeDeviceListTableComponent
   @Input()
   business: IBusiness<IModel, RealtimeDeviceModel<any>[]>;
   @Output()
-  preview: EventEmitter<Camera> = new EventEmitter();
+  preview: EventEmitter<VideoArgs> = new EventEmitter();
   @Output()
-  playback: EventEmitter<Camera> = new EventEmitter();
+  playback: EventEmitter<VideoArgs> = new EventEmitter();
 
   @Input()
   load?: EventEmitter<void>;
+
+  @Output()
+  loaded: EventEmitter<RealtimeDeviceModel[]> = new EventEmitter();
 
   constructor(business: RealtimeDeviceListTableBusiness) {
     this.business = business;
@@ -77,13 +80,17 @@ export class RealtimeDeviceListTableComponent
   loadData() {
     this.business.load().then((x) => {
       this.datas = x;
+      this.loaded.emit(this.datas);
     });
   }
 
   onPreview(item: RealtimeDeviceModel) {
-    this.preview.emit(item.data);
+    let args = VideoArgsConverter.Convert(item.data);
+    this.preview.emit(args);
   }
   onPlayback(item: RealtimeDeviceModel) {
-    this.playback.emit(item.data);
+    let args = VideoArgsConverter.Convert(item.data);
+    args.autoplay = false;
+    this.playback.emit(args);
   }
 }

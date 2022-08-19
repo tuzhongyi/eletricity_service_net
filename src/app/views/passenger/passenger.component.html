@@ -8,11 +8,17 @@
         客流统计
       </div>
       <div
+        (click)="changePath(PassengerPath.zone)"
+        [class.selected]="path === PassengerPath.zone"
+      >
+        区域客流统计
+      </div>
+      <!-- <div
         (click)="changePath(PassengerPath.heatmap)"
         [class.selected]="path === PassengerPath.heatmap"
       >
         客流热力
-      </div>
+      </div> -->
     </div>
     <div class="passenger-content">
       <ng-container *ngIf="path === PassengerPath.statistic">
@@ -20,6 +26,14 @@
       </ng-container>
       <ng-container *ngIf="path === PassengerPath.heatmap">
         <howell-passenger-heatmap></howell-passenger-heatmap>
+      </ng-container>
+
+      <ng-container *ngIf="path === PassengerPath.zone">
+        <howell-passenger-statistic
+          [chart]="ChartType.line"
+          [title]="'区域客流统计'"
+          [business]="zone"
+        ></howell-passenger-statistic>
       </ng-container>
     </div>
   </howell-card>

@@ -23,6 +23,7 @@ export class VideoPlayerWindowBusiness
     duration?: Duration
   ): Promise<VideoModel> {
     let data = await this.getData(cameraId, mode, duration);
+
     let model = this.Converter.Convert(data);
     return model;
   }

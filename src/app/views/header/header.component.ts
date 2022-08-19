@@ -16,11 +16,7 @@ export class HeaderComponent implements OnInit {
   @Output()
   navigate: EventEmitter<NavigationPath> = new EventEmitter();
   @Input()
-  weather?: WeatherType;
-  @Input()
-  low?: number;
-  @Input()
-  high?: number;
+  date: Date = new Date();
 
   constructor() {}
 

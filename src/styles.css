@@ -8,12 +8,14 @@ body {
   border: none;
   overflow: hidden;
   font-family: 'Howell Light';
+  user-select: none;
 }
 
 
 
 
 button {
+  font-family: "Howell light";
 
   border: solid #07a990 1px;
   color: white;

@@ -64,3 +64,13 @@ export class GetHeatMapParams extends DurationParams implements IParams {
   /**	String	营业厅ID	M */
   HallId!: string;
 }
+
+export class GetBusinessHallStatisticsParams
+  extends PagedDurationParams
+  implements IParams
+{
+  /**	Int32	统计时间单位：0-Minute，1-Hour，2-Day 注意分钟可能是5分钟一次或者10分钟一次。	M */
+  TimeUnit!: TimeUnit;
+  /**	String[]	营业厅ID	O */
+  HallIds?: string[];
+}

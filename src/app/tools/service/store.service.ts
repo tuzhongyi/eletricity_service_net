@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
+import { interval, Subscription } from 'rxjs';
 import { BusinessHall } from 'src/app/models/business-hall.model';
 import { Page } from 'src/app/models/page.model';
 import { BusinessHallRequestService } from 'src/app/network/request/business-hall/business-hall-request.service';
@@ -8,7 +9,6 @@ import { BusinessHallRequestService } from 'src/app/network/request/business-hal
 })
 export class StoreService {
   constructor(private service: BusinessHallRequestService) {}
-
   private hall?: BusinessHall;
   async getBusinessHall(): Promise<BusinessHall> {
     if (!this.hall) {
@@ -24,5 +24,18 @@ export class StoreService {
       this.hall = list.Data[0];
     }
     return this.hall;
+  }
+
+  interval = new EventEmitter();
+  private subscription?: Subscription;
+  runInterval() {
+    this.subscription = interval(1000).subscribe(() => {
+      this.interval.emit();
+    });
+  }
+  stopInterval() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

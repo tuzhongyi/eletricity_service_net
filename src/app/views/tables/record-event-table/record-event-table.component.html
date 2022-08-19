@@ -24,11 +24,16 @@
           <td [width]="width[4]">{{ item.datetime }}</td>
           <td [width]="width[5]">
             <div class="operation">
-              <div class="picture" (click)="onPicture(item)">
-                <i class="howell-icon-picture"></i>
-              </div>
               <div class="playback" (click)="onPlayback(item)">
-                <i class="howell-icon-video"></i>
+                <i class="howell-icon-video-playback1"></i>
+              </div>
+              <div
+                *ngIf="item.hasPic"
+                class="picture"
+                (click)="onPicture(item)"
+              >
+                <!-- [ngStyle]="{ visibility: item.hasPic ? 'visible' : 'hidden' }" -->
+                <i class="howell-icon-picture"></i>
               </div>
             </div>
           </td>

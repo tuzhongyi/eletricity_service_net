@@ -3,17 +3,17 @@
     <howell-header
       [path]="path"
       [title]="title"
-      [weather]="current ? current.Weather : undefined"
-      [low]="current ? current.LowTemp : undefined"
-      [high]="current ? current.HighTemp : undefined"
+      [date]="date"
       (navigate)="onnavigate($event)"
     ></howell-header>
   </div>
   <div class="eletricity-service-net-body">
     <ng-container *ngIf="path === NavigationPath.realtime">
       <howell-realtime
+        [passenger]="passenger"
         (preview)="trigger.realtime.preview($event)"
         (playback)="trigger.realtime.playback($event)"
+        (picture)="trigger.realtime.picture($event)"
       ></howell-realtime>
     </ng-container>
     <ng-container *ngIf="path === NavigationPath.passenger">

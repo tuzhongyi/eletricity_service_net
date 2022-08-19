@@ -16,7 +16,7 @@ import { VideoModel } from 'src/app/models/video.model';
 })
 export class VideoPlayerListComponent implements OnInit, OnChanges {
   @Input()
-  mode = ScreenMode.four;
+  mode = ScreenMode.one;
   @Input()
   play?: EventEmitter<VideoModel>;
 

@@ -23,7 +23,7 @@ export class VideoComponent implements OnInit {
   mode: PlayMode = PlayMode.live;
   PlayMode = PlayMode;
   ScreenMode = ScreenMode;
-  screen: ScreenMode = ScreenMode.four;
+  screen: ScreenMode = ScreenMode.one;
   play: EventEmitter<VideoModel> = new EventEmitter();
   selected?: Camera;
 
@@ -50,5 +50,17 @@ export class VideoComponent implements OnInit {
     let url = await this.business.getUrl(this.selected.Id, this.mode, duration);
     let model = new VideoModel(url.Url);
     this.play.emit(model);
+  }
+
+  launchFullscreen(element: HTMLElement) {
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    }
+  }
+  fullScreen() {
+    let video = document.querySelector(
+      '.howell-video-player-list'
+    ) as HTMLDivElement;
+    this.launchFullscreen(video);
   }
 }

@@ -28,6 +28,10 @@
         >
           <i class="icon-th-large"></i>
         </button>
+
+        <button (click)="fullScreen()">
+          <i class="icon-resize-full"></i>
+        </button>
       </div>
     </div>
     <div class="video-content">
@@ -45,7 +49,7 @@
           </howell-video-playback-config>
         </div>
       </div>
-      <div class="right">
+      <div class="right howell-video-player-list">
         <howell-video-player-list
           [mode]="screen"
           [play]="play"

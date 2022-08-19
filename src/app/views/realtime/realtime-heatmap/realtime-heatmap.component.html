@@ -1,7 +1,8 @@
-<howell-map-chart
-  *ngIf="selected"
-  [url]="selected.url"
-  [points]="selected.points"
-  (onclick)="onClick($event)"
-  (onpointclick)="onPointClick($event)"
-></howell-map-chart>
+<div class="realtime-heatmap">
+  <howell-map-chart
+    *ngIf="selected"
+    [url]="selected.url"
+    [points]="selected.points"
+    (onpointdblclick)="onPointClick($event)"
+  ></howell-map-chart>
+</div>

@@ -8,6 +8,7 @@ export class RecordEventTableItemModel<T = any> {
   zone: string = '';
   type: string = '';
   datetime: string = '';
+  hasPic: boolean = false;
   data?: T;
 }
 export interface RecordEventTableOptions {

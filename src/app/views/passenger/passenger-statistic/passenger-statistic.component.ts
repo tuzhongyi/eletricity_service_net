@@ -1,17 +1,26 @@
+import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { LegendComponentOption } from 'echarts';
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { ITimeDataGroup } from 'src/app/components/charts/chart.model';
 import { TimeModel } from 'src/app/components/time-control/time-control.model';
+import { TimeDataGroupExportConverter } from 'src/app/converters/exports/time-data-group-export.converter';
 import { DateTimePickerView } from 'src/app/directives/date-time-picker.directive';
 import { ChartType } from 'src/app/enums/chart-type.enum';
+import { ExportType } from 'src/app/enums/export-type.enum';
 import { TimeUnit } from 'src/app/enums/time-unit.enum';
 import { IBusiness } from 'src/app/interfaces/business.interface';
-import { IComponent } from 'src/app/interfaces/component.interfact';
+import {
+  IComponent,
+  IExportComponent,
+} from 'src/app/interfaces/component.interfact';
+import { IExportConverter } from 'src/app/interfaces/converter.interface';
 import { Duration } from 'src/app/models/duration.model';
 import { IModel } from 'src/app/models/model.interface';
 import { SelectItem } from 'src/app/models/select-item.model';
 import { DateTimeTool } from 'src/app/tools/datetime.tool';
+import { ExportTool } from 'src/app/tools/export.tool';
+import { PassengerStatisticExportBusiness } from './passenger-statistic-export.business';
 import { PassengerStatisticBusiness } from './passenger-statistic.business';
 import { ChartConfig, EChartOptions } from './passenger-statistic.model';
 
@@ -19,24 +28,33 @@ import { ChartConfig, EChartOptions } from './passenger-statistic.model';
   selector: 'howell-passenger-statistic',
   templateUrl: './passenger-statistic.component.html',
   styleUrls: ['./passenger-statistic.component.less'],
-  providers: [PassengerStatisticBusiness],
+  providers: [PassengerStatisticBusiness, PassengerStatisticExportBusiness],
 })
 export class PassengerStatisticComponent
   implements IComponent<IModel, ITimeDataGroup<number>[]>, OnInit
 {
   @Input()
   business: IBusiness<IModel, ITimeDataGroup<number>[]>;
-  constructor(business: PassengerStatisticBusiness) {
+  @Input()
+  chart: ChartType = ChartType.bar;
+  @Input()
+  title: string = '客流统计';
+  constructor(
+    business: PassengerStatisticBusiness,
+    private exports: PassengerStatisticExportBusiness
+  ) {
     this.business = business;
-    this.duration = DateTimeTool.allDay(new Date());
+    this.duration = DateTimeTool.allDay(this.date);
   }
+
   datas: ITimeDataGroup<number>[] = [];
+  date: Date = new Date();
   duration: Duration;
   DateTimePickerView = DateTimePickerView;
 
   unit: TimeUnit = TimeUnit.Hour;
   units: SelectItem<TimeUnit>[] = [];
-  chart: ChartType = ChartType.bar;
+
   ChartType = ChartType;
   charts: SelectItem<ChartType>[] = [];
   config: Config = { bar: {}, line: {}, datetime: new DateTimeConfig() };
@@ -69,31 +87,30 @@ export class PassengerStatisticComponent
     this.charts.push({ value: ChartType.line, language: '折线图' });
   }
 
-  changeBegin(date: Date) {
-    this.duration.begin = date;
-  }
-  changeEnd(date: Date) {
-    this.duration.end = date;
+  changeDate(date: Date) {
+    this.date = date;
+    this.duration = DateTimeTool.TimeUnit(this.unit, this.date);
   }
 
   changeTimeUnit(event: Event) {
-    let item = event.target as HTMLSelectElement;
-    this.unit = parseInt(item.value);
     switch (this.unit) {
       case TimeUnit.Hour:
-        this.duration = DateTimeTool.allDay(new Date());
-        this.config.datetime.format = 'yyyy-MM-dd HH:mm';
-        this.config.datetime.min = DateTimePickerView.day;
+        this.duration = DateTimeTool.allDay(this.date);
+        this.config.datetime.format = 'yyyy-MM-dd';
+        this.config.datetime.min = DateTimePickerView.month;
+        this.config.datetime.week = false;
         break;
       case TimeUnit.Week:
-        this.duration = DateTimeTool.allWeek(new Date());
+        this.duration = DateTimeTool.allWeek(this.date);
         this.config.datetime.format = 'yyyy-MM-dd';
         this.config.datetime.min = DateTimePickerView.month;
+        this.config.datetime.week = true;
         break;
       case TimeUnit.Month:
-        this.duration = DateTimeTool.allMonth(new Date());
-        this.config.datetime.format = 'yyyy-MM-dd';
-        this.config.datetime.min = DateTimePickerView.month;
+        this.duration = DateTimeTool.allMonth(this.date);
+        this.config.datetime.format = 'yyyy-MM';
+        this.config.datetime.min = DateTimePickerView.year;
+        this.config.datetime.week = false;
         break;
       default:
         break;
@@ -101,16 +118,14 @@ export class PassengerStatisticComponent
     this.loadData();
   }
   changeChart(event: Event) {
-    let item = event.target as HTMLSelectElement;
-    this.chart = item.value as ChartType;
     this.loadChart(this.datas);
   }
 
   async loadData() {
     let unit = this.unit;
-    if (this.unit === TimeUnit.Week) {
-      unit = TimeUnit.Day;
-    }
+    // if (this.unit === TimeUnit.Week || this.unit === TimeUnit.Month) {
+    //   unit = TimeUnit.Day;
+    // }
     this.datas = await this.business.load(unit, this.duration);
     this.loadChart(this.datas);
   }
@@ -156,7 +171,7 @@ export class PassengerStatisticComponent
               type: 'line',
               name: data.Name,
               data: data.datas.map((x) => x.value),
-              areaStyle: {},
+              smooth: true,
               label: {
                 formatter: (params: CallbackDataParams) => {
                   return params.value.toString();
@@ -168,9 +183,17 @@ export class PassengerStatisticComponent
       case ChartType.bar:
       default:
         let width = 30;
-        if (this.unit === TimeUnit.Month) {
-          width = 15;
+        switch (this.unit) {
+          case TimeUnit.Month:
+            width = 15;
+            break;
+          case TimeUnit.Hour:
+            width = 20;
+            break;
+          default:
+            break;
         }
+
         return {
           series: datas.map((data, i) => {
             return {
@@ -194,6 +217,16 @@ export class PassengerStatisticComponent
         };
     }
   }
+
+  exportExcel() {
+    this.exports.Export(
+      ExportType.excel,
+      this.datas,
+      this.title,
+      this.date,
+      this.unit
+    );
+  }
 }
 
 interface Config {
@@ -203,6 +236,7 @@ interface Config {
 }
 
 class DateTimeConfig {
-  min: DateTimePickerView = DateTimePickerView.day;
-  format = 'yyyy-MM-dd HH:mm';
+  min: DateTimePickerView = DateTimePickerView.month;
+  format = 'yyyy-MM-dd';
+  week: boolean = false;
 }

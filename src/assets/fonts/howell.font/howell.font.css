@@ -2411,3 +2411,27 @@ a .howell-icon-flip-vertical:before {
 .howell-icon-export2:before {
     content: "\f358";
 }
+
+.howell-icon-ebikepark:before {
+    content: "\f359";
+}
+
+.howell-icon-smoke:before {
+    content: "\f360";
+}
+
+.howell-icon-alarm3:before {
+    content: "\f361";
+}
+
+.howell-icon-grid:before {
+    content: "\f362";
+}
+
+.howell-icon-people-out2:before {
+    content: "\f363";
+}
+
+.howell-icon-people-in2:before {
+    content: "\f364";
+}

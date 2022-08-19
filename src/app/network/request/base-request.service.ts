@@ -26,23 +26,30 @@ export class BaseRequestService {
     );
     return ServiceHelper.ResponseProcess(response, type);
   }
+  async post<T>(url: string): Promise<T>;
   async post<T>(
     url: string,
     type: ClassConstructor<T>,
     params?: IParams
   ): Promise<T>;
+
   async post<T>(url: string, type: ClassConstructor<T>, model?: T): Promise<T>;
 
   async post<T>(
     url: string,
-    type: ClassConstructor<T>,
+    type?: ClassConstructor<T>,
     args?: T | IParams | string
   ) {
-    let data = classToPlain(args) as T | IParams;
-    let response = await firstValueFrom(
-      this.http.post<HowellResponse<T>>(url, data)
-    );
-    return ServiceHelper.ResponseProcess(response, type);
+    if (type === undefined) {
+      let observable = this.http.post<T>(url, undefined);
+      return firstValueFrom(observable);
+    } else {
+      let data = classToPlain(args) as T | IParams;
+      let response = await firstValueFrom(
+        this.http.post<HowellResponse<T>>(url, data)
+      );
+      return ServiceHelper.ResponseProcess(response, type);
+    }
   }
 
   public postString<T = any, R = HowellResponse<T>>(
@@ -126,5 +133,8 @@ export class BaseTypeRequestService<T> {
   }
   async paged(url: string, params: IParams) {
     return this._service.paged(url, this.type, params);
+  }
+  async base64(url: string, base64: string) {
+    return this._service.base64(url, this.type, base64);
   }
 }

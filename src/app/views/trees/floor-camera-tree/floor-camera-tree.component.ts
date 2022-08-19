@@ -43,6 +43,8 @@ export class FloorCameraTreeComponent
   nodeButtonClick: EventEmitter<Camera> = new EventEmitter<Camera>();
   @Input()
   load?: EventEmitter<string>;
+  @Input()
+  operation: boolean = false;
 
   constructor(business: FloorCameraTreeBusiness) {
     super();
@@ -74,7 +76,7 @@ export class FloorCameraTreeComponent
   }
 
   async loadData() {
-    let datas = await this.business.load();
+    let datas = await this.business.load(this.operation);
     this.datas.next(datas);
 
     if (datas && datas.length > 0) {
@@ -84,8 +86,6 @@ export class FloorCameraTreeComponent
   }
 
   async onNodeButtonClicked(node: CommonFlatNode) {
-    let datas = await this.business.load();
-    this.datas.next(datas);
     this.nodeButtonClick.emit(node.RawData);
   }
 }

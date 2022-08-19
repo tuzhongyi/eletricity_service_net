@@ -35,7 +35,15 @@ export class ChartConfig {
     this.merge = merge || {};
   }
 
-  static color = ['#00dc78', '#29a5f9', '#21E452'];
+  static color = [
+    '#00dc78',
+    '#29a5f9',
+
+    '#f46855',
+    '#01edf5',
+    '#ffba3b',
+    '#21E452',
+  ];
   options: EChartOptions;
 
   merge: EChartOptions;
@@ -67,6 +75,7 @@ export class ChartConfig {
       xAxis: x,
       yAxis: {
         type: 'value',
+        minInterval: 1,
         axisLabel: this.font,
       },
     };
@@ -85,8 +94,8 @@ export class ChartConfig {
           },
           data: [
             ...Array.from(
-              { length: 15 },
-              (v, i) => (i + 8).toString().padStart(2, '0') + ':00'
+              { length: 25 },
+              (v, i) => i.toString().padStart(2, '0') + ':00'
             ),
           ],
         };
@@ -122,5 +131,3 @@ export class ChartConfig {
     return undefined;
   }
 }
-
-

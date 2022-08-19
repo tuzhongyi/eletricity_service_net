@@ -21,7 +21,7 @@ export class PassengerStatisticBusiness
   implements IBusiness<PassengerFlow[], ITimeDataGroup<number>[]>
 {
   constructor(
-    private store: StoreService,
+    public store: StoreService,
     private service: BusinessHallRequestService
   ) {}
   Converter: IConverter<PassengerFlow[], ITimeDataGroup<number>[]> =
@@ -47,7 +47,7 @@ export class PassengerStatisticBusiness
         Name: '出客流',
       },
     ];
-    let model = this.Converter.Convert(data, itmes);
+    let model = this.Converter.Convert(data, itmes, unit, duration.begin);
     return model;
   }
 

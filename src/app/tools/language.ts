@@ -88,12 +88,20 @@ export class Language {
         return '滞留/徘徊';
       case EventType.Voilence:
         return '剧烈运动';
-      case EventType.Spacing:
-        return '间距异常';
+      // case EventType.Spacing:
+      //   return '间距异常';
       case EventType.Run:
         return '人员奔跑';
       case EventType.HighDensity:
         return '人员聚集';
+      case EventType.Intrusion:
+        return '区域入侵';
+      case EventType.Tripwire:
+        return '越线(拌线) ';
+      case EventType.Unattended:
+        return '遗留物品';
+      case EventType.Removal:
+        return '物品遗失';
       default:
         return '';
     }

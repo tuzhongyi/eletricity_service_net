@@ -3,7 +3,7 @@
     [class.selected]="path === NavigationPath.realtime"
     (click)="onchanged(NavigationPath.realtime)"
   >
-    <div>实时监控</div>
+    <div>首页</div>
   </button>
   <button
     [class.selected]="path === NavigationPath.passenger"
@@ -12,15 +12,16 @@
     <div>客流统计</div>
   </button>
   <button
-    [class.selected]="path === NavigationPath.record"
-    (click)="onchanged(NavigationPath.record)"
-  >
-    <div>历史记录</div>
-  </button>
-  <button
     [class.selected]="path === NavigationPath.video"
     (click)="onchanged(NavigationPath.video)"
   >
     <div>视频监控</div>
+  </button>
+  <button
+    class="long"
+    [class.selected]="path === NavigationPath.record"
+    (click)="onchanged(NavigationPath.record)"
+  >
+    <div>AI分析记录</div>
   </button>
 </div>

@@ -25,6 +25,8 @@ export class RealtimeRecordModelConverter
     model.name = source.ResourceName ?? '';
     model.event = source.EventType;
     model.time = formatDate(source.EventTime, 'HH:mm:ss', 'en');
+    model.hasPic = !!source.ImageUrl;
+    model.data = source;
     return model;
   }
 }

@@ -6,7 +6,7 @@ import { ZoneType } from '../enums/zone-type.enum';
 import { DeviceStatus } from '../enums/device-status.enum';
 
 /** 区域信息 */
-export class Zone {
+export class CameraZone {
   /**	String	区域ID	M */
   Id!: string;
   /**	String	区域名称	M */
@@ -35,4 +35,6 @@ export class Zone {
   Order?: number;
   /**	String	客流服务器上的营业厅ID	O */
   PassengerServerUnid?: string;
+  /**	String	摄像机ID	O */
+  CameraId?: string;
 }

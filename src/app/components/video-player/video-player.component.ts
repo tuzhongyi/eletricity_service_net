@@ -12,10 +12,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { PlayMode } from 'src/app/enums/play-mode.enum';
 import { StreamType } from 'src/app/enums/stream-type.enum';
 import { VideoModel } from 'src/app/models/video.model';
 import { base64encode, utf16to8 } from 'src/app/tools/base64';
 import { wait } from 'src/app/tools/tools';
+import config from 'src/assets/configs/config.json';
 
 @Component({
   selector: 'app-video-player',
@@ -27,12 +29,14 @@ export class VideoPlayerComponent
 {
   @Input()
   url?: string;
+  @Input()
+  index = 0;
 
   @Input()
   model?: VideoModel;
 
   @Input()
-  webUrl: string = 'http://192.168.21.241:9000/video/wsplayer/wsplayer.html';
+  webUrl: string = config.videoUrl;
 
   @Input()
   name: string = '';
@@ -40,21 +44,25 @@ export class VideoPlayerComponent
   destroy: EventEmitter<VideoModel> = new EventEmitter();
 
   @Output()
-  onStoping: EventEmitter<void> = new EventEmitter();
+  onStoping: EventEmitter<number> = new EventEmitter();
   @Output()
-  onPlaying: EventEmitter<void> = new EventEmitter();
+  onPlaying: EventEmitter<number> = new EventEmitter();
   @Output()
   getPosition: EventEmitter<number> = new EventEmitter();
   @Output()
   onButtonClicked: EventEmitter<ButtonName> = new EventEmitter();
   @Output()
-  onViewerDoubleClicked: EventEmitter<void> = new EventEmitter();
+  onViewerDoubleClicked: EventEmitter<number> = new EventEmitter();
   @Output()
   onRuleStateChanged: EventEmitter<boolean> = new EventEmitter();
   @Output()
-  onViewerClicked: EventEmitter<void> = new EventEmitter();
+  onViewerClicked: EventEmitter<number> = new EventEmitter();
 
   src?: SafeResourceUrl;
+
+  id: string = new Date().getTime().toString();
+
+  PlayMode = PlayMode;
 
   getSrc(webUrl: string, url: string, cameraName?: string) {
     let result = webUrl + '?url=' + base64encode(url);
@@ -62,6 +70,7 @@ export class VideoPlayerComponent
       let name = utf16to8(cameraName);
       result += '&name=' + base64encode(name);
     }
+    result += '&index=' + this.index;
     return result;
   }
 
@@ -73,7 +82,7 @@ export class VideoPlayerComponent
     if (!this.iframe || !this.iframe.nativeElement.contentWindow)
       return undefined;
     if (!this._player) {
-      this._player = new WSPlayerProxy(this.iframe.nativeElement);
+      this._player = new WSPlayerProxy(this.id);
     }
     return this._player;
   }
@@ -117,6 +126,9 @@ export class VideoPlayerComponent
   }
 
   ngOnDestroy(): void {
+    if (this.player) {
+      this.player.destory();
+    }
     if (this.registHandle) {
       clearTimeout(this.registHandle);
     }
@@ -133,12 +145,14 @@ export class VideoPlayerComponent
 
   eventRegist() {
     if (this.player) {
-      this.player.getPosition = (val: any) => {
+      this.player.getPosition = (index: number, val: any) => {
+        if (this.index != index) return;
         if (val >= 1) {
           this.playing = false;
         }
       };
-      this.player.onPlaying = () => {
+      this.player.onPlaying = (index: number) => {
+        if (this.index != index) return;
         setTimeout(() => {
           if (this._ruleState !== undefined && this.player) {
             this.changeRuleState(this._ruleState);
@@ -147,20 +161,25 @@ export class VideoPlayerComponent
         this.onPlaying.emit();
       };
 
-      this.player.onStoping = () => {
-        this.onStoping.emit();
+      this.player.onStoping = (index: number) => {
+        if (this.index != index) return;
+        this.onStoping.emit(index);
       };
-      this.player.getPosition = (value: number) => {
+      this.player.getPosition = (index: number, value: number) => {
+        if (this.index != index) return;
         this.getPosition.emit(value);
       };
-      this.player.onButtonClicked = (btn: ButtonName) => {
+      this.player.onButtonClicked = (index: number, btn: ButtonName) => {
+        if (this.index != index) return;
         this.onButtonClicked.emit(btn);
       };
-      this.player.onViewerDoubleClicked = () => {
-        this.onViewerDoubleClicked.emit();
+      this.player.onViewerDoubleClicked = (index: number) => {
+        if (this.index != index) return;
+        this.onViewerDoubleClicked.emit(index);
       };
-      this.player.onViewerClicked = () => {
-        this.onViewerClicked.emit();
+      this.player.onViewerClicked = (index: number) => {
+        if (this.index != index) return;
+        this.onViewerClicked.emit(index);
       };
     }
   }
@@ -237,5 +256,9 @@ export class VideoPlayerComponent
     if (this.player) {
       this.player.seek(value);
     }
+  }
+
+  onClick() {
+    console.log('play-video click');
   }
 }

@@ -1,9 +1,12 @@
 import { CameraUsage } from '../enums/camera-usage.enum';
 import { DeviceStatus } from '../enums/device-status.enum';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { transformDateTime } from './transform.model';
 import { Position } from './position.model';
 import { IModel } from './model.interface';
+import { Resolution } from './resolution.model';
+import { CameraZone } from './camera-zone.model';
+import 'reflect-metadata';
 
 /** 摄像机 */
 export class Camera implements IModel {
@@ -39,4 +42,11 @@ export class Camera implements IModel {
   Position?: Position;
   /**	String	客流服务器上的营业厅ID	O */
   PassengerServerUnid?: string;
+
+  /** */
+  ImageUrl?: string;
+  /**	报警接入ID，如果没有该项，报警ID默认为SRCameraId	O */
+  AlarmId?: string;
+  /**	分辨率	O */
+  Resolution?: Resolution;
 }

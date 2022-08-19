@@ -1,0 +1,15 @@
+<div class="realtime-statistic-head-item">
+  <div class="realtime-statistic-head-item-icon" *ngIf="!!icon">
+    <div style="top: -2px; left: -2px"></div>
+    <div style="top: 2px; left: 2px"></div>
+    <i [class]="icon"></i>
+  </div>
+  <div class="realtime-statistic-head-item-content">
+    <div class="realtime-statistic-head-item-content-value">
+      {{ value }}
+    </div>
+    <div class="realtime-statistic-head-item-content-title">
+      {{ title }}
+    </div>
+  </div>
+</div>

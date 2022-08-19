@@ -1,15 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { ClassConstructor } from 'class-transformer';
 import { DateTimePickerView } from 'src/app/directives/date-time-picker.directive';
 import { EventType } from 'src/app/enums/event-type.enum';
-import { Camera } from 'src/app/models/camera.model';
-import { EventRecord } from 'src/app/models/event-record.model';
-import { IModel } from 'src/app/models/model.interface';
 import { SelectItem } from 'src/app/models/select-item.model';
+import { VideoArgs } from 'src/app/models/args/video.args';
 import { DateTimeTool } from 'src/app/tools/datetime.tool';
 import { Language } from 'src/app/tools/language';
 import { RecordEventTableOptions } from '../tables/record-event-table/record-event-table.model';
 import { RecordBusiness } from './record.business';
+import { PictureArgs } from 'src/app/models/args/picture.args';
 
 @Component({
   selector: 'howell-record',
@@ -19,9 +17,9 @@ import { RecordBusiness } from './record.business';
 })
 export class RecordComponent implements OnInit {
   @Output()
-  picture: EventEmitter<EventRecord> = new EventEmitter();
+  picture: EventEmitter<PictureArgs> = new EventEmitter();
   @Output()
-  playback: EventEmitter<EventRecord> = new EventEmitter();
+  playback: EventEmitter<VideoArgs> = new EventEmitter();
 
   constructor(private business: RecordBusiness) {}
 
@@ -29,7 +27,7 @@ export class RecordComponent implements OnInit {
     begin: new Date(),
     end: new Date(),
     name: '',
-    pageIndex: -1,
+    pageIndex: 1,
     pageSize: 10,
   };
 
@@ -39,6 +37,7 @@ export class RecordComponent implements OnInit {
   floors: SelectItem<string>[] = [];
   floor?: SelectItem<string>;
   load: EventEmitter<RecordEventTableOptions> = new EventEmitter();
+  exportExcel: EventEmitter<void> = new EventEmitter();
 
   ngOnInit(): void {
     let duration = DateTimeTool.allDay(new Date());
@@ -97,13 +96,18 @@ export class RecordComponent implements OnInit {
   }
 
   onSearch() {
+    this.options.pageIndex = 1;
     this.load.emit(this.options);
   }
 
-  onPicture(model: EventRecord) {
+  onPicture(model: PictureArgs) {
     this.picture.emit(model);
   }
-  onPlayback(model: EventRecord) {
+  onPlayback(model: VideoArgs) {
     this.playback.emit(model);
+  }
+
+  onExport() {
+    this.exportExcel.emit();
   }
 }

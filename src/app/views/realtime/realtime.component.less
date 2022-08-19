@@ -6,7 +6,7 @@
   align-items: center;
 
 
-  @realtime-list-width: 558px;
+  @realtime-list-width: 600px;
 
   .left {
     width: @realtime-list-width;
@@ -31,6 +31,17 @@
     height: 100%;
     width: calc(100% - @realtime-list-width);
     padding: 20px;
+    padding-left: 0;
     box-sizing: border-box;
+    position: relative;
+
+
+    .information {
+      position: absolute;
+
+      top: 115px;
+      left: 55px;
+    }
+
   }
 }

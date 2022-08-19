@@ -85,7 +85,7 @@ export class SRServerRequestService {
   }
 
   array() {
-    return this.type.get(SRServerUrl.basic());
+    return this.type.array(SRServerUrl.basic());
   }
 
   sync(id: string) {

@@ -19,6 +19,6 @@ export class IndexBusiness {
       let hall = await this.store.getBusinessHall();
       hallId = hall.Id;
     }
-    return this.service.passenger.current(hallId);
+    return this.service.statistic.current(hallId);
   }
 }

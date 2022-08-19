@@ -25,11 +25,11 @@ export class FloorCameraTreeBusiness
     throw new Error('Method not implemented.');
   }
 
-  async load(): Promise<CommonNestNode<Floor | Camera>[]> {
+  async load(operation: boolean): Promise<CommonNestNode<Floor | Camera>[]> {
     let floors = await this.floor.load();
     for (let i = 0; i < floors.length; i++) {
       const floor = floors[i];
-      let camera = await this.camera.load(floor.Id, floors);
+      let camera = await this.camera.load(floor.Id, floors, operation);
       floor.HasChildren = !!camera;
       floor.childrenChange.next(camera);
     }

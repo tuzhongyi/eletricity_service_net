@@ -9,6 +9,21 @@
             {{ Language.EventType(item.event) }}
           </td>
           <td [width]="width[3]">{{ item.time }}</td>
+          <td [width]="width[4]">
+            <div class="operation">
+              <div class="playback" (click)="onPlayback(item)">
+                <i class="howell-icon-video-playback1"></i>
+              </div>
+              <div
+                *ngIf="item.hasPic"
+                class="picture"
+                (click)="onPicture(item)"
+              >
+                <!-- [ngStyle]="{ visibility: item.hasPic ? 'visible' : 'hidden' }" -->
+                <i class="howell-icon-picture"></i>
+              </div>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>

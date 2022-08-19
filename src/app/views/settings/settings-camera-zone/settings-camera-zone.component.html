@@ -1,0 +1,58 @@
+<div class="settings-camera-zone">
+  <div class="settings-camera-zone-cameras">
+    <howell-floor-camera-tree
+      [load]="loadTree"
+      (selectTreeNode)="selectTreeNode($event)"
+    ></howell-floor-camera-tree>
+  </div>
+  <div class="settings-camera-zone-content">
+    <div class="settings-camera-zone-content-head" *ngIf="!!model">
+      <div class="left">
+        <div class="item">
+          <div class="item-title">选择区域：</div>
+          <select [(ngModel)]="model.zone">
+            <option [ngValue]="item.value" *ngFor="let item of model.zones">
+              {{ item.language }}
+            </option>
+          </select>
+        </div>
+        <div><button class="full" (click)="removeZone()">删除</button></div>
+      </div>
+      <div class="right">
+        <button class="full" (click)="onupload()">上传图片</button>
+        <button class="full" (click)="capturePicture()">摄像机截图</button>
+      </div>
+    </div>
+    <div class="settings-camera-zone-content-body" *ngIf="model">
+      <howell-canvas
+        [url]="model.image.url"
+        [clear]="clear"
+        [load]="loadCanvas"
+        [fixed]="4"
+        [polygon]="model.zone ? model.zone.Area : undefined"
+        (finish)="onDrowFinished($event)"
+        (loaded)="onCanvasLoaded()"
+      ></howell-canvas>
+    </div>
+  </div>
+</div>
+<input type="file" (change)="fileChange()" #file style="display: none" />
+<app-window
+  *ngIf="window.show"
+  [model]="window"
+  [style]="window.style"
+  [title]="'是否添加该区域？'"
+>
+  <div class="confirm">
+    <div class="form">
+      <div class="input">
+        <div class="input-title">名称：</div>
+        <input type="text" [(ngModel)]="zoneName" />
+      </div>
+    </div>
+    <div class="operation">
+      <button class="full" (click)="confirmYes()">确认</button>
+      <button (click)="confirmNo()">取消</button>
+    </div>
+  </div>
+</app-window>

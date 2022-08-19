@@ -2,52 +2,50 @@
   <div class="passenger-statistic-filter">
     <div class="left">
       <div class="passenger-statistic-filter-date">
-        <div class="passenger-statistic-filter-title">开始时间：</div>
+        <div class="passenger-statistic-filter-title">选择日期：</div>
 
         <input
           type="text"
           DateTimePicker
           [format]="config.datetime.format"
-          [startView]="DateTimePickerView.month"
+          [startView]="config.datetime.min"
           [minView]="config.datetime.min"
-          [date]="duration.begin"
-          (change)="changeBegin($event)"
-          class=""
-        />
-      </div>
-      <div class="passenger-statistic-filter-date">
-        <div class="passenger-statistic-filter-title">结束时间：</div>
-        <input
-          type="text"
-          DateTimePicker
-          [format]="config.datetime.format"
-          [startView]="DateTimePickerView.month"
-          [minView]="config.datetime.min"
-          [date]="duration.end"
-          (change)="changeEnd($event)"
+          [week]="config.datetime.week"
+          [date]="date"
+          (change)="changeDate($event)"
           class=""
         />
       </div>
       <div>
         <button class="full" (click)="search()">
-          <i class="mdi mdi-magnify"></i> 查询
+          <i class="howell-icon-search2"></i> 查询
         </button>
       </div>
       <div>
-        <button class="full"><i class="howell-icon-export"></i> 导出</button>
+        <button class="full" (click)="exportExcel()">
+          <i class="howell-icon-export2"></i> 导出
+        </button>
       </div>
     </div>
     <div class="right">
       <div>
-        <select width="150px" name="" id="" (change)="changeTimeUnit($event)">
-          <option *ngFor="let item of units" [value]="item.value">
+        <select
+          width="150px"
+          [(ngModel)]="unit"
+          (change)="changeTimeUnit($event)"
+        >
+          <option *ngFor="let item of units" [ngValue]="item.value">
             {{ item.language }}
           </option>
         </select>
       </div>
       <div>
-        <select width="150px" name="" id="" (change)="changeChart($event)">
-          <option *ngFor="let item of charts" [value]="item.value">
+        <select
+          width="150px"
+          [(ngModel)]="chart"
+          (change)="changeChart($event)"
+        >
+          <option *ngFor="let item of charts" [ngValue]="item.value">
             {{ item.language }}
           </option>
         </select>

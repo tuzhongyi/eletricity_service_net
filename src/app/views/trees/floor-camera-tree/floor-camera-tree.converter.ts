@@ -9,10 +9,11 @@ export class TreeCamerasConverter
   item = new TreeCameraItemConverter();
   Convert(
     source: Camera[],
-    getter: { floor: (id: string) => CommonNestNode<Floor> }
+    getter: { floor: (id: string) => CommonNestNode<Floor> },
+    operation: boolean = false
   ): CommonNestNode<Camera>[] {
     return source.map((x) => {
-      return this.item.Convert(x, getter);
+      return this.item.Convert(x, getter, operation);
     });
   }
 }
@@ -31,7 +32,7 @@ export class TreeFloorsConverter
 export class TreeFloorItemConverter
   implements IConverter<Floor, CommonNestNode<Floor>>
 {
-  Convert(source: Floor, ...res: any[]): CommonNestNode<Floor> {
+  Convert(source: Floor): CommonNestNode<Floor> {
     const node = new CommonNestNode();
     node.Id = source.Id;
     node.Name = source.Name ?? '';
@@ -51,7 +52,8 @@ export class TreeCameraItemConverter
 {
   Convert(
     source: Camera,
-    getter: { floor: (id: string) => CommonNestNode }
+    getter: { floor: (id: string) => CommonNestNode },
+    operation: boolean = false
   ): CommonNestNode<Camera> {
     const node = new CommonNestNode();
     node.Id = source.Id;
@@ -63,8 +65,9 @@ export class TreeCameraItemConverter
     if (source.FloorId) {
       node.ParentNode = getter.floor(source.FloorId);
     }
-
-    node.ButtonIconClasses = ['howell-icon-Unlink'];
+    if (operation) {
+      node.ButtonIconClasses = ['howell-icon-Unlink'];
+    }
     // node.IconClass = RegionNodeIconType.get(item.RegionType) ?? ''
     node.RawData = source;
     return node;

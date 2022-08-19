@@ -14,6 +14,9 @@ export class BusinessHallsUrl {
   static list() {
     return `${this.basic()}/List`;
   }
+  static sync(hallId: string) {
+    return `${this.item(hallId)}/SyncCenterID`;
+  }
 
   static floor(hallId: string) {
     return new BusinessHallsFloorsUrl(this.item(hallId));
@@ -30,8 +33,26 @@ export class BusinessHallsUrl {
     const base = hallId ? this.item(hallId) : this.basic();
     return new BusinessHallsPassengerFlowsUrl(base);
   }
-}
 
+  static statistic(hallId?: string) {
+    const base = hallId ? this.item(hallId) : this.basic();
+    return new BusinessHallsStatisticUrl(base);
+  }
+}
+class BusinessHallsStatisticUrl implements InnerUrl {
+  constructor(private base: string) {}
+
+  basic(): string {
+    return `${this.base}/Statistic`;
+  }
+
+  current(): string {
+    return `${this.basic()}/Current`;
+  }
+  list(): string {
+    return `${this.basic()}/List`;
+  }
+}
 class BusinessHallsFloorsUrl implements InnerUrl {
   constructor(private base: string) {}
 
@@ -84,6 +105,20 @@ class BusinessHallsCamerasUrl implements InnerUrl {
   }
   capturePicture(cameraId: string) {
     return `${this.item(cameraId)}/CapturePicture`;
+  }
+
+  zone(cameraId: string) {
+    return new BusinessHallsCamerasZonesUrl(this.item(cameraId));
+  }
+}
+
+class BusinessHallsCamerasZonesUrl implements InnerUrl {
+  constructor(private base: string) {}
+  basic(): string {
+    return `${this.base}/Zones`;
+  }
+  item(zoneId: string) {
+    return `${this.basic()}/${zoneId}`;
   }
 }
 

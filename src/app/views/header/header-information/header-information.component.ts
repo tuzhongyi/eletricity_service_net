@@ -1,5 +1,11 @@
 import { formatDate } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { interval, timer } from 'rxjs';
 import { WeatherType } from 'src/app/enums/weather-type.enum';
 import { Language } from 'src/app/tools/language';
@@ -10,21 +16,22 @@ import { HeaderInformationModel } from './header-information.model';
   templateUrl: './header-information.component.html',
   styleUrls: ['./header-information.component.less'],
 })
-export class HeaderInformationComponent implements OnInit {
-  @Input()
-  weather?: WeatherType;
-  @Input()
-  low?: number;
-  @Input()
-  high?: number;
+export class HeaderInformationComponent implements OnInit, OnChanges {
+  @Input('date')
+  input_date: Date = new Date();
   constructor() {}
+  date: Date = new Date();
 
   model: HeaderInformationModel = new HeaderInformationModel();
 
   Language = Language;
 
   intervalHandle?: NodeJS.Timer;
-
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['input_date']) {
+      this.date = new Date();
+    }
+  }
   ngOnInit(): void {
     interval(1000).subscribe((x) => {
       this.refresh();
@@ -33,18 +40,13 @@ export class HeaderInformationComponent implements OnInit {
   }
 
   refresh() {
-    let date = new Date();
+    let now = new Date();
+    let interval = now.getTime() - this.date.getTime();
+
+    let date = new Date(this.input_date.getTime() + interval);
+
     this.model.time = Language.DateTime(date, 'HH:mm:ss');
     this.model.date = Language.DateTime(date, 'yyyy年MM月dd日');
     this.model.week = Language.Week(date.getDay(), '星期');
-    if (this.weather) {
-      this.model.weather = Language.Weather(this.weather);
-    }
-    if (this.low || this.low === 0) {
-      this.model.low = this.low.toString();
-    }
-    if (this.high || this.high === 0) {
-      this.model.high = this.high.toString();
-    }
   }
 }

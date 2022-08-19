@@ -20,14 +20,19 @@ export class TreeCameraBusiness
     new TreeCamerasConverter();
   async load(
     floorId: string,
-    floors: CommonNestNode[]
+    floors: CommonNestNode[],
+    operation: boolean = false
   ): Promise<CommonNestNode<Camera>[]> {
     let data = await this.getData(floorId);
-    let model = await this.Converter.Convert(data, {
-      floor: (id: string) => {
-        return floors.filter((x) => x.Id === id);
+    let model = await this.Converter.Convert(
+      data,
+      {
+        floor: (id: string) => {
+          return floors.filter((x) => x.Id === id);
+        },
       },
-    });
+      operation
+    );
     return model;
   }
   async getData(floorId: string): Promise<Camera[]> {

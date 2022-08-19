@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
+import { ImageResult } from 'src/app/models/image.model';
 import { PicturesUrl } from '../../url/medium/pictures/pictures.url';
 
 @Injectable({
@@ -21,7 +22,7 @@ export class Medium {
     return firstValueFrom(observable);
   }
 
-  static img(url?: string): Promise<{ url: string; error: boolean }> {
+  static img(url?: string): Promise<ImageResult> {
     return new Promise((resolve) => {
       let img = url ? Medium.data(url) : '';
       var image = new Image();

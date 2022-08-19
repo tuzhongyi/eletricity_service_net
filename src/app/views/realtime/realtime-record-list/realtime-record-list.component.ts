@@ -1,6 +1,9 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
-import { interval } from 'rxjs';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { EventType } from 'src/app/enums/event-type.enum';
+import { PictureArgs } from 'src/app/models/args/picture.args';
+import { VideoArgs } from 'src/app/models/args/video.args';
+import { StoreService } from 'src/app/tools/service/store.service';
+import { RealtimeRecordModel } from '../../tables/realtime-record-table/realtime-record-table.model';
 
 @Component({
   selector: 'howell-realtime-record-list',
@@ -8,10 +11,17 @@ import { EventType } from 'src/app/enums/event-type.enum';
   styleUrls: ['./realtime-record-list.component.less'],
 })
 export class RealtimeRecordListComponent implements OnInit {
-  constructor() {}
+  @Output()
+  loaded: EventEmitter<RealtimeRecordModel[]> = new EventEmitter();
+  @Output()
+  picture: EventEmitter<PictureArgs> = new EventEmitter();
+  @Output()
+  playback: EventEmitter<VideoArgs> = new EventEmitter();
+  constructor(private store: StoreService) {}
+
   EventType = EventType;
   ngOnInit(): void {
-    interval(60 * 1000).subscribe((x) => {
+    this.store.interval.subscribe((x) => {
       this.load.emit();
     });
   }
@@ -29,10 +39,14 @@ export class RealtimeRecordListComponent implements OnInit {
           EventType.Falldown,
           EventType.LeavePosition,
           EventType.Loitering,
-          EventType.Spacing,
+          // EventType.Spacing,
           EventType.Voilence,
           EventType.Run,
           EventType.HighDensity,
+          EventType.Intrusion,
+          EventType.Tripwire,
+          EventType.Unattended,
+          EventType.Removal,
         ];
         break;
       case EventType.Offline:
@@ -43,5 +57,15 @@ export class RealtimeRecordListComponent implements OnInit {
         break;
     }
     this.load.emit(this.types);
+  }
+
+  onLoaded(datas: RealtimeRecordModel[]) {
+    this.loaded.emit(datas);
+  }
+  onPicture(model: PictureArgs) {
+    this.picture.emit(model);
+  }
+  onPlayback(model: VideoArgs) {
+    this.playback.emit(model);
   }
 }
