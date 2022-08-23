@@ -43,10 +43,10 @@ export class RealtimeRecordListComponent implements OnInit {
           EventType.Voilence,
           EventType.Run,
           EventType.HighDensity,
-          EventType.Intrusion,
-          EventType.Tripwire,
+          // EventType.Intrusion,
+          // EventType.Tripwire,
           EventType.Unattended,
-          EventType.Removal,
+          // EventType.Removal,
         ];
         break;
       case EventType.Offline:

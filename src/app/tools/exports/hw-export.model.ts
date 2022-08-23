@@ -1,14 +1,15 @@
 export interface IExcelColumnValue {
-    column: number,
-    value: string | number;
+  column: number;
+  value: string | number;
 }
 export interface IExcelValue extends IExcelColumnValue {
-    row: number,
+  row: number;
 }
 
 export class HowellExportModel {
-    title: string = ""
-    headers:string[] = [];
-    datas: Array<string | number>[] = [];
+  title: string = '';
+  headers: string[] = [];
+  datas: Array<string | number>[] = [];
+  headIndex?: number;
+  dataIndex?: number[];
 }
-

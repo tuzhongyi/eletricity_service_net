@@ -25,7 +25,7 @@ export class TimeDataGroupExportConverter
       if (unit === TimeUnit.Week) {
         value.push(Language.Week(source[0].datas[i].time.getDay()));
       } else if (unit === TimeUnit.Hour) {
-        value.push(formatDate(source[0].datas[i].time, 'HH:mm:ss', 'en'));
+        value.push(formatDate(source[0].datas[i].time, 'HH:mm', 'en'));
       } else {
       }
 
@@ -35,6 +35,9 @@ export class TimeDataGroupExportConverter
       }
       model.datas.push(value);
     }
+
+    model.headIndex = 2;
+    model.dataIndex = [3, 4];
 
     return model;
   }

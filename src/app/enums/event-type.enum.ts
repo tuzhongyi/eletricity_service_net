@@ -22,12 +22,12 @@ export enum EventType {
   HighDensity = 9,
   /**	业务行为，递交材料	11 */
   Business = 11,
-  /**	区域入侵	12 */
-  Intrusion = 12,
-  /**	越线(拌线) 	13 */
-  Tripwire = 13,
+  // /**	区域入侵	12 */
+  // Intrusion = 12,
+  // /**	越线(拌线) 	13 */
+  // Tripwire = 13,
   /**	遗留物品	14 */
   Unattended = 14,
-  /**	物品遗失	15 */
-  Removal = 15,
+  // /**	物品遗失	15 */
+  // Removal = 15,
 }

@@ -29,7 +29,7 @@ export class SRServerRequestService {
 
   preview(
     args: GetPreviewUrlParams | string,
-    stream: StreamType = StreamType.sub
+    stream: StreamType = StreamType.main
   ) {
     let data: any;
     if (typeof args === 'string') {

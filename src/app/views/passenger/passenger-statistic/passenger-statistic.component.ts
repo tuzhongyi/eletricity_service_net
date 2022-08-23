@@ -1,25 +1,17 @@
-import { formatDate } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { LegendComponentOption } from 'echarts';
 import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { ITimeDataGroup } from 'src/app/components/charts/chart.model';
-import { TimeModel } from 'src/app/components/time-control/time-control.model';
-import { TimeDataGroupExportConverter } from 'src/app/converters/exports/time-data-group-export.converter';
 import { DateTimePickerView } from 'src/app/directives/date-time-picker.directive';
 import { ChartType } from 'src/app/enums/chart-type.enum';
 import { ExportType } from 'src/app/enums/export-type.enum';
 import { TimeUnit } from 'src/app/enums/time-unit.enum';
 import { IBusiness } from 'src/app/interfaces/business.interface';
-import {
-  IComponent,
-  IExportComponent,
-} from 'src/app/interfaces/component.interfact';
-import { IExportConverter } from 'src/app/interfaces/converter.interface';
+import { IComponent } from 'src/app/interfaces/component.interfact';
 import { Duration } from 'src/app/models/duration.model';
 import { IModel } from 'src/app/models/model.interface';
 import { SelectItem } from 'src/app/models/select-item.model';
 import { DateTimeTool } from 'src/app/tools/datetime.tool';
-import { ExportTool } from 'src/app/tools/export.tool';
 import { PassengerStatisticExportBusiness } from './passenger-statistic-export.business';
 import { PassengerStatisticBusiness } from './passenger-statistic.business';
 import { ChartConfig, EChartOptions } from './passenger-statistic.model';
@@ -220,7 +212,7 @@ export class PassengerStatisticComponent
 
   exportExcel() {
     this.exports.Export(
-      ExportType.excel,
+      ExportType.chart,
       this.datas,
       this.title,
       this.date,

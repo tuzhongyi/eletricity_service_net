@@ -81,6 +81,11 @@ export class HowellExcelJS {
 export class HowellExcel {
   excel = new HowellExcelJS();
   private readonly SheetName = 'Table';
+
+  getBuffer(): Promise<Buffer> {
+    return this.excel.getBuffer();
+  }
+
   setValues(datas: Array<IExcelValue>) {
     let sheet = this.excel.addWorksheet(this.SheetName);
     for (let i = 0; i < datas.length; i++) {
@@ -126,6 +131,6 @@ export class HowellExcel {
   }
 
   save(filename: string) {
-    this.excel.writeFile(filename, '.xls');
+    this.excel.writeFile(filename, '.xlsx');
   }
 }

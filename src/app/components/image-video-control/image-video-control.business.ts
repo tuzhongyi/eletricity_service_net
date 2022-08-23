@@ -21,7 +21,7 @@ export class ImageVideoControlBusiness
     mode: PlayMode,
     interval?: DurationParams
   ): Promise<VideoModel> {
-    let stream = mode == PlayMode.live ? StreamType.sub : StreamType.main;
+    let stream = StreamType.main;
 
     let url = await this.getData(cameraId, mode, stream, interval);
     return this.Converter.Convert(url);

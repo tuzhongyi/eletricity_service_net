@@ -94,14 +94,14 @@ export class Language {
         return '人员奔跑';
       case EventType.HighDensity:
         return '人员聚集';
-      case EventType.Intrusion:
-        return '区域入侵';
-      case EventType.Tripwire:
-        return '越线(拌线) ';
+      // case EventType.Intrusion:
+      //   return '区域入侵';
+      // case EventType.Tripwire:
+      //   return '越线(拌线) ';
       case EventType.Unattended:
         return '遗留物品';
-      case EventType.Removal:
-        return '物品遗失';
+      // case EventType.Removal:
+      //   return '物品遗失';
       default:
         return '';
     }
