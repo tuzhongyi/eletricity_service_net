@@ -46,13 +46,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 }
               ],
               "fileReplacements": [
@@ -86,7 +86,7 @@
             "development": {
               "browserTarget": "EletricityServiceNet:build:development",
               "host": "127.0.0.1",
-              "port": 9527,
+              "port": 9526,
               "open": false
             }
           },
