@@ -51,6 +51,7 @@ export class PassengerStatisticComponent
   charts: SelectItem<ChartType>[] = [];
   config: Config = { bar: {}, line: {}, datetime: new DateTimeConfig() };
   echartsLegend: LegendComponentOption = {
+    selectedMode: true,
     show: true,
     right: '20px',
     top: '0',

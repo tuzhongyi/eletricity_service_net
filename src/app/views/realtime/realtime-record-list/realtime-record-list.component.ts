@@ -22,7 +22,7 @@ export class RealtimeRecordListComponent implements OnInit {
   EventType = EventType;
   ngOnInit(): void {
     this.store.interval.subscribe((x) => {
-      this.load.emit();
+      this.load.emit(this.types);
     });
   }
 

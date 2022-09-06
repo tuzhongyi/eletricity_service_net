@@ -19,7 +19,7 @@ export class PassengerStatisticZoneConverter
     let array: ITimeDataGroup<number>[] = [];
     if (!source || source.length <= 0) return array;
 
-    let items = this.getItems(source[0]);
+    let items = this.getItems(source[source.length - 1]);
 
     for (let i = 0; i < items.length; i++) {
       let item = items[i];
@@ -82,13 +82,18 @@ export class PassengerStatisticZoneConverter
       const item = items[j];
       for (let i = 0; i < source.length; i++) {
         const sourceItem = source[i];
+
         let zone = sourceItem.ZoneNumbers![j];
+        if (!zone) continue;
         let data: ITimeData<number> = {
           value: zone.Number ?? 0,
           time: sourceItem.BeginTime,
           index: index + i + 1,
         };
-        array[j].datas.push(data);
+        let _this = array.find((x) => x.Id === item.Id);
+        if (_this) {
+          _this.datas.push(data);
+        }
       }
     }
     return array;

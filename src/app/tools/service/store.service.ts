@@ -29,7 +29,7 @@ export class StoreService {
   interval = new EventEmitter();
   private subscription?: Subscription;
   runInterval() {
-    this.subscription = interval(1000).subscribe(() => {
+    this.subscription = interval(1000 * 60).subscribe(() => {
       this.interval.emit();
     });
   }
