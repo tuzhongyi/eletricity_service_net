@@ -9,6 +9,7 @@ import { ScreenMode } from 'src/app/enums/screen-mode.enum';
 import { Camera } from 'src/app/models/camera.model';
 import { Duration } from 'src/app/models/duration.model';
 import { VideoModel } from 'src/app/models/video.model';
+import { StoreService } from 'src/app/tools/service/store.service';
 import { VideoBusiness } from './video.business';
 
 @Component({
@@ -18,8 +19,9 @@ import { VideoBusiness } from './video.business';
   providers: [VideoBusiness],
 })
 export class VideoComponent implements OnInit {
-  constructor(private business: VideoBusiness) {}
+  constructor(private business: VideoBusiness, private store: StoreService) {}
 
+  hallId?: string;
   mode: PlayMode = PlayMode.live;
   PlayMode = PlayMode;
   ScreenMode = ScreenMode;
@@ -27,7 +29,10 @@ export class VideoComponent implements OnInit {
   play: EventEmitter<VideoModel> = new EventEmitter();
   selected?: Camera;
 
-  ngOnInit(): void {}
+  async ngOnInit() {
+    let hall = await this.store.getBusinessHall();
+    this.hallId = hall.Id;
+  }
 
   playModeChange(mode: PlayMode) {
     this.mode = mode;

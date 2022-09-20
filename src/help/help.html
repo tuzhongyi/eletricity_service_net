@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI营业厅说明书</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css">
+/* GitHub stylesheet for MarkdownPad (http://markdownpad.com) */
+/* Author: Nicolas Hery - http://nicolashery.com */
+/* Version: b13fe65ca28d2e568c6ed5d7f06581183df8f2ff */
+/* Source: https://github.com/nicolahery/markdownpad-github */
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+body {
+  font-family: Helvetica, arial, freesans, clean, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #fff;
+  padding: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+body>*:first-child {
+  margin-top: 0 !important;
+}
+
+body>*:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* BLOCKS
+=============================================================================*/
+
+p, blockquote, ul, ol, dl, table, pre {
+  margin: 15px 0;
+}
+
+/* HEADERS
+=============================================================================*/
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 tt, h1 code, h2 tt, h2 code, h3 tt, h3 code, h4 tt, h4 code, h5 tt, h5 code, h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #000;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+h5 {
+  font-size: 14px;
+}
+
+h6 {
+  color: #777;
+  font-size: 14px;
+}
+
+body>h2:first-child, body>h1:first-child, body>h1:first-child+h2, body>h3:first-child, body>h4:first-child, body>h5:first-child, body>h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1+p, h2+p, h3+p, h4+p, h5+p, h6+p {
+  margin-top: 10px;
+}
+
+/* LINKS
+=============================================================================*/
+
+a {
+  color: #4183C4;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* LISTS
+=============================================================================*/
+
+ul, ol {
+  padding-left: 30px;
+}
+
+ul li > :first-child, 
+ol li > :first-child, 
+ul li ul:first-of-type, 
+ol li ol:first-of-type, 
+ul li ol:first-of-type, 
+ol li ul:first-of-type {
+  margin-top: 0px;
+}
+
+ul ul, ul ol, ol ol, ol ul {
+  margin-bottom: 0;
+}
+
+dl {
+  padding: 0;
+}
+
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+
+dl dt:first-child {
+  padding: 0;
+}
+
+dl dt>:first-child {
+  margin-top: 0px;
+}
+
+dl dt>:last-child {
+  margin-bottom: 0px;
+}
+
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+
+dl dd>:first-child {
+  margin-top: 0px;
+}
+
+dl dd>:last-child {
+  margin-bottom: 0px;
+}
+
+/* CODE
+=============================================================================*/
+
+pre, code, tt {
+  font-size: 12px;
+  font-family: Consolas, "Liberation Mono", Courier, monospace;
+}
+
+code, tt {
+  margin: 0 0px;
+  padding: 0px 0px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre>code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+kbd {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #DDDDDD;
+    background-image: linear-gradient(#F1F1F1, #DDDDDD);
+    background-repeat: repeat-x;
+    border-color: #DDDDDD #CCCCCC #CCCCCC #DDDDDD;
+    border-image: none;
+    border-radius: 2px 2px 2px 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 10px;
+    padding: 1px 4px;
+}
+
+/* QUOTES
+=============================================================================*/
+
+blockquote {
+  border-left: 4px solid #DDD;
+  padding: 0 15px;
+  color: #777;
+}
+
+blockquote>:first-child {
+  margin-top: 0px;
+}
+
+blockquote>:last-child {
+  margin-bottom: 0px;
+}
+
+/* HORIZONTAL RULES
+=============================================================================*/
+
+hr {
+  clear: both;
+  margin: 15px 0;
+  height: 0px;
+  overflow: hidden;
+  border: none;
+  background: transparent;
+  border-bottom: 4px solid #ddd;
+  padding: 0;
+}
+
+/* TABLES
+=============================================================================*/
+
+table th {
+  font-weight: bold;
+}
+
+table th, table td {
+  border: 1px solid #ccc;
+  padding: 6px 13px;
+}
+
+table tr {
+  border-top: 1px solid #ccc;
+  background-color: #fff;
+}
+
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* IMAGES
+=============================================================================*/
+
+img {
+  max-width: 100%
+}
+</style>
+</head>
+<body>
+<p><link rel="stylesheet" type="text/css" href="css/howell.font/howell.font.css">
+<link rel="stylesheet" type="text/css" href="css/material-design-iconic-font/css/materialdesignicons.min.css">
+<link rel="stylesheet" type="text/css" href="css/glyphicons/css.css"></p>
+<p><style>
+i{
+font-size:25px;}
+.center{
+	display:flex;
+align-items:center;
+}
+</style></p>
+<p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></p>
+<div style="text-align:center;font-size:50px;">
+AI营业厅平台用户手册
+</div>
+<p><br />
+<br />
+<br />
+<br /></p>
+<p><br />
+<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></p>
+<div style="text-align:center;font-size:40px">Ver 1.0</div>
+<div style="text-align:center;font-size:30px">2022-09-16</div>
+<div style="text-align:center;font-size:30px">上海皓维电子股份有限公司</div>
+<p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></p>
+<hr />
+<p><br /></p>
+<div style="font-size:35px;font-weight:bold">
+目录
+</div>
+<ul>
+<li>
+<a href="#preface">前言</a>
+<ul>
+<li><a href="#preface-1">版本需求</a></li>
+</ul>
+</li>
+<li><a href="#1">一、 登录平台</a></li>
+<li>
+<a href="#2">二、AI营业厅</a>
+<ul>
+<li><a href="#2-1">2.1 平台名称</a></li>
+<li><a href="#2-2">2.2 设备运行状态</a>	</li>
+<li><a href="#2-3">2.3 视频预览</a></li>
+<li>
+<a href="#2-4">2.4 摄像机回放</a>		
+<ul>
+<li><a href="#2-4-1">2.4.1 日期，时间选择区域</a></li>
+</ul>
+</li>
+<li>
+<a href="#2-5">2.5 报警记录</a>
+<ul>
+<li><a href="#2-5-1">2.5.1 全部报警</a></li>
+<li><a href="#2-5-2">2.5.2 设备故障</a></li>
+<li><a href="#2-5-3">2.5.3 行为检测</a></li>
+<li><a href="#2-5-4">2.5.4 报警截图</a></li>
+</ul>
+</li>
+<li>
+<a href="#2-6">2.6 客流统计</a>
+<ul>
+<li><a href="#2-6-1">2.6.1 区域客流统计</a></li>
+</ul>
+</li>
+<li>
+<a href="#2-7">2.7 视频监控</a>
+<ul>
+<li><a href="#2-7-1">2.7.1 实时视频</a></li>
+</ul>
+</li>
+<li>
+<a href="#2-8">2.8 AI分析记录</a>
+<ul>
+<li><a href="#2-8-1">2.8.1 条件查询框</a></li>
+</ul>
+</li>
+<li><a href="#2-9">2.9 数据统计页</a></li>
+</ul>
+</li>
+</ul>
+<hr />
+<p><br /></p>
+<div class="title level1" id="preface">前言</div>
+<div class="title level2" id="preface-1">浏览器需求</div>
+<div style="font-weight:bold"></div>
+<p>chrome支持 5.0 及以上或microsoft edge
+<br /><br /></p>
+<div class="title level1" id="1">
+<b>一、 登录平台</b>
+</div>
+<p>平台访问地址:
+默认地址：<a href="http://116.228.67.70:8080/" title="http://116.228.67.70:8080/">http://116.228.67.70:8080/</a><br/><br/>
+<img src="img/Homepage.jpg"><br/><br/></p>
+<p><b>输入用户名和密码，登陆系统。</b>
+<br />
+<br /></p>
+<div class="title level1" id="2">
+<b>二、AI营业厅</b>
+</div>
+<p><b>点击进入生活垃圾分类监管平台主页；</b>
+<br/>
+<br/>
+<img src="img/StreetList.jpg" ><br/>
+<br/>
+<b><strong>1.  平台名称</strong></b><br/>
+<b><strong>2.  主菜单<strong></b><br/>
+<b></strong>3.  时间板块</strong></b><br/>
+<b><strong>4.  设备运行状态</strong></b><br/>
+<b><strong>5.  报警记录<strong></b><br/>
+<b></strong>6.  数据统计区域</strong></b><br/></p>
+<p><br/></p>
+<div class="title level2" id="2-1">
+<b>2.1 平台名称</b>
+</div>
+<p><img src="img/ptname.jpg" ><br/>
+<br/></p>
+<div class="title level2" id="2-2">
+<b>2.2 设备运行状态</b>
+</div>
+<p>营业厅下的设备的名称，设备类型（客流统计，普通摄像机），状态（在线，离线），操作（视频预览，视频回放）。<br/></p>
+<p><img src="img/equipmentinfo.jpg" ><br/></p>
+<div class="title level2" id="2-3">
+<b>2.3 视频预览</b>
+</div>
+<p><br/></p>
+<p>点击 <img src="img/png/video001.png" />,弹出视频窗口预览视频。<br/></p>
+<p><img src="img/videowin.jpg" ><br/></p>
+<p>1.摄像机名称<br/></p>
+<p>2.摄像机回放键<br/></p>
+<p>3.视频日期，时间<br/></p>
+<p>4.规则，数量<br/></p>
+<p>5.摄像机OSD<br/></p>
+<p>视频预览可以查看当前的摄像机实时画面，并显示日期，时间，和名称。<br/>
+<br/></p>
+<div class="title level2" id="2-4">
+<b>2.4 摄像机回放</b>
+</div>
+<p>点击<img src="img/png/videoreview.png" />,弹出视频窗口回看视频。<br/></p>
+<p>回放视频窗口，可以选择视频所在的日期和时间长度，并点击开始回放按钮。<br/></p>
+<p>视频开始回放后，将鼠标移到画面底部，显示出操作视频区域。<br/></p>
+<p><img src="img/videoback.jpg" ><br/></p>
+<p>1.日期，时间选择区域<br/></p>
+<p>2.视频预览键<br/></p>
+<p>3.操作视频区域<br/>
+<br/></p>
+<div class="title level3" id="2-4-1">
+<b>2.4.1 日期，时间选择区域 </b>
+</div>
+<p>点击日期，弹出日期选择框，选择需要查询的日期。<br/></p>
+<p><img src="img/datechoose.jpg" ><br/></p>
+<p>点击年月，弹出月份选择框，选择需要查询的月份。<br/></p>
+<p><img src="img/mouthchoose.jpg" ><br/></p>
+<p>点击年，弹出年选择框，选择需要查询的年。<br/></p>
+<p><img src="img/yearchoose.jpg" ><br/></p>
+<p>选择时间，点击时，分，秒以更改时间，左边是开始时间，右边是结束时间，确定时间段后点击开始回放视频。<br/></p>
+<p><img src="img/timechoose.jpg" ><br/></p>
+<p>视频回放的操作栏。<br/></p>
+<p><img src="img/caozuovideo.jpg" ><br/></p>
+<p><br/>
+<br/></p>
+<div class="center">
+<i class="me-2 mdi mdi-pause-circle-outline"></i>  &emsp;&emsp;  暂停
+</div>
+<div class="center">
+<i class="mdi mdi-skip-backward"></i>  &emsp;&emsp;  慢放
+</div>
+<div class="center">
+<i class="mdi mdi-skip-forward"></i>  &emsp;&emsp;  快进
+</div>
+<div class="center">
+<i class="mdi mdi-skip-next"></i>  &emsp;&emsp;  单帧进
+</div>
+<div class="center">
+<i class="mdi mdi-undo"></i>  &emsp;&emsp;  退30秒
+</div>
+<div class="center">
+<i class="mdi mdi-redo"></i>  &emsp;&emsp;  进30秒
+</div>
+<p><img src="img/timebar.jpg" >  &emsp;时间条,固定为30S<br/></p>
+<div class="center">
+<i class="mdi mdi-volume-high"></i>  &emsp;&emsp;  音量
+</div>
+<div class="center">
+<i class="howell-icon-garbage-target-off"></i>  &emsp;&emsp;  目标
+</div>
+<div class="center">
+<i class="howell-icon-picture"></i>  &emsp;&emsp;  截图
+</div>
+<div class="center">
+<i class="mdi mdi-fullscreen"></i>  &emsp;&emsp;  全屏
+</div>
+<p><br/>
+<br/></p>
+<div class="title level2" id="2-5">
+<b>2.5 报警记录 </b>
+</div>
+<p>此图显示设备信息，行为，时间，报警回放视频和报警截图：<br/></p>
+<p><img src="img/Alarmrecord.jpg" ><br/>
+<br/></p>
+<ol>
+<li>
+<p>设备信息（对应摄像机名字，部署楼层）<br/></p>
+</li>
+<li>
+<p>行为（上线，离线，剧烈运动，滞留/徘徊，递交材料）<br/></p>
+</li>
+<li>
+<p>时间（发生报警的时间）<br/></p>
+</li>
+<li>
+<p>报警回放视频（点击回放报警视频，选择日期，开始时间，结束时间然后点击开始回放，默认视频时长为30S）<br/></p>
+</li>
+<li>
+<p>报警截图（触发报警事件后的视频截图）<br/></p>
+</li>
+</ol>
+<div class="title level3" id="2-5-1">
+<b>2.5.1 全部报警 </b>
+</div>
+<p>统计出所有报警记录的列表，包括摄像机名称，摄像机部署的楼层，报警类型，触发报警时间，视频回放和截图。<br/></p>
+<p><img src="img/Alarmrecord.jpg" ><br/></p>
+<div class="title level3" id="2-5-2">
+<b>2.5.2 设备故障 </b>
+</div>
+<p>统计出所有发生故障设备的列表，包括设备名称，设备部署的楼层，报警类型，发生故障的时间，视频回放和截图。<br/></p>
+<p><img src="img/equipmentfailure.jpg" ><br/></p>
+<div class="title level3" id="2-5-3">
+<b>2.5.3 行为监测 </b>
+</div>
+<p><img src="img/Alarmrecord.jpg" ><br/></p>
+<div class="title level3" id="2-5-4">
+<b>2.5.4 报警截图 </b>
+</div>
+<p>点击 <img src="img/png/PIC.jpg" /> ，打开截图。<br/></p>
+<p>蓝框内是报警区域，红框内是检测到的报警对象。<br/></p>
+<p>报警截图中也能体现触发报警的摄像机名称，日期，时间和规则。<br/></p>
+<p><img src="img/AlarmPIC.jpg" ><br/></p>
+<div class="title level2" id="2-6">
+<b>2.6 客流统计 </b>
+</div>
+<p><img src="img/acvisitor.jpg" ><br/></p>
+<p>选择日期，日期默认为当天，具体操作参见：<a href="#2-4-1">2.4.1</a><br/></p>
+<p><img src="img/choosedate.jpg" ><br/></p>
+<p>点击日报表，展开日报表/周报表/月报表菜单。<br/></p>
+<p><img src="img/datelist.jpg" ><br/></p>
+<p>日报表：绿色柱状为进客流，蓝色柱状为出客流。<br/></p>
+<p><img src="img/datedata01.jpg" ><br/></p>
+<p>周报表：统计当周的客流<br/></p>
+<p><img src="img/weekdata.jpg" ><br/></p>
+<p>月报表：统计当月的客流，注意纵轴的日期间隔两天。<br/></p>
+<p><img src="img/mouthdata.jpg" ><br/></p>
+<p>点击柱状图图标，弹出下拉菜单，可以切换折线图。<br/></p>
+<p><img src="img/zhexian.jpg" ><br/></p>
+<p>月折线图<br/></p>
+<p>折现对应横轴日期的部分会显示那一天统计的客流数量<br/></p>
+<p><img src="img/monthzhexian.jpg" ><br/></p>
+<p>鼠标移至折现出，会出现详情弹窗--日期、进客流数量、出客流数量。<br/></p>
+<p><img src="img/infowindow.jpg" ><br/></p>
+<div class="title level3" id="2-6-1">
+<b>2.6.1 区域客流统计 </b>
+</div>
+<p>统计当天的区域客流数量，比如说出入口、大堂或某个划定的区域。<br/></p>
+<p>切换日期、折线图方法具体操作参见：<a href="#2-6">2.6</a><br/></p>
+<p><img src="img/partaccount.jpg" ><br/></p>
+<div class="title level2" id="2-7">
+<b>2.7 视频监控 </b>
+</div>
+<p>查看摄像机列表，搜寻摄像机以观察摄像机的实时视频和视频回放，也可以实行分屏观看或者全屏观看。<br/></p>
+<p><img src="img/video01.jpg" ><br/></p>
+<div class="title level3" id="2-7-1">
+<b>2.7.1 实时视频 </b>
+</div>
+<p>输入摄像机名称：IPCamera,点击查询。<br/></p>
+<p><img src="img/onvideo.jpg" ><br/></p>
+<p>双击IPCamera，打开实时视频内容。<br/></p>
+<p><img src="img/searchvideo.jpg" ></p>
+<p>点击 <img src="img/png/fourscreen.jpg" />， 大屏幕切换成4个小屏幕。<br/></p>
+<p>可以同时查看4个摄像机的实时视频。  <br/></p>
+<p><img src="img/fourscreen001.jpg" ><br/>          </p>
+<p>全屏效果<br/></p>
+<p>按ESC可以退出全屏模式<br/></p>
+<p><img src="img/fullscreen02.jpg" ><br/>  </p>
+<p><br/><br/></p>
+<div class="title level2" id="2-8">
+<b>2.8     AI分析记录 </b>
+</div>
+<ol>
+<li>
+<p>条件查询框<br/></p>
+</li>
+<li>
+<p>报警记录信息<br/></p>
+</li>
+<li>
+<p>报警记录当前数量和总数量<br/></p>
+</li>
+<li>
+<p>翻页/跳转功能区<br/></p>
+</li>
+</ol>
+<p>记录分析发生的报警行为，信息包括摄像机名称、部署摄像机的楼层、警戒的区域、报警的类型、对报警对象的描述信息、触发报警的事件、操作报警视频和截图，查看报警事件的画面。<br/></p>
+<p>同时可切换查询条件查询对应设备的视频和截图，并导出相应的信息。<br/></p>
+<p><img src="img/AIrecord.jpg" > <br/>  </p>
+<div class="title level3" id="2-8-1">
+<b>2.8.1  条件查询框 </b>
+</div>
+<p>选择报警记录的开始时间和结束时间，部署摄像机的楼层，报警类型，摄像机的名称。<br/></p>
+<p>按条件查询报警记录，导出报警记录的Excel的文件。<br/></p>
+<p><img src="img/searchBar.jpg" ><br/></p>
+<p>日期，时间选择区域操作参见：<a href="#2-5-1">2.5.1</a><br/></p>
+<p>点击选择楼层下拉箭头，展开菜单。<br/></p>
+<p><img src="img/Floor.jpg" ><br/></p>
+<p>选择1F，点击查询，暂无相关报警信息。</p>
+<p><img src="img/1Frecord.jpg" ><br/></p>
+<p>报警类型选择，点击下拉菜单，展开列表选择需要查询的类型。<br/></p>
+<p><img src="img/Alarmtype.jpg" ><br/></p>
+<p>输入摄像机名称，点击查询，搜索摄像机。<br/></p>
+<p><img src="img/findcamera.jpg" ><br/></p>
+<p>点击导出按钮 <img src="img/png/outfile.jpg" />，下载AI分析记录的文件至电脑上。<br/></p>
+<p>可以操作回放视频，详情参见摄像机回放:<a href="#2-5">2.5</a><br/></p>
+<p><img src="img/file.jpg" ><br/></p>
+<p><img src="img/camerafile.jpg" ><br/></p>
+<div class="title level2" id="2-9">
+<b>2.9  数据统计页 </b>
+</div>
+<p>此区域将重要数据统计展示，方便工作人员阅览各项数据，没有更多操作功能。<br/></p>
+<p>想要查看详细信息请进入 AI分析记录 进行操作。<br/></p>
+<p><img src="img/AIdata.jpg" ><br/></p>
+<p>统计当天流入客流的数量<br/></p>
+<p><img src="img/visitor.jpg" ><br/></p>
+<p>统计当天流出客流的数量<br/></p>
+<p><img src="img/outvisitor.jpg" ><br/></p>
+<p>统计当天总事件数<br/></p>
+<p><img src="img/Allevetn01.jpg" ><br/></p>
+<p>统计今日业务总数<br/></p>
+<p><img src="img/Todayevent.jpg" ><br/></p>
+<p>统计每笔业务递交材料的数量<br/></p>
+<p><img src="img/infile01.jpg" ><br/></p>
+<p>统计当天离岗事件总数<br/></p>
+<p><img src="img/Leave.jpg" ><br/></p>
+<p>统计当天倒地事件总数<br/></p>
+<p><img src="img/down.jpg" ><br/></p>
+<p>统计当天徘徊事件总数<br/></p>
+<p><img src="img/linger.jpg" ><br/></p>
+<p>统计当天剧烈运动事件总数<br/></p>
+<p><img src="img/sport.jpg" ><br/></p>
+<p>统计当天人员聚集事件总数<br/></p>
+<p><img src="img/people01.jpg" ><br/></p>
+<p>统计当天遗留物品事件总数<br/></p>
+<p><img src="img/Legacy.jpg" ><br/></p>
+<hr />
+
+</body>
+</html>
+<!-- This document was created with MarkdownPad, the Markdown editor for Windows (http://markdownpad.com) -->

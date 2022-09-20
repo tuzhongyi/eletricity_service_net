@@ -39,7 +39,7 @@ export class RecordEventTableItemConverter
     model.floor = source.FloorName ?? '';
     model.type = Language.EventType(source.EventType);
     model.datetime = formatDate(source.EventTime, 'yyyy-MM-dd HH:mm:ss', 'en');
-
+    model.description = source.EventDescription ?? '';
     model.data = source;
     model.hasPic = !!source.ImageUrl;
 

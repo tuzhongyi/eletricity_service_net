@@ -75,7 +75,7 @@ export class Language {
   static EventType(type: EventType) {
     switch (type) {
       case EventType.Business:
-        return '业务行为';
+        return '递交材料';
       case EventType.Online:
         return '上线';
       case EventType.Offline:

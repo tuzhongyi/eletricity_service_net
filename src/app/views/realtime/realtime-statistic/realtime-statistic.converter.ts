@@ -9,15 +9,17 @@ export class RealtimeStatisticConverter
 {
   Convert(
     source: CurrentBusinessHallStatistic,
-    passenger: CurrentDayPassengerFlow
+    passenger?: CurrentDayPassengerFlow
   ): RealtimeStatisticModel {
     let model = new RealtimeStatisticModel();
     model.delivery = source.AvgDeliveryNumber ?? 0;
     model.business = source.BusinessNumber ?? 0;
     model.record = source.TotalEventNumber ?? 0;
     model.device = source.OfflineDeviceNumber ?? 0;
-    model.in = passenger.InNum;
-    model.out = passenger.OutNum;
+    if (passenger) {
+      model.in = passenger.InNum;
+      model.out = passenger.OutNum;
+    }
     if (source.EventNumbers) {
       for (let i = 0; i < source.EventNumbers.length; i++) {
         const event = source.EventNumbers[i];

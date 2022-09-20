@@ -5,6 +5,7 @@ import {
   IPromiseConverter,
 } from 'src/app/interfaces/converter.interface';
 import { CurrentBusinessHallStatistic } from 'src/app/models/current-business-hall-statistic.model';
+import { CurrentDayPassengerFlow } from 'src/app/models/current-day-passenger-flow.model';
 import { BusinessHallRequestService } from 'src/app/network/request/business-hall/business-hall-request.service';
 import { StoreService } from 'src/app/tools/service/store.service';
 import { RealtimeStatisticPassengerBusiness } from './realtime-statistic-passenger.business';
@@ -29,7 +30,10 @@ export class RealtimeStatisticBusiness
       hallId = hall.Id;
     }
     let data = await this.getData(hallId);
-    let passenger = await this.passenger.load(hallId);
+    let passenger: CurrentDayPassengerFlow | undefined = undefined;
+    try {
+      passenger = await this.passenger.load(hallId);
+    } catch (error) {}
     let model = this.Converter.Convert(data, passenger);
     return model;
   }

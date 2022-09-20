@@ -1,6 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { RoutePath } from 'src/app/app-routing.path';
+import { CookieKey } from 'src/app/enums/cookie-key.enum';
 import { CurrentBusinessHallStatistic } from 'src/app/models/current-business-hall-statistic.model';
 import { CurrentDayPassengerFlow } from 'src/app/models/current-day-passenger-flow.model';
 import { StoreService } from 'src/app/tools/service/store.service';
@@ -23,7 +26,9 @@ export class IndexComponent implements OnInit, OnDestroy {
     private store: StoreService,
     public window: IndexWindowBusiness,
     public trigger: IndexEventTriggerBusiness,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private cookie: CookieService
   ) {}
   ngOnDestroy(): void {
     this.store.stopInterval();
@@ -36,6 +41,11 @@ export class IndexComponent implements OnInit, OnDestroy {
   passenger: RealtimePassengerInfo = new RealtimePassengerInfo();
 
   async ngOnInit() {
+    if (!this.cookie.get(CookieKey.username)) {
+      this.router.navigateByUrl(RoutePath.login);
+      return;
+    }
+
     this.store.runInterval();
     this.route.queryParams.subscribe((params) => {
       for (const key in params) {

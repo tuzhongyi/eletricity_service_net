@@ -38,4 +38,11 @@ export class StoreService {
       this.subscription.unsubscribe();
     }
   }
+
+  clear() {
+    this.hall = undefined;
+    this.stopInterval();
+    this.interval.unsubscribe();
+    this.interval = new EventEmitter();
+  }
 }

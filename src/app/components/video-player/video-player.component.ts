@@ -101,10 +101,15 @@ export class VideoPlayerComponent
     this.load();
   }
 
+  initWebUrl() {
+    this.webUrl = this.webUrl.replace('127.0.0.1', location.hostname);
+  }
+
   loaded = false;
 
   load() {
     if (!this.loaded) {
+      this.initWebUrl();
       if (this.model) {
         this.url = this.model.toString();
       }

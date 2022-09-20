@@ -7,8 +7,9 @@
           <td [width]="width[1]">楼层</td>
           <td [width]="width[2]">区域</td>
           <td [width]="width[3]">报警类型</td>
-          <td [width]="width[4]">报警时间</td>
-          <td [width]="width[5]">操作</td>
+          <td [width]="width[4]">描述信息</td>
+          <td [width]="width[5]">报警时间</td>
+          <td [width]="width[6]">操作</td>
         </tr>
       </thead>
     </table>
@@ -21,8 +22,9 @@
           <td [width]="width[1]">{{ item.floor }}</td>
           <td [width]="width[2]">{{ item.zone }}</td>
           <td [width]="width[3]">{{ item.type }}</td>
-          <td [width]="width[4]">{{ item.datetime }}</td>
-          <td [width]="width[5]">
+          <td [width]="width[4]">{{ item.description }}</td>
+          <td [width]="width[5]">{{ item.datetime }}</td>
+          <td [width]="width[6]">
             <div class="operation">
               <div class="playback" (click)="onPlayback(item)">
                 <i class="howell-icon-video-playback1"></i>

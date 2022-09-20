@@ -24,6 +24,8 @@ export class VideoSourceTableComponent
 {
   @Input()
   business: IBusiness<IModel, VideoSourceTableItemModel[]>;
+  @Input()
+  hallId?: string;
   @Output()
   select: EventEmitter<VideoSourceTableItemModel> = new EventEmitter();
   @Input()
@@ -57,7 +59,7 @@ export class VideoSourceTableComponent
   }
 
   loadData(name?: string) {
-    this.business.load(name).then((datas) => {
+    this.business.load(this.hallId, name).then((datas) => {
       for (let i = 0; i < this.filter.length; i++) {
         const id = this.filter[i];
         let index = datas.findIndex((x) => x.id == id);

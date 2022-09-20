@@ -72,7 +72,7 @@ export class RecordEventTableComponent
   }
 
   datas?: RecordEventTableItemModel[];
-  width = ['20%', '16%', '16%', '16%', '16%', '16%'];
+  width = ['19%', '13.5%', '13.5%', '13.5%', '13.5%', '13.5%', '13.5%'];
   Language = Language;
   page?: Page;
 

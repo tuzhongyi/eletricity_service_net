@@ -14,6 +14,8 @@ export class VideoSourceListComponent implements OnInit {
   load?: EventEmitter<string> = new EventEmitter();
   @Output()
   select: EventEmitter<Camera> = new EventEmitter();
+  @Input()
+  hallId?: string;
 
   constructor() {}
 

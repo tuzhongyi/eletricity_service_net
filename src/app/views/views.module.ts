@@ -24,10 +24,12 @@ import { AngularResizeEventModule } from 'angular-resize-event';
 import { WindowComponents } from './windows/windows.module';
 import { SettingComponents } from './settings/settings.module';
 import { TreeComponents } from './trees/trees.module';
+import { LoginComponent } from './login/login.component';
 
 echarts.registerTheme('adsame', Adsame);
 
 const ViewComponents = [
+  LoginComponent,
   IndexComponent,
   ...HeaderComponents,
   ...RealtimeComponents,

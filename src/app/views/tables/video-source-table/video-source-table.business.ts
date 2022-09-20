@@ -23,21 +23,19 @@ export class VideoSourceTableBusiness
     new VideoSourceTableConverter();
   loading?: EventEmitter<void> | undefined;
   async load(
-    name?: string,
-    hallId?: string
+    hallId?: string,
+    name?: string
   ): Promise<VideoSourceTableItemModel<Camera>[]> {
-    if (!hallId) {
-      let hall = await this.store.getBusinessHall();
-      hallId = hall.Id;
-    }
     let data = await this.getData(hallId, name);
     let model = this.Converter.Convert(data);
     return model;
   }
-  async getData(hallId: string, name?: string): Promise<Camera[]> {
+  async getData(hallId?: string, name?: string): Promise<Camera[]> {
     let params = new GetCamerasParams();
     params.Name = name;
-    params.HallIds = [hallId];
+    if (hallId) {
+      params.HallIds = [hallId];
+    }
     let paged = await this.service.camera.list(params);
     return paged.Data;
   }

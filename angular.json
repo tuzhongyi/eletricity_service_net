@@ -29,17 +29,18 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src/favicon.ico",              
+              "src/assets",              
+              "src/assets/config/config.json",
+              "src/web.config"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.css",
               "src/styles.less"
-                
-              
             ],
-            "scripts": []
+            "scripts": [],
+            "sourceMap": true            
           },
           "configurations": {
             "production": {
@@ -84,8 +85,7 @@
               "browserTarget": "EletricityServiceNet:build:production"
             },
             "development": {
-              "browserTarget": "EletricityServiceNet:build:development",
-              "host": "127.0.0.1",
+              "browserTarget": "EletricityServiceNet:build:development",              
               "port": 9526,
               "open": false
             }

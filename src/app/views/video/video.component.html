@@ -41,6 +41,8 @@
           [class.playback]="mode === PlayMode.vod"
         >
           <howell-video-source-list
+            *ngIf="hallId"
+            [hallId]="hallId"
             (select)="onCameraSelect($event)"
           ></howell-video-source-list>
         </div>

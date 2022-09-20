@@ -9,6 +9,7 @@ export class RecordEventTableItemModel<T = any> {
   type: string = '';
   datetime: string = '';
   hasPic: boolean = false;
+  description: string = '';
   data?: T;
 }
 export interface RecordEventTableOptions {
