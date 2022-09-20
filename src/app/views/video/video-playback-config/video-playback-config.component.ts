@@ -66,6 +66,7 @@ export class VideoPlaybackConfigComponent implements OnInit {
 
   changeDate(date: Date) {
     this.date = date;
+
     let duration = {
       begin: this.begin.toDate(),
       end: this.end.toDate(),
@@ -89,8 +90,8 @@ export class VideoPlaybackConfigComponent implements OnInit {
     this.end.second.value = +this.end.second.view;
 
     let duration = {
-      begin: this.begin.toDate(),
-      end: this.end.toDate(),
+      begin: this.begin.toDate(this.date),
+      end: this.end.toDate(this.date),
     };
     this.playback.emit(duration);
   }
