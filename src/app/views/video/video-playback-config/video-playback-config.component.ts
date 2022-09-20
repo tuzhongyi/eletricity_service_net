@@ -80,6 +80,14 @@ export class VideoPlaybackConfigComponent implements OnInit {
   }
 
   onPlaybackClicked() {
+    this.begin.hour.value = +this.begin.hour.view;
+    this.begin.minute.value = +this.begin.minute.view;
+    this.begin.second.value = +this.begin.second.view;
+
+    this.end.hour.value = +this.end.hour.view;
+    this.end.minute.value = +this.end.minute.view;
+    this.end.second.value = +this.end.second.view;
+
     let duration = {
       begin: this.begin.toDate(),
       end: this.end.toDate(),
