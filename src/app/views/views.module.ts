@@ -25,6 +25,7 @@ import { WindowComponents } from './windows/windows.module';
 import { SettingComponents } from './settings/settings.module';
 import { TreeComponents } from './trees/trees.module';
 import { LoginComponent } from './login/login.component';
+import { CustomDatePipe } from '../pipes/test.pipe';
 
 echarts.registerTheme('adsame', Adsame);
 
@@ -42,6 +43,7 @@ const ViewComponents = [
   ...SettingComponents,
   ...TreeComponents,
   components,
+  CustomDatePipe,
 ];
 
 @NgModule({

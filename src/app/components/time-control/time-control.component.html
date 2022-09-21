@@ -1,4 +1,6 @@
 <div class="time-control">
+  <br /><br />
+
   <input
     class="time-control time hour"
     matInput
@@ -10,8 +12,8 @@
     step="1"
     maxlength="2"
     minlength="1"
-    [(ngModel)]="time.hour.view"
-    (input)="oninput($event)"
+    [ngModel]="time.hour.value | customdate"
+    (ngModelChange)="time.hour.value = $event"
   />
   <div><i class="howell-icon-colon"></i></div>
   <input
