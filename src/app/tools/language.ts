@@ -2,6 +2,7 @@ import { formatDate } from '@angular/common';
 import { CameraUsage } from '../enums/camera-usage.enum';
 import { DeviceStatus } from '../enums/device-status.enum';
 import { EventType } from '../enums/event-type.enum';
+import { GenderType } from '../enums/gender-type.enum';
 import { WeatherType } from '../enums/weather-type.enum';
 
 export class Language {
@@ -102,8 +103,20 @@ export class Language {
         return '遗留物品';
       // case EventType.Removal:
       //   return '物品遗失';
+      case EventType.IllegalAudio:
+        return '非正常音频';
       default:
         return '';
+    }
+  }
+  static Gender(type?: GenderType) {
+    switch (type) {
+      case GenderType.man:
+        return '男';
+      case GenderType.woman:
+        return '女';
+      default:
+        return '未知';
     }
   }
 }

@@ -24,4 +24,11 @@
   >
     <div>AI分析记录</div>
   </button>
+  <button
+    class="long"
+    [class.selected]="path === NavigationPath.employee_track"
+    (click)="onchanged(NavigationPath.employee_track)"
+  >
+    <div>员工轨迹</div>
+  </button>
 </div>

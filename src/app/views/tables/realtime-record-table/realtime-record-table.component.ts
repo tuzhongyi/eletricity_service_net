@@ -8,25 +8,25 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { PictureArgsConverter } from 'src/app/converters/args/picture-args.converter';
 import { VideoArgsConverter } from 'src/app/converters/args/video-args.converter';
 import { EventType } from 'src/app/enums/event-type.enum';
 import { TimeUnit } from 'src/app/enums/time-unit.enum';
 import { IBusiness } from 'src/app/interfaces/business.interface';
 import { IComponent } from 'src/app/interfaces/component.interfact';
-import { IModel } from 'src/app/models/model.interface';
+import { PictureArgs } from 'src/app/models/args/picture.args';
 import { VideoArgs } from 'src/app/models/args/video.args';
+import { IModel } from 'src/app/models/model.interface';
 import { DurationParams } from 'src/app/network/request/IParams.interface';
 import { DateTimeTool } from 'src/app/tools/datetime.tool';
 import { Language } from 'src/app/tools/language';
 import { RealtimeRecordTableBusiness } from './realtime-record-table.business';
 import { RealtimeRecordModel } from './realtime-record-table.model';
-import { PictureArgs } from 'src/app/models/args/picture.args';
-import { PictureArgsConverter } from 'src/app/converters/args/picture-args.converter';
 
 @Component({
   selector: 'howell-realtime-record-table',
   templateUrl: './realtime-record-table.component.html',
-  styleUrls: ['../table.less', './realtime-record-table.component.less'],
+  styleUrls: ['../table-list.less', './realtime-record-table.component.less'],
   providers: [RealtimeRecordTableBusiness],
 })
 export class RealtimeRecordTableComponent

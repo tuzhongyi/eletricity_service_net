@@ -1,0 +1,41 @@
+.employee-track-simple-info {
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+
+
+  .info {
+    width: calc(100% - 80px);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+
+    &>* {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      &:first-child {
+        width: 40%;
+        padding-left: 10px;
+      }
+
+      &:last-child {
+        width: 60%;
+      }
+    }
+
+    &-picture {
+      width: 80px;
+      height: 80px;
+    }
+
+    &-title {
+      color: #17f1c6;
+      margin: 10px 0;
+    }
+  }
+}

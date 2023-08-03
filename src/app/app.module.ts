@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { CustomDatePipe } from './pipes/test.pipe';
+import { CustomDateItemPipe } from './pipes/custom-date-item.pipe';
 
 @NgModule({
   declarations: [AppComponent],

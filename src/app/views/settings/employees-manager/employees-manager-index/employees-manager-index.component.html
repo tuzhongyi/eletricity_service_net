@@ -1,0 +1,124 @@
+<div class="employees-manager">
+  <div class="employees-manager-head">
+    <div class="employees-manager-head-filter">
+      <div class="employees-manager-head-filter-item">
+        <div>员工姓名：</div>
+        <div>
+          <input
+            type="text"
+            [(ngModel)]="args.name"
+            [placeholder]="'请输入...'"
+          />
+        </div>
+      </div>
+      <div class="employees-manager-head-filter-item">
+        <div>证件号：</div>
+        <div>
+          <input
+            type="text"
+            [(ngModel)]="args.idnumber"
+            [placeholder]="'请输入...'"
+          />
+        </div>
+      </div>
+      <div class="employees-manager-head-filter-item">
+        <div>员工职位：</div>
+        <div>
+          <input
+            type="text"
+            [(ngModel)]="args.job"
+            [placeholder]="'请输入...'"
+          />
+        </div>
+      </div>
+
+      <div class="employees-manager-head-filter-item">
+        <div>员工性别：</div>
+        <div>
+          <select width="150px" name="" id="" [(ngModel)]="args.gender">
+            <option [ngValue]="undefined">全部</option>
+            <option [ngValue]="Gender.man">男</option>
+            <option [ngValue]="Gender.woman">女</option>
+          </select>
+        </div>
+      </div>
+      <div class="employees-manager-head-filter-item">
+        <button class="full" (click)="onsearch()">
+          <i class="howell-icon-search2"></i> 查询
+        </button>
+      </div>
+    </div>
+    <div class="employees-manager-head-operation">
+      <button class="full" (click)="tosync()">
+        <i class="mdi mdi-cloud-sync"></i> 同步
+      </button>
+      <button class="full" (click)="tocreate()">
+        <i class="howell-icon-plus"></i> 添加
+      </button>
+    </div>
+  </div>
+
+  <div class="employees-manager-body">
+    <howell-employees-table
+      [args]="args"
+      [load]="load"
+      (image)="onimage($event)"
+      (details)="ondetails($event)"
+      (remove)="toremove($event)"
+    ></howell-employees-table>
+  </div>
+</div>
+
+<app-window
+  [title]="'添加员工'"
+  [model]="window.details"
+  [style]="window.details.style"
+  *ngIf="window.details.show"
+>
+  <howell-employees-manager-details
+    [model]="window.details.model"
+    (ok)="onok()"
+    (cancel)="windowclose()"
+  ></howell-employees-manager-details>
+</app-window>
+<app-window
+  [model]="window.image"
+  [style]="window.image.style"
+  *ngIf="window.image.show && !!window.image.model"
+  [title]="window.image.model.Name"
+>
+  <app-image [url]="window.image.model.Picture"></app-image>
+</app-window>
+<app-window
+  [model]="window.confirm"
+  *ngIf="window.confirm.show"
+  [style]="window.confirm.style"
+>
+  <div class="confirm">
+    <div class="confirm-head">
+      <div class="title"><i class="mdi mdi-alert"></i> 提示</div>
+    </div>
+    <div class="confirm-body">
+      <div class="hw-simple-title">{{ window.confirm.language }}</div>
+    </div>
+    <div
+      class="confirm-foot"
+      *ngIf="window.confirm.command !== Command.sync_qustion"
+    >
+      <button
+        class="full"
+        (click)="oncommand(window.confirm.command, window.confirm.model)"
+      >
+        确定
+      </button>
+      <button (click)="windowclose()">取消</button>
+    </div>
+    <div
+      class="confirm-foot"
+      *ngIf="window.confirm.command === Command.sync_qustion"
+    >
+      <button class="full" (click)="onsync(true)">是</button>
+      <button (click)="onsync(false)">否</button>
+    </div>
+  </div>
+</app-window>

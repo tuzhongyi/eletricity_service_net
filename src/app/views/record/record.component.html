@@ -14,9 +14,8 @@
                 [format]="'yyyy-MM-dd HH:mm'"
                 [startView]="DateTimePickerView.month"
                 [minView]="DateTimePickerView.day"
-                [date]="options.begin"
-                (change)="changeBegin($event)"
-                class=""
+                [(date)]="options.begin"
+                class="date-select"
               />
             </div>
           </div>
@@ -30,9 +29,8 @@
                 [format]="'yyyy-MM-dd HH:mm'"
                 [startView]="DateTimePickerView.month"
                 [minView]="DateTimePickerView.day"
-                [date]="options.end"
-                (change)="changeEnd($event)"
-                class=""
+                [(date)]="options.end"
+                class="date-select"
               />
             </div>
           </div>

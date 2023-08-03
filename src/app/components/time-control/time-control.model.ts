@@ -8,27 +8,18 @@ export class TimeModel {
       time = new Date();
     }
     if (time instanceof Date) {
-      this.hour = new ViewValue(
-        time.getHours(),
-        TimeModel.format(time.getHours())
-      );
-      this.minute = new ViewValue(
-        time.getMinutes(),
-        TimeModel.format(time.getMinutes())
-      );
-      this.second = new ViewValue(
-        time.getSeconds(),
-        TimeModel.format(time.getSeconds())
-      );
+      this.hour = time.getHours();
+      this.minute = time.getMinutes();
+      this.second = time.getSeconds();
     } else {
-      this.hour = new ViewValue(time, TimeModel.format(time));
-      this.minute = new ViewValue(minute!, TimeModel.format(minute!));
-      this.second = new ViewValue(second!, TimeModel.format(second!));
+      this.hour = time;
+      this.minute = minute ?? 0;
+      this.second = second ?? 0;
     }
   }
-  hour: ViewValue<number> = new ViewValue(0, '00');
-  minute: ViewValue<number> = new ViewValue(0, '00');
-  second: ViewValue<number> = new ViewValue(0, '00');
+  hour: number;
+  minute: number;
+  second: number;
 
   toDate(date?: Date) {
     if (date) {
@@ -36,9 +27,9 @@ export class TimeModel {
     } else {
       date = new Date();
     }
-    date.setHours(this.hour.value);
-    date.setMinutes(this.minute.value);
-    date.setSeconds(this.second.value);
+    date.setHours(this.hour);
+    date.setMinutes(this.minute);
+    date.setSeconds(this.second);
     return date;
   }
 
@@ -48,15 +39,6 @@ export class TimeModel {
     }
     return num.toString();
   }
-}
-
-class ViewValue<T> {
-  constructor(value: T, view: string) {
-    this.view = view;
-    this.value = value;
-  }
-  view: string;
-  value: T;
 }
 
 export class TimeDurationModel {

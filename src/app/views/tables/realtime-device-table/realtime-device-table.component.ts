@@ -13,9 +13,8 @@ import {
 import { VideoArgsConverter } from 'src/app/converters/args/video-args.converter';
 import { IBusiness } from 'src/app/interfaces/business.interface';
 import { IComponent } from 'src/app/interfaces/component.interfact';
-import { Camera } from 'src/app/models/camera.model';
-import { IModel } from 'src/app/models/model.interface';
 import { VideoArgs } from 'src/app/models/args/video.args';
+import { IModel } from 'src/app/models/model.interface';
 import { Language } from 'src/app/tools/language';
 import { RealtimeDeviceListTableBusiness } from './realtime-device-table.business';
 import { RealtimeDeviceModel } from './realtime-device-table.model';
@@ -23,7 +22,7 @@ import { RealtimeDeviceModel } from './realtime-device-table.model';
 @Component({
   selector: 'howell-realtime-device-table',
   templateUrl: './realtime-device-table.component.html',
-  styleUrls: ['../table.less', './realtime-device-table.component.less'],
+  styleUrls: ['../table-list.less', './realtime-device-table.component.less'],
   providers: [RealtimeDeviceListTableBusiness],
 })
 export class RealtimeDeviceListTableComponent

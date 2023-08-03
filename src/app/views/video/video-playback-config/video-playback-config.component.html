@@ -10,8 +10,8 @@
         [startView]="DateTimePickerView.month"
         [minView]="DateTimePickerView.month"
         [date]="date"
-        (change)="changeDate($event)"
-        class=""
+        (dateChange)="changeDate($event)"
+        class="date-select"
       />
     </div>
     <div class="video-playback-config-datetime-date">

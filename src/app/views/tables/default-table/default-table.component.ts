@@ -4,7 +4,7 @@ import { SelectItem } from 'src/app/models/select-item.model';
 @Component({
   selector: 'howell-default-table',
   templateUrl: './default-table.component.html',
-  styleUrls: ['../table.less', './default-table.component.less'],
+  styleUrls: ['../table-list.less', './default-table.component.less'],
 })
 export class DefaultTableComponent implements OnInit {
   @Input()

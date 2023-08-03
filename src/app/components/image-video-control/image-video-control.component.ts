@@ -6,14 +6,12 @@ import {
   OnInit,
   Output,
   SimpleChanges,
-  ViewChild,
 } from '@angular/core';
 import { DeviceStatus } from 'src/app/enums/device-status.enum';
 import { PlayMode } from 'src/app/enums/play-mode.enum';
 import { VideoModel } from 'src/app/models/video.model';
 
 import { DurationParams } from 'src/app/network/request/IParams.interface';
-import { VideoPlayerComponent } from '../video-player/video-player.component';
 
 import { ImageVideoControlBusiness } from './image-video-control.business';
 import {
@@ -58,8 +56,7 @@ export class ImageVideoControlComponent implements OnInit, OnChanges {
     image: true,
     video: false,
   };
-  @ViewChild(VideoPlayerComponent)
-  player?: VideoPlayerComponent;
+  tostop: EventEmitter<void> = new EventEmitter();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['model'] && this.model) {
@@ -85,7 +82,7 @@ export class ImageVideoControlComponent implements OnInit, OnChanges {
         this.playback.unsubscribe();
       }
       this.playback.subscribe((x) => {
-        this.stop();
+        this.onstoping();
         if (this.model) {
           this.model.videoChanged = undefined;
         }
@@ -131,16 +128,14 @@ export class ImageVideoControlComponent implements OnInit, OnChanges {
     if (this.model) {
       this.model.video = video;
       this.model.videoChanged = (x) => {
-        if (this.player) {
-          if (!x) this.player.stop();
-        }
+        this.tostop.emit();
       };
       this.onplay.emit(this.model);
       this.playing = true;
     }
   }
 
-  stop() {
+  onstoping() {
     if (this.model) {
       this.model.video = undefined;
     }

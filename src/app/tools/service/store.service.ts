@@ -10,6 +10,11 @@ import { BusinessHallRequestService } from 'src/app/network/request/business-hal
 export class StoreService {
   constructor(private service: BusinessHallRequestService) {}
   private hall?: BusinessHall;
+
+  track() {
+    localStorage;
+  }
+
   async getBusinessHall(): Promise<BusinessHall> {
     if (!this.hall) {
       let list = await this.service.list().catch(() => {

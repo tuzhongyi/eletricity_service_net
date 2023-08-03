@@ -1,12 +1,6 @@
-import {
-  HttpClient,
-  HttpContext,
-  HttpHeaders,
-  HttpParams,
-  HttpParamsOptions,
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ClassConstructor, classToPlain } from 'class-transformer';
-import { firstValueFrom, lastValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { PagedList } from 'src/app/models/page.model';
 import { HowellResponse } from 'src/app/models/response.model';
 
@@ -15,27 +9,49 @@ import { ServiceHelper } from './service-helper';
 
 export class BaseRequestService {
   constructor(public http: HttpClient) {}
-  async get<T>(url: string, type: ClassConstructor<T>) {
-    let response = await firstValueFrom(this.http.get<HowellResponse<T>>(url));
-    return ServiceHelper.ResponseProcess(response, type);
+  get<R>(url: string) {
+    return firstValueFrom(this.http.get<R>(url));
   }
-  async put<T>(url: string, type: ClassConstructor<T>, model: T | IParams) {
+  put<T, R>(url: string, model: T) {
     let data = classToPlain(model) as T;
-    let response = await firstValueFrom(
-      this.http.put<HowellResponse<T>>(url, data)
-    );
+    return firstValueFrom(this.http.put<R>(url, data));
+  }
+  post<T, R>(url: string, data: T) {
+    let plain = classToPlain(data) as T;
+    return firstValueFrom(this.http.post<R>(url, plain));
+  }
+  delete<R>(url: string) {
+    return firstValueFrom(this.http.delete<R>(url));
+  }
+  async howellGet<T>(url: string, type: ClassConstructor<T>) {
+    let response = await this.get<HowellResponse<T>>(url);
     return ServiceHelper.ResponseProcess(response, type);
   }
-  async post<T>(url: string): Promise<T>;
-  async post<T>(
+  async howellPut<T>(
+    url: string,
+    type: ClassConstructor<T>,
+    model: T | IParams
+  ) {
+    let response = await this.put<T | IParams, HowellResponse<T>>(url, model);
+    return ServiceHelper.ResponseProcess(response, type);
+  }
+  async howellPost<T>(url: string): Promise<T>;
+  async howellPost<T>(
     url: string,
     type: ClassConstructor<T>,
     params?: IParams
   ): Promise<T>;
-
-  async post<T>(url: string, type: ClassConstructor<T>, model?: T): Promise<T>;
-
-  async post<T>(
+  async howellPost<T, R>(
+    url: string,
+    type: ClassConstructor<T>,
+    params?: IParams
+  ): Promise<R>;
+  async howellPost<T>(
+    url: string,
+    type: ClassConstructor<T>,
+    model?: T
+  ): Promise<T>;
+  async howellPost<T>(
     url: string,
     type?: ClassConstructor<T>,
     args?: T | IParams | string
@@ -77,10 +93,9 @@ export class BaseRequestService {
     );
     return ServiceHelper.ResponseProcess(response, type);
   }
-  async delete<T>(url: string, type: ClassConstructor<T>) {
-    let response = await firstValueFrom(
-      this.http.delete<HowellResponse<T>>(url)
-    );
+
+  async howellDelete<T>(url: string, type: ClassConstructor<T>) {
+    let response = await this.delete<HowellResponse<T>>(url);
     return ServiceHelper.ResponseProcess(response, type);
   }
   async array<T>(url: string, type: ClassConstructor<T>, params?: IParams) {
@@ -94,7 +109,11 @@ export class BaseRequestService {
 
     return ServiceHelper.ResponseProcess(response!, type);
   }
-  async paged<T>(url: string, type: ClassConstructor<T>, params: IParams) {
+  async howellPaged<T>(
+    url: string,
+    type: ClassConstructor<T>,
+    params: IParams
+  ) {
     let data = classToPlain(params) as IParams;
     let response = await firstValueFrom(
       this.http.post<HowellResponse<PagedList<T>>>(url, data)
@@ -114,25 +133,25 @@ export class BaseTypeRequestService<T> {
   ) {}
 
   async get(url: string) {
-    return this._service.get(url, this.type);
+    return this._service.howellGet(url, this.type);
   }
   async put(url: string, model: T) {
-    return this._service.put(url, this.type, model);
+    return this._service.howellPut(url, this.type, model);
   }
   async post(url: string, model?: T): Promise<T>;
   async post(url: string, params?: IParams): Promise<T>;
   async post(url: string, base64?: string): Promise<T>;
   async post(url: string, args?: T | IParams | string) {
-    return this._service.post(url, this.type, args);
+    return this._service.howellPost(url, this.type, args);
   }
   async delete(url: string) {
-    return this._service.delete(url, this.type);
+    return this._service.howellDelete(url, this.type);
   }
   async array(url: string, params?: IParams) {
     return this._service.array(url, this.type, params);
   }
   async paged(url: string, params: IParams) {
-    return this._service.paged(url, this.type, params);
+    return this._service.howellPaged(url, this.type, params);
   }
   async base64(url: string, base64: string) {
     return this._service.base64(url, this.type, base64);

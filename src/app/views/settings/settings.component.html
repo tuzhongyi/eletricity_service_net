@@ -19,6 +19,12 @@
       >
         服务配置
       </div>
+      <div
+        (click)="changePath(SettingPath.employees_manager)"
+        [class.selected]="path === SettingPath.employees_manager"
+      >
+        员工管理
+      </div>
     </div>
     <div class="settings-content">
       <ng-container *ngIf="path === SettingPath.camera_position">
@@ -29,6 +35,9 @@
       </ng-container>
       <ng-container *ngIf="path === SettingPath.service_sync">
         <howell-settings-service></howell-settings-service>
+      </ng-container>
+      <ng-container *ngIf="path === SettingPath.employees_manager">
+        <howell-employees-manager-index></howell-employees-manager-index>
       </ng-container>
     </div>
   </howell-card>

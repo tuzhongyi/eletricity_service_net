@@ -14,4 +14,7 @@ export abstract class PicturesUrl extends MediumUrl {
   static data(id: string) {
     return `${this.item(id)}/Data`;
   }
+  static upload() {
+    return `${this.basic}?ContentType=Fixed`;
+  }
 }

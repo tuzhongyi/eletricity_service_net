@@ -45,6 +45,41 @@ button.selected {
   background-color: rgba(244, 104, 85, 0.5);
 }
 
+button:disabled {
+  cursor: default;
+  background-color: rgba(43, 43, 2, 0.1);
+  color: #b2b2b2;
+  border-color: none;
+}
+
+button:disabled {
+  border-color: transparent;
+}
+
+
+button.void {
+  background-color: rgba(23, 241, 198, 0.1);
+  color: #c1fff5;
+  border: none;
+}
+
+button.void.selected {
+  color: #ef6f59;
+}
+
+button.void.selected:hover {
+  color: #ef6f59;
+}
+
+button.void:hover {
+  color: #ffd0c8;
+  background-color: rgba(239, 111, 89, 0.4);
+}
+
+button.void:disabled {
+  background-color: rgba(178, 178, 178, 0.1);
+  color: #b2b2b2
+}
 
 
 ::-webkit-scrollbar-track-piece {

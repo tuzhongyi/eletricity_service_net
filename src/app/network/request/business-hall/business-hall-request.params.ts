@@ -74,3 +74,7 @@ export class GetBusinessHallStatisticsParams
   /**	String[]	营业厅ID	O */
   HallIds?: string[];
 }
+export class SyncFaceSetParams implements IParams {
+  /**	Boolean	删除不匹配的项，默认是：true	O */
+  DeleteNotMatchItems?: boolean;
+}

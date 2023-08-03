@@ -1,0 +1,10 @@
+<div
+  *ngIf="!!url"
+  class="picture"
+  [ngStyle]="{
+    backgroundImage: 'url(' + (url | async) + ')'
+  }"
+  [ngClass]="{
+    full: full
+  }"
+></div>

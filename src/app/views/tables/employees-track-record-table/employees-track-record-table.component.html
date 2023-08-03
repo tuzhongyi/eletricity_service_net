@@ -1,0 +1,29 @@
+<div class="employees-track-record-table table">
+  <div class="body nohead" *ngIf="!!datas && datas.length > 0">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <tbody>
+        <tr
+          *ngFor="let item of datas; let i = index"
+          [ngClass]="{ selected: selected === item }"
+        >
+          <td>{{ item.EventTime | date : "HH:mm:ss" }}</td>
+          <td>{{ item.EventDescription }}</td>
+          <td>
+            <div class="operation">
+              <div class="playback" (click)="onvideo(item, i)">
+                <i class="howell-icon-video-playback1"></i>
+              </div>
+              <div class="picture" (click)="onimage(item, i)">
+                <i class="howell-icon-picture"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="body nodata" *ngIf="!datas || datas.length === 0">无数据</div>
+</div>

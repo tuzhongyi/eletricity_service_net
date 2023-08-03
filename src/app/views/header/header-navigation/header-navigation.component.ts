@@ -8,7 +8,7 @@ import { NavigationPath } from './navigarion-path.enum';
 })
 export class HeaderNavigationComponent implements OnInit {
   @Input()
-  path: NavigationPath = NavigationPath.realtime;
+  path: NavigationPath = NavigationPath.employee_track;
   @Output()
   changed: EventEmitter<NavigationPath> = new EventEmitter();
 

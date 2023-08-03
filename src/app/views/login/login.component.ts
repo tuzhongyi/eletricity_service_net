@@ -6,8 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { RoutePath } from 'src/app/app-routing.path';
 import { CookieKey } from 'src/app/enums/cookie-key.enum';
 import { User } from 'src/app/models/user.model';
-import { StoreService } from 'src/app/tools/service/store.service';
-import config from 'src/assets/configs/config.json';
+import { ConfigRequestService } from 'src/app/network/request/config/config.service';
 import { Md5 } from 'ts-md5';
 
 @Component({
@@ -19,7 +18,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private _toastrService: ToastrService,
     private router: Router,
-    private cookie: CookieService
+    private cookie: CookieService,
+    private config: ConfigRequestService
   ) {}
   formGroup = new FormGroup({
     username: new FormControl('', [
@@ -41,11 +41,12 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit(): void {}
 
-  login() {
+  async login() {
     if (this.checkForm) {
       let user = new User();
       user.username = this.formGroup.get('username')?.value ?? '';
       user.password = Md5.hashStr(this.formGroup.get('password')?.value ?? '');
+      let config = await this.config.get();
       let result = user.username === config.user.username;
       if (!result) {
         this._toastrService.warning('用户名或密码错误');

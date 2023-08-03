@@ -1,0 +1,10 @@
+<div *ngIf="!!model" class="video-control">
+  <iframe
+    (click)="onClick()"
+    [id]="id"
+    #iframe
+    [src]="src"
+    class="video-control selected fill-height fill-width"
+  ></iframe>
+  <div class="mask"></div>
+</div>

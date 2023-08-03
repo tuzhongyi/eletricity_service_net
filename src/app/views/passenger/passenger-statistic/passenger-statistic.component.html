@@ -12,8 +12,8 @@
           [minView]="config.datetime.min"
           [week]="config.datetime.week"
           [date]="date"
-          (change)="changeDate($event)"
-          class=""
+          (dateChange)="changeDate($event)"
+          class="date-select"
         />
       </div>
       <div>

@@ -1,8 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-@Pipe({ name: 'customdate', pure: false })
-export class CustomDatePipe implements PipeTransform {
+@Pipe({ name: 'custom_date_item', pure: false })
+export class CustomDateItemPipe implements PipeTransform {
   constructor(private sanitizer: DomSanitizer) {}
 
   transform(value: number) {

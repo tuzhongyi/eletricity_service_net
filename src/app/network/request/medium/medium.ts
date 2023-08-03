@@ -1,7 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ImageResult } from 'src/app/models/image.model';
+import { PictureResult } from 'src/app/models/picture-result.model';
 import { PicturesUrl } from '../../url/medium/pictures/pictures.url';
 
 @Injectable({
@@ -40,5 +41,26 @@ export class Medium {
         });
       };
     });
+  }
+
+  upload(image: string): Promise<PictureResult> {
+    let url = PicturesUrl.upload();
+
+    let observable = this.postImage<{ Data: PictureResult }>(url, `"${image}"`);
+    let promise = firstValueFrom(observable);
+
+    return promise.then((x) => {
+      return x.Data;
+    });
+  }
+
+  public postImage<T>(url: string, data: string) {
+    const heads: HttpHeaders = new HttpHeaders({
+      'content-type': 'application/json',
+    });
+    const httpOptions = {
+      headers: heads,
+    };
+    return this.http.post<T>(url, data, httpOptions);
   }
 }

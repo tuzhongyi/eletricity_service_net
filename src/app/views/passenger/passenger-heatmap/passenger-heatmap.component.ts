@@ -34,13 +34,6 @@ export class PassengerHeatmapComponent implements OnInit {
       this.floors.push({ value: floor.Id, language: floor.Name ?? '' });
     }
   }
-
-  changeBegin(date: Date) {
-    this.duration.begin = date;
-  }
-  changeEnd(date: Date) {
-    this.duration.end = date;
-  }
   changeFloor(event: Event) {
     let select = event.target as HTMLSelectElement;
   }

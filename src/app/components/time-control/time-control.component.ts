@@ -92,7 +92,7 @@ export class TimeControlComponent implements OnInit, AfterViewInit {
               value = $currVal - $inc;
             }
           }
-          let view = TimeControlComponent.format(value);
+
           // $this.val(view);
           let input = event.currentTarget as HTMLInputElement;
 
@@ -101,8 +101,7 @@ export class TimeControlComponent implements OnInit, AfterViewInit {
           for (let i = 0; i < array.length; i++) {
             const element = array[i];
             if (input.classList.contains(array[i])) {
-              this.time[array[i]].value = value;
-              this.time[array[i]].view = view;
+              this.time[array[i]] = value;
               break;
             }
           }
@@ -110,20 +109,5 @@ export class TimeControlComponent implements OnInit, AfterViewInit {
         };
       }
     });
-  }
-
-  oninput(e: Event) {
-    if (e.target) {
-      let value = (e.target as HTMLInputElement).value;
-      let int = parseInt(value);
-      (e.target as HTMLInputElement).value = TimeModel.format(int);
-    }
-  }
-
-  private static format(num: number) {
-    if (num < 10) {
-      return `0${num}`;
-    }
-    return num.toString();
   }
 }

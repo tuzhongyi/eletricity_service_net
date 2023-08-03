@@ -9,9 +9,8 @@
           [format]="'yyyy-MM-dd HH:mm'"
           [startView]="DateTimePickerView.month"
           [minView]="DateTimePickerView.hour"
-          [date]="duration.begin"
-          (change)="changeBegin($event)"
-          class=""
+          [(date)]="duration.begin"
+          class="date-select"
         />
       </div>
       <div class="passenger-heatmap-filter-date">
@@ -22,9 +21,8 @@
           [format]="'yyyy-MM-dd HH:mm'"
           [startView]="DateTimePickerView.month"
           [minView]="DateTimePickerView.hour"
-          [date]="duration.end"
-          (change)="changeEnd($event)"
-          class=""
+          [(date)]="duration.end"
+          class="date-select"
         />
       </div>
       <div>

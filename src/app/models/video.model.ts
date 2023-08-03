@@ -30,6 +30,9 @@ export class VideoModel {
 
   /** 结束时间 */
   endTime?: Date;
+
+  web?: string;
+
   constructor(
     options?:
       | {
@@ -42,6 +45,7 @@ export class VideoModel {
           mode: PlayMode;
           beginTime?: Date;
           endTime?: Date;
+          web?: string;
         }
       | string
   ) {
@@ -58,6 +62,7 @@ export class VideoModel {
         this.beginTime = options.beginTime;
         this.endTime = options.endTime;
         this.stream = options.stream;
+        this.web = options.web;
       }
     }
   }

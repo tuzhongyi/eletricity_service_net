@@ -1,0 +1,16 @@
+<div
+  class="picture"
+  (click)="onupload()"
+  [ngStyle]="{
+    backgroundImage: 'url(' + image + ')'
+  }"
+>
+  <div *ngIf="!image" [innerHTML]="defaultInner"></div>
+  <input
+    type="file"
+    (change)="fileChange()"
+    [accept]="accept"
+    #file
+    style="display: none"
+  />
+</div>

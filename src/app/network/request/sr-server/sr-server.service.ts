@@ -42,7 +42,7 @@ export class SRServerRequestService {
     }
 
     let url = SRServerUrl.preview();
-    return this.basic.post(url, VideoUrl, data);
+    return this.basic.howellPost(url, VideoUrl, data);
   }
 
   playback(
@@ -71,7 +71,7 @@ export class SRServerRequestService {
     }
 
     let url = SRServerUrl.vod();
-    return this.basic.post(url, VideoUrl, data);
+    return this.basic.howellPost(url, VideoUrl, data);
   }
 
   create(item: SRServer) {

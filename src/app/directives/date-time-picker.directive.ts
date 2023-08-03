@@ -1,16 +1,15 @@
+import { formatDate } from '@angular/common';
 import {
+  AfterContentInit,
   Directive,
   ElementRef,
-  AfterContentInit,
+  EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   Output,
-  EventEmitter,
-  OnChanges,
   SimpleChanges,
 } from '@angular/core';
-import { formatDate } from '@angular/common';
-import { DateTimeTool } from '../tools/datetime.tool';
 
 declare let $: any;
 
@@ -22,14 +21,26 @@ export class DateTimePickerDirective
 {
   private ele: HTMLInputElement;
   @Input('format') format = 'yyyy-MM-dd';
-  @Input('date') date: Date = new Date();
+
   // @Input('changeDate') changeDate: (val: any) => void;
   @Input('startView') startView: DateTimePickerView = DateTimePickerView.month;
   @Input('minView') minView: DateTimePickerView = DateTimePickerView.month;
   @Input('week') week: boolean = false;
 
-  @Output('change')
-  change: EventEmitter<Date> = new EventEmitter();
+  private _date?: Date;
+  public get date(): Date | undefined {
+    return this._date;
+  }
+  @Input('date')
+  public set date(v: Date | undefined) {
+    if (v) {
+      this._date = v;
+      this.dateChange.emit(v);
+    }
+  }
+
+  @Output()
+  dateChange: EventEmitter<Date> = new EventEmitter();
 
   changing = false;
 
@@ -63,7 +74,7 @@ export class DateTimePickerDirective
     startView: number,
     minView: number,
     format: string,
-    value: Date,
+    value: Date = new Date(),
     week?: boolean
   ) {
     $(this.ele).val('');
@@ -81,15 +92,15 @@ export class DateTimePickerDirective
           initialDate: value,
         })
         .on('changeDate', (ev: { date: Date }) => {
-          this.change.emit(ev.date);
+          this.date = ev.date;
           this.changing = true;
-          const week_ = DateTimeTool.allWeek(ev.date);
+          const week_ = OneWeekDate(ev.date);
           $(this.ele).val(
-            `${formatDate(week_.begin, 'yyyy年MM月dd日', 'en')} 至 ${formatDate(
-              week_.end,
+            `${formatDate(
+              week_.monday,
               'yyyy年MM月dd日',
               'en'
-            )}`
+            )} 至 ${formatDate(week_.sunday, 'yyyy年MM月dd日', 'en')}`
           );
         })
         .on('show', (ev: { date: any }) => {
@@ -114,10 +125,10 @@ export class DateTimePickerDirective
             });
           });
         });
-      const week_ = DateTimeTool.allWeek(new Date(value));
+      const week_ = OneWeekDate(new Date(value));
       $(this.ele).val(
-        `${formatDate(week_.begin, 'yyyy年MM月dd日', 'en')} 至 ${formatDate(
-          week_.end,
+        `${formatDate(week_.monday, 'yyyy年MM月dd日', 'en')} 至 ${formatDate(
+          week_.sunday,
           'yyyy年MM月dd日',
           'en'
         )}`
@@ -135,14 +146,16 @@ export class DateTimePickerDirective
           initialDate: value,
         })
         .on('changeDate', (ev: { date: Date | undefined }) => {
-          this.change.emit(ev.date);
+          if (ev.date) {
+            this.date = ev.date;
+          }
           this.changing = true;
         })
         .on('show', (ev: any) => {
           const dayDom = $('.datetimepicker-days');
           dayDom.find('.week-tr').removeClass('week-tr');
         });
-      $(this.ele).val(formatDate(value, this.format, 'en'));
+      if (this.date) $(this.ele).val(formatDate(value, this.format, 'en'));
     }
   }
 }
@@ -176,4 +189,17 @@ export class DateTimePickerConfig {
   view: DateTimePickerView = DateTimePickerView.month;
   week = false;
   format = 'yyyy-MM-dd';
+}
+
+export function OneWeekDate(now: Date) {
+  var week = now.getDay(); //获取时间的星期数
+  var minus = week ? week - 1 : 6;
+  var monday = new Date(now);
+  monday.setDate(now.getDate() - minus); //获取minus天前的日期
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  return {
+    monday: monday,
+    sunday: sunday,
+  };
 }

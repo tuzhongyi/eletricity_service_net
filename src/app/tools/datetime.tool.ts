@@ -64,19 +64,39 @@ export class DateTimeTool {
   }
 
   static beforeAndAfter(date: Date, seconds: number = 30): Duration {
+    return this.beforeAfter(date, seconds, seconds);
+  }
+
+  static beforeAfter(
+    date: Date,
+    before: number = 30,
+    after: number = 30
+  ): Duration {
     let duration = {
       begin: new Date(),
       end: new Date(),
     };
 
     let begin = new Date(date.getTime());
-    begin.setSeconds(begin.getSeconds() - seconds);
+    begin.setSeconds(begin.getSeconds() - before);
     duration.begin = new Date(begin.getTime());
 
     let end = new Date(date.getTime());
-    end.setSeconds(end.getSeconds() + seconds);
+    end.setSeconds(end.getSeconds() + after);
     duration.end = end;
 
     return duration;
+  }
+
+  static beforeDuration(date: Date, before: number, duration: number) {
+    let begin = new Date(date.getTime());
+    begin.setSeconds(begin.getSeconds() - before);
+
+    let end = new Date(begin.getTime());
+    end.setSeconds(begin.getSeconds() + duration);
+    return {
+      begin: begin,
+      end: end,
+    };
   }
 }

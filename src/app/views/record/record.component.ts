@@ -1,13 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { DateTimePickerView } from 'src/app/directives/date-time-picker.directive';
 import { EventType } from 'src/app/enums/event-type.enum';
-import { SelectItem } from 'src/app/models/select-item.model';
+import { PictureArgs } from 'src/app/models/args/picture.args';
 import { VideoArgs } from 'src/app/models/args/video.args';
+import { SelectItem } from 'src/app/models/select-item.model';
 import { DateTimeTool } from 'src/app/tools/datetime.tool';
 import { Language } from 'src/app/tools/language';
 import { RecordEventTableOptions } from '../tables/record-event-table/record-event-table.model';
 import { RecordBusiness } from './record.business';
-import { PictureArgs } from 'src/app/models/args/picture.args';
 
 @Component({
   selector: 'howell-record',
@@ -72,13 +72,6 @@ export class RecordComponent implements OnInit {
         language: Language.EventType(value),
       });
     }
-  }
-
-  changeBegin(date: Date) {
-    this.options.begin = date;
-  }
-  changeEnd(date: Date) {
-    this.options.end = date;
   }
 
   floorChange(event: Event) {

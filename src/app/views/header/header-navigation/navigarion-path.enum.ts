@@ -4,4 +4,5 @@ export enum NavigationPath {
   record = 'record',
   video = 'video',
   setting = 'setting',
+  employee_track = 'employee-track',
 }

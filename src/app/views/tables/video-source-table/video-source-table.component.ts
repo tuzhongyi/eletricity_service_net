@@ -16,7 +16,7 @@ import { VideoSourceTableItemModel } from './video-source-table.model';
 @Component({
   selector: 'howell-video-source-table',
   templateUrl: './video-source-table.component.html',
-  styleUrls: ['../table.less', './video-source-table.component.less'],
+  styleUrls: ['../table-list.less', './video-source-table.component.less'],
   providers: [VideoSourceTableBusiness],
 })
 export class VideoSourceTableComponent

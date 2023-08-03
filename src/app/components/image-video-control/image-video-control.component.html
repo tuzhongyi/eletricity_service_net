@@ -12,7 +12,8 @@
     <app-video-player
       [model]="model.video"
       (destroy)="onVideoDestroy($event)"
-      (onStoping)="stop()"
+      (onStoping)="onstoping()"
+      [stop]="tostop"
     >
     </app-video-player>
   </div>

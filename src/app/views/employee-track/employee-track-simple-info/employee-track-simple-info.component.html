@@ -1,0 +1,15 @@
+<div class="employee-track-simple-info" *ngIf="!!model">
+  <div class="info-picture">
+    <app-image [url]="model.Picture"></app-image>
+  </div>
+  <div class="info">
+    <div>
+      <div class="info-title">姓名</div>
+      <div>{{ model.Name }}</div>
+    </div>
+    <div>
+      <div class="info-title">证件号</div>
+      <div>{{ model.IDNumber }}</div>
+    </div>
+  </div>
+</div>

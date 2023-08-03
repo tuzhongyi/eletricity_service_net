@@ -38,6 +38,12 @@ export class BusinessHallsUrl {
     const base = hallId ? this.item(hallId) : this.basic();
     return new BusinessHallsStatisticUrl(base);
   }
+  static syncFaceSets(hallId: string) {
+    return `${this.item(hallId)}/SyncFaceSets`;
+  }
+  static empolyee(hallId: string) {
+    return new BusinessHallsEmployeesUrl(this.item(hallId));
+  }
 }
 class BusinessHallsStatisticUrl implements InnerUrl {
   constructor(private base: string) {}
@@ -132,5 +138,14 @@ class BusinessHallsPassengerFlowsUrl {
   }
   list() {
     return `${this.basic()}/List`;
+  }
+}
+class BusinessHallsEmployeesUrl {
+  constructor(private base: string) {}
+  basic(): string {
+    return `${this.base}/Employees`;
+  }
+  item(id: string) {
+    return `${this.basic()}/${id}`;
   }
 }

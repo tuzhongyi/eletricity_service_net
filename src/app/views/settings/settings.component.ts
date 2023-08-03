@@ -9,7 +9,7 @@ import { SettingPath } from './settings.model';
 export class SettingsComponent implements OnInit {
   constructor() {}
 
-  path: SettingPath = SettingPath.camera_position;
+  path: SettingPath = SettingPath.employees_manager;
   SettingPath = SettingPath;
 
   ngOnInit(): void {}

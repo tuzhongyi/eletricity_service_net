@@ -30,4 +30,7 @@ export enum EventType {
   Unattended = 14,
   // /**	物品遗失	15 */
   // Removal = 15,
+
+  /** 非正常音频报警，（分贝、骂人） */
+  IllegalAudio = 21,
 }

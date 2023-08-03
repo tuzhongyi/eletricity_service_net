@@ -8,7 +8,6 @@
 
     height: 40px;
     width: calc(100%);
-    margin-bottom: 10px;
 
     table {
       width: 100%;
@@ -23,6 +22,12 @@
         &:first-child {
           padding-left: 20px;
         }
+
+        .center {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
       }
     }
   }
@@ -30,6 +35,7 @@
   .body {
 
     height: calc(100% - 40px);
+    overflow-y: scroll;
 
     &.nohead {
       height: 100%;
@@ -45,13 +51,12 @@
       table-layout: fixed;
 
       tr {
-        background-color: rgba(23, 241, 198, 0.3);
-
         height: 40px;
         max-height: 40px;
 
         &.selected {
           background-color: rgba(239, 111, 89, 0.6);
+
         }
 
 
@@ -95,6 +100,14 @@
               &:hover {
                 color: #ffa899
               }
+
+              &:last-child {
+                margin-right: 0;
+              }
+            }
+
+            &.center {
+              justify-content: center;
             }
           }
         }

@@ -9,16 +9,18 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { RecordEventTableExportConverter } from 'src/app/converters/exports/record-event-table-export.converter';
+import { PictureArgsConverter } from 'src/app/converters/args/picture-args.converter';
 import { VideoArgsConverter } from 'src/app/converters/args/video-args.converter';
+import { RecordEventTableExportConverter } from 'src/app/converters/exports/record-event-table-export.converter';
 import { ExportType } from 'src/app/enums/export-type.enum';
 import { TimeUnit } from 'src/app/enums/time-unit.enum';
 import { IBusiness } from 'src/app/interfaces/business.interface';
 import { IComponent } from 'src/app/interfaces/component.interfact';
 import { IExportConverter } from 'src/app/interfaces/converter.interface';
+import { PictureArgs } from 'src/app/models/args/picture.args';
+import { VideoArgs } from 'src/app/models/args/video.args';
 import { IModel } from 'src/app/models/model.interface';
 import { Page, PagedList } from 'src/app/models/page.model';
-import { VideoArgs } from 'src/app/models/args/video.args';
 import { DateTimeTool } from 'src/app/tools/datetime.tool';
 import { Language } from 'src/app/tools/language';
 import { RecordEventTableExportBusiness } from './record-event-table-export.business';
@@ -27,13 +29,11 @@ import {
   RecordEventTableItemModel,
   RecordEventTableOptions,
 } from './record-event-table.model';
-import { PictureArgs } from 'src/app/models/args/picture.args';
-import { PictureArgsConverter } from 'src/app/converters/args/picture-args.converter';
 
 @Component({
   selector: 'howell-record-event-table',
   templateUrl: './record-event-table.component.html',
-  styleUrls: ['../table.less', './record-event-table.component.less'],
+  styleUrls: ['../table-list.less', './record-event-table.component.less'],
   providers: [RecordEventTableBusiness, RecordEventTableExportBusiness],
 })
 export class RecordEventTableComponent

@@ -1,0 +1,122 @@
+.table {
+  color: white;
+  height: 100%;
+  width: 100%;
+
+  .head {
+    background-color: rgba(23, 241, 198, 0.3);
+
+    height: 40px;
+    width: calc(100%);
+    margin-bottom: 10px;
+
+    table {
+      width: 100%;
+      height: 100%;
+      table-layout: fixed;
+
+      td {
+        font-size: 24px;
+        line-height: 24px;
+        white-space: nowrap;
+
+        &:first-child {
+          padding-left: 20px;
+        }
+      }
+    }
+  }
+
+  .body {
+    color: #cefff5;
+    height: calc(100% - 40px);
+
+    &.nohead {
+      height: 100%;
+    }
+
+
+    table {
+      width: calc(100% - 5px);
+      border-collapse: separate;
+      border-spacing: 0px 10px;
+      max-height: 100%;
+      margin: -10px 0;
+      table-layout: fixed;
+
+      tr {
+        background-color: rgba(23, 241, 198, 0.1);
+
+        height: 40px;
+        max-height: 40px;
+
+        &.selected {
+          background-color: rgba(239, 111, 89, 0.6);
+          color: white;
+
+          .operation {
+            color: white !important;
+          }
+        }
+
+
+        td {
+          font-size: 18px;
+          line-height: 18px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          &>* {
+            width: 100%;
+            height: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          &:first-child {
+            padding-left: 20px;
+          }
+
+          &.right {
+            text-align: right;
+            padding-right: 20px;
+          }
+
+          &.center {
+            text-align: center;
+          }
+
+          .operation {
+            display: flex;
+            color: rgba(23, 241, 198, 0.7);
+            align-items: center;
+
+            &>* {
+              cursor: pointer;
+              margin-right: 20px;
+
+              &:hover {
+                color: #ffa899
+              }
+            }
+          }
+        }
+
+        &:hover {
+          background-color: rgba(239, 111, 89, 0.4);
+          color: #ffd0c8;
+
+          td {
+
+            .operation {
+
+              color: #ffd0c8;
+            }
+          }
+        }
+      }
+    }
+  }
+}

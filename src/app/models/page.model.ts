@@ -20,3 +20,7 @@ export class PagedList<T> implements IModel {
   /**	T[]	数据内容，T为任何需要的类型	M */
   Data!: T[];
 }
+export class Paged<T> {
+  Page!: Page;
+  Data!: T;
+}

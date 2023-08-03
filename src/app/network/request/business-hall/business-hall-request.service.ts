@@ -7,6 +7,7 @@ import { BusinessHall } from 'src/app/models/business-hall.model';
 import { Camera } from 'src/app/models/camera.model';
 import { CurrentBusinessHallStatistic } from 'src/app/models/current-business-hall-statistic.model';
 import { CurrentDayPassengerFlow } from 'src/app/models/current-day-passenger-flow.model';
+import { Employee } from 'src/app/models/employee.model';
 import { Floor } from 'src/app/models/floor.model';
 import { HeatMap } from 'src/app/models/heat-map.model';
 import { PassengerFlow } from 'src/app/models/passenger-flow.model';
@@ -25,6 +26,7 @@ import {
   GetHeatMapParams,
   GetPassengerFlowsParams,
   GetZonesParams,
+  SyncFaceSetParams,
 } from './business-hall-request.params';
 
 @Injectable({
@@ -64,7 +66,25 @@ export class BusinessHallRequestService {
 
   syncCenterID(hallId: string) {
     let url = BusinessHallsUrl.sync(hallId);
-    return this.basic.post(url);
+    return this.basic.howellPost(url);
+  }
+
+  syncFaceSet(hallId: string, deleteNotMatchItems: boolean): Promise<string>;
+  syncFaceSet(hallId: string, params: SyncFaceSetParams): Promise<string>;
+  syncFaceSet(hallId: string, args: SyncFaceSetParams | boolean) {
+    let params: SyncFaceSetParams;
+    if (typeof args === 'boolean') {
+      params = new SyncFaceSetParams();
+      params.DeleteNotMatchItems = args;
+    } else {
+      params = args;
+    }
+    let url = BusinessHallsUrl.syncFaceSets(hallId);
+    return this.basic.howellPost<SyncFaceSetParams, string>(
+      url,
+      SyncFaceSetParams,
+      params
+    );
   }
 
   private _floor?: BusinessHallFloorRequestService;
@@ -106,16 +126,24 @@ export class BusinessHallRequestService {
     }
     return this._statistic;
   }
+
+  private _employee?: BusinessHallEmployeeRequestService;
+  public get employee(): BusinessHallEmployeeRequestService {
+    if (!this._employee) {
+      this._employee = new BusinessHallEmployeeRequestService(this.basic);
+    }
+    return this._employee;
+  }
 }
 class BusinessHallStatisticRequestService {
   constructor(private basic: BaseRequestService) {}
   current(hallId: string) {
     let url = BusinessHallsUrl.statistic(hallId).current();
-    return this.basic.get(url, CurrentBusinessHallStatistic);
+    return this.basic.howellGet(url, CurrentBusinessHallStatistic);
   }
   list(params: GetBusinessHallStatisticsParams) {
     let url = BusinessHallsUrl.statistic().list();
-    return this.basic.paged(url, BusinessHallStatistic, params);
+    return this.basic.howellPaged(url, BusinessHallStatistic, params);
   }
 }
 class BusinessHallFloorRequestService {
@@ -262,7 +290,7 @@ class BusinessHallCameraRequestService {
   }
   async capturePicture(hallId: string, cameraId: string) {
     let url = BusinessHallsUrl.camera(hallId).capturePicture(cameraId);
-    await this.basic.post<string>(url);
+    await this.basic.howellPost<string>(url);
     return url;
   }
 
@@ -314,7 +342,7 @@ class BusinessHallPassengerFlowRequestService {
 
   current(hallId: string) {
     let url = BusinessHallsUrl.passengerFlow(hallId).current();
-    return this.basic.get(url, CurrentDayPassengerFlow);
+    return this.basic.howellGet(url, CurrentDayPassengerFlow);
   }
 
   list(params: GetPassengerFlowsParams) {
@@ -331,5 +359,33 @@ class BusinessHallHeatMapRequestService {
   list(params: GetHeatMapParams) {
     let url = BusinessHallsUrl.heatMap();
     return this.type.array(url, params);
+  }
+}
+
+class BusinessHallEmployeeRequestService {
+  constructor(private basic: BaseRequestService) {
+    this.type = basic.type(Employee);
+  }
+  type: BaseTypeRequestService<Employee>;
+  array(hallId: string) {
+    let url = BusinessHallsUrl.empolyee(hallId).basic();
+    return this.type.array(url);
+  }
+  create(model: Employee) {
+    let url = BusinessHallsUrl.empolyee(model.HallId!).basic();
+    return this.type.post(url, model);
+  }
+
+  get(hallId: string, employeeId: string) {
+    let url = BusinessHallsUrl.empolyee(hallId).item(employeeId);
+    return this.type.get(url);
+  }
+  update(model: Employee) {
+    let url = BusinessHallsUrl.empolyee(model.HallId!).item(model.Id);
+    return this.type.put(url, model);
+  }
+  remove(hallId: string, employeeId: string) {
+    let url = BusinessHallsUrl.empolyee(hallId).item(employeeId);
+    return this.type.delete(url);
   }
 }

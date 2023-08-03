@@ -1,0 +1,75 @@
+<div class="employees-manager-details">
+  <div class="employees-manager-details-body" *ngIf="!!model">
+    <div class="form">
+      <div class="form-item">
+        <div class="form-item-title" style="height: 34px; align-self: end">
+          员工照片：
+        </div>
+        <div class="form-item-value">
+          <app-image-upload
+            class="upload"
+            [defaultInner]="'<i class=\'howell-icon-user_add\'></i>'"
+            [image]="(model.Picture | async)!"
+            (upload)="onimage($event)"
+          ></app-image-upload>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">员工姓名：</div>
+
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.Name" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div>证</div>
+          <div>件</div>
+          <div>号：</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.IDNumber" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div>性</div>
+          <div>别：</div>
+        </div>
+        <div class="form-item-value">
+          <select [(ngModel)]="model.Gender">
+            <option [ngValue]="Gender.man">男</option>
+            <option [ngValue]="Gender.woman">女</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">员工职位：</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.JobTitle" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">出生日期：</div>
+        <div class="form-item-value">
+          <input
+            type="text"
+            DateTimePicker
+            [format]="'yyyy-MM-dd'"
+            [(date)]="model.BirthDate"
+          />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">联系方式：</div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.Contact" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="employees-manager-details-foot">
+    <button class="full" (click)="onok()">确认</button>
+    <button (click)="oncancel()">取消</button>
+  </div>
+</div>
