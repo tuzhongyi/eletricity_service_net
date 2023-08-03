@@ -33,7 +33,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.store.stopInterval();
   }
   title: string = '';
-  path: NavigationPath = NavigationPath.realtime;
+  path: NavigationPath = NavigationPath.employee_track;
   NavigationPath = NavigationPath;
   current?: CurrentBusinessHallStatistic;
   date: Date = new Date();

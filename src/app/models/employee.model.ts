@@ -13,7 +13,7 @@ export class Employee implements IModel {
   /**	String	照片	M	*/
   PictureId!: string;
   /**	Int32	性别，1-男，2-女	O	*/
-  Gender?: GenderType = GenderType.man;
+  Gender?: GenderType;
   /**	Date	出生日期	O	*/
   @Transform(transformDate)
   BirthDate?: Date = new Date(2000, 0, 1);

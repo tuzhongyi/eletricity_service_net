@@ -10,7 +10,7 @@
           [ngClass]="{ selected: selected === item }"
         >
           <td>{{ item.EventTime | date : "HH:mm:ss" }}</td>
-          <td>{{ item.EventDescription }}</td>
+          <td>{{ item.ResourceName ?? "无" }}</td>
           <td>
             <div class="operation">
               <div class="playback" (click)="onvideo(item, i)">

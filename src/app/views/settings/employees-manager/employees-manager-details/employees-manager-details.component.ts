@@ -27,7 +27,7 @@ export class EmployeesManagerDetailsComponent implements OnInit {
   image?: string;
 
   async onok() {
-    if (this.model) {
+    if (this.model && this.check()) {
       let promise: Promise<Employee>;
       if (this.image) {
         let result = await this.business.upload(this.image);
@@ -60,5 +60,20 @@ export class EmployeesManagerDetailsComponent implements OnInit {
 
   onimage(image: string) {
     this.image = image;
+  }
+
+  check() {
+    if (this.model) {
+      if (!this.model.Id && !this.image) {
+        this.toastr.warning('请上传员工照片');
+        return false;
+      }
+      if (!this.model.Name) {
+        this.toastr.warning('请填写员工姓名');
+        return false;
+      }
+      return true;
+    }
+    return false;
   }
 }

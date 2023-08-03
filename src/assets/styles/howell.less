@@ -13,10 +13,13 @@
 }
 
 // form-controls
-input[type="text"],
-input[type="number"] {
+input[type="text"] {
   min-width: 120px;
   .form-control();
+}
+
+input[type="number"] {
+  .form-control()
 }
 
 input[type="file"] {
@@ -106,4 +109,22 @@ input[type="number"] {
   }
 
   -moz-appearance: textfield;
+}
+
+
+.select-control {
+  position: relative;
+
+  .please {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    pointer-events: none;
+    padding: 0 10px;
+  }
 }

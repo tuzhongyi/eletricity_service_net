@@ -32,12 +32,13 @@
           </div>
           <div class="filter-item">
             <div>员工：</div>
-            <div>
+            <div class="select-control">
               <select [(ngModel)]="employee.selected">
                 <option [ngValue]="item" *ngFor="let item of employee.datas">
                   {{ item.Name }}
                 </option>
               </select>
+              <div class="please" *ngIf="!employee.selected">请选择</div>
             </div>
           </div>
           <div class="filter-item">

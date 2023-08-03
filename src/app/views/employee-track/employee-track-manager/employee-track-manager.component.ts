@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { TrackConfig } from 'src/app/models/config';
 import { EmployeeTrackRecord } from 'src/app/models/employee-track-record.model';
 import default_config from 'src/assets/configs/config.json';
@@ -31,7 +32,8 @@ import { EmployeeTrackManagerService } from './employee-track-manager.service';
 export class EmployeeTrackManagerComponent implements OnInit {
   constructor(
     private business: EmployeeTrackManagerBusiness,
-    private converter: EmployeeTrackManagerConverter
+    private converter: EmployeeTrackManagerConverter,
+    private toastr: ToastrService
   ) {
     business.getConfig().then((x) => {
       this.config = x;
@@ -61,7 +63,6 @@ export class EmployeeTrackManagerComponent implements OnInit {
   ngOnInit(): void {
     this.employee.change.subscribe((x) => {
       this.args.name = x?.Name;
-      this.load.emit(this.args);
     });
     this.loadData();
   }
@@ -69,17 +70,16 @@ export class EmployeeTrackManagerComponent implements OnInit {
   loadData() {
     this.business.employee.load().then((x) => {
       this.employee.datas = x;
-      if (!this.employee.selected && this.employee.datas.length > 0) {
-        this.employee.selected = this.employee.datas[0];
-        this.args.name = this.employee.selected.Name;
-        this.load.emit(this.args);
-      }
     });
   }
   onloaded(datas: EmployeeTrackRecord[]) {
     this.count = datas.length;
   }
   onsearch() {
+    if (!this.args.name) {
+      this.toastr.warning('请选择员工');
+      return;
+    }
     this.load.emit(this.args);
   }
   onimage(item: EmployeeTrackRecord) {

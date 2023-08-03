@@ -9,7 +9,8 @@
     </div>
     <div>
       <div class="info-title">证件号</div>
-      <div>{{ model.IDNumber }}</div>
+      <div>{{ model.IDNumber ?? "无" }}</div>
     </div>
   </div>
 </div>
+<div class="nodata" *ngIf="!model">请选择员工</div>

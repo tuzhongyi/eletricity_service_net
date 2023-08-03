@@ -15,6 +15,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { StreamType } from 'src/app/enums/stream-type.enum';
 import { HowellUrl } from 'src/app/models/howell-url.model';
 import { VideoModel } from 'src/app/models/video.model';
+import { ConfigRequestService } from 'src/app/network/request/config/config.service';
 import { base64encode, utf16to8 } from 'src/app/tools/base64';
 import { wait } from 'src/app/tools/tools';
 
@@ -56,7 +57,7 @@ export class VideoPlayerComponent
   @Output() onRuleStateChanged: EventEmitter<boolean> = new EventEmitter();
   @Output() onViewerClicked: EventEmitter<number> = new EventEmitter();
 
-  constructor(private sanitizer: DomSanitizer) {
+  constructor(private sanitizer: DomSanitizer, config: ConfigRequestService) {
     let protocol = location.protocol;
     if (!protocol.includes(':')) {
       protocol += ':';
@@ -66,6 +67,16 @@ export class VideoPlayerComponent
       port = ':' + location.port;
     }
     this.webUrl = `${protocol}//${location.hostname}${port}/video/wsplayer/wsplayer.html`;
+    config.get().then((x) => {
+      let url = x.videoUrl
+        .replace('localhost', location.hostname)
+        .replace('127.0.0.1', location.hostname);
+      this.webUrl = url;
+
+      if (location.port === '9526') {
+        this.webUrl = `${protocol}//${location.hostname}:${location.port}/video/wsplayer/wsplayer.html`;
+      }
+    });
   }
   reserve: number = 15 * 1000;
   src?: SafeResourceUrl;

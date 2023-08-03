@@ -43,7 +43,7 @@ class EmployeeManagerConfirmWindow extends WindowViewModel {
   }
   style = {
     width: '500px',
-    height: '300px',
+    height: '260px',
   };
   get language(): string {
     switch (this.command) {
