@@ -103,6 +103,8 @@ export class Language {
         return '遗留物品';
       // case EventType.Removal:
       //   return '物品遗失';
+      case EventType.PlayPhone:
+        return '玩手机';
       case EventType.IllegalAudio:
         return '非正常音频';
       default:

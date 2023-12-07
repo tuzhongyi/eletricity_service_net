@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
@@ -14,7 +14,7 @@ import { Md5 } from 'ts-md5';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private _toastrService: ToastrService,
     private router: Router,
@@ -39,7 +39,19 @@ export class LoginComponent implements OnInit {
     }
     return true;
   }
-  ngOnInit(): void {}
+  handle: any;
+  ngOnInit(): void {
+    this.handle = this.onkeypress.bind(this);
+    window.addEventListener('keypress', this.handle);
+  }
+  ngOnDestroy(): void {
+    window.removeEventListener('keypress', this.handle);
+  }
+  onkeypress(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      this.login();
+    }
+  }
 
   async login() {
     if (this.checkForm) {
