@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { EventType } from 'src/app/enums/event-type.enum';
 import { PictureArgs } from 'src/app/models/args/picture.args';
 import { VideoArgs } from 'src/app/models/args/video.args';
+import { Language } from 'src/app/tools/language';
 import { StoreService } from 'src/app/tools/service/store.service';
 import { RealtimeRecordModel } from '../../tables/realtime-record-table/realtime-record-table.model';
 
@@ -29,6 +30,7 @@ export class RealtimeRecordListComponent implements OnInit {
   types?: EventType[];
   type?: EventType;
   load: EventEmitter<EventType[]> = new EventEmitter();
+  Language = Language;
 
   eventFilter(type?: EventType) {
     this.type = type;
@@ -47,6 +49,8 @@ export class RealtimeRecordListComponent implements OnInit {
           // EventType.Tripwire,
           EventType.Unattended,
           // EventType.Removal,
+          EventType.PlayPhone,
+          EventType.IllegalAudio,
         ];
         break;
       case EventType.Offline:
