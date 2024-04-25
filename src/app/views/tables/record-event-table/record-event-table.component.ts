@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -7,6 +8,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { PictureArgsConverter } from 'src/app/converters/args/picture-args.converter';
@@ -75,6 +77,15 @@ export class RecordEventTableComponent
   width = ['19%', '13.5%', '13.5%', '13.5%', '13.5%', '13.5%', '13.5%'];
   Language = Language;
   page?: Page;
+  @ViewChild('body') bodyElement?: ElementRef;
+
+  get body_height() {
+    if (this.bodyElement) {
+      let div = this.bodyElement.nativeElement as HTMLDivElement;
+      return div.clientHeight;
+    }
+    return undefined;
+  }
 
   ngOnDestroy(): void {
     if (this.load) {

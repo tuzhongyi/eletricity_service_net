@@ -18,6 +18,7 @@ import { VideoModel } from 'src/app/models/video.model';
 import { ConfigRequestService } from 'src/app/network/request/config/config.service';
 import { base64encode, utf16to8 } from 'src/app/tools/base64';
 import { wait } from 'src/app/tools/tools';
+import { PlayerState } from './video-player.model';
 
 @Component({
   selector: 'app-video-player',
@@ -29,7 +30,7 @@ export class VideoPlayerComponent
 {
   @Input() url?: string;
   @Input() model?: VideoModel;
-  @Input() webUrl: string;
+  @Input() webUrl: string = this.createWebUrl();
   @Input() name: string = '';
   @Input() index = 0;
   @Input() play?: EventEmitter<VideoModel>;
@@ -57,29 +58,13 @@ export class VideoPlayerComponent
   @Output() onRuleStateChanged: EventEmitter<boolean> = new EventEmitter();
   @Output() onViewerClicked: EventEmitter<number> = new EventEmitter();
 
-  constructor(private sanitizer: DomSanitizer, config: ConfigRequestService) {
-    let protocol = location.protocol;
-    if (!protocol.includes(':')) {
-      protocol += ':';
-    }
-    let port = '';
-    if (location.port) {
-      port = ':' + location.port;
-    }
-    this.webUrl = `${protocol}//${location.hostname}${port}/video/wsplayer/wsplayer.html`;
-    config.get().then((x) => {
-      let url = x.videoUrl
-        .replace('localhost', location.hostname)
-        .replace('127.0.0.1', location.hostname);
-      this.webUrl = url;
-
-      if (location.port === '9526') {
-        this.webUrl = `${protocol}//${location.hostname}:${location.port}/video/wsplayer/wsplayer.html`;
-      }
-    });
-  }
+  constructor(
+    private sanitizer: DomSanitizer,
+    private config: ConfigRequestService
+  ) {}
   reserve: number = 15 * 1000;
   src?: SafeResourceUrl;
+  isinited = false;
   isloaded = false;
   playing = false;
   stream: StreamType = StreamType.main;
@@ -181,7 +166,8 @@ export class VideoPlayerComponent
   ngAfterViewInit(): void {
     this.load();
   }
-  ngOnInit(): void {
+  async ngOnInit() {
+    await this.init();
     this.load();
   }
   ngOnDestroy(): void {
@@ -190,22 +176,63 @@ export class VideoPlayerComponent
     }
     this.destroy.emit(this.model);
   }
+  createWebUrl() {
+    let protocol = location.protocol;
+    if (!protocol.includes(':')) {
+      protocol += ':';
+    }
+    let port = '';
+    if (location.port) {
+      port = ':' + location.port;
+    }
+    return `${protocol}//${location.hostname}${port}/video/wsplayer/wsplayer.html`;
+  }
+  async init() {
+    let protocol = location.protocol;
+    if (!protocol.includes(':')) {
+      protocol += ':';
+    }
+    let port = '';
+    if (location.port) {
+      port = location.port;
+    }
+    this.webUrl = `${protocol}//${location.hostname}${
+      port.indexOf(':') < 0 ? ':' : ''
+    }${port}/video/wsplayer/wsplayer.html`;
+    let x = await this.config.get();
+    let url = x.videoUrl
+      .replace('localhost', location.hostname)
+      .replace('127.0.0.1', location.hostname);
+    this.webUrl = url;
+
+    if (location.port === '9526') {
+      this.webUrl = `${protocol}//${location.hostname}:${location.port}/video/wsplayer/wsplayer.html`;
+    }
+    this.isinited = true;
+  }
   load() {
-    if (!this.isloaded) {
-      if (this.model) {
-        this.url = this.model.toString();
-        if (this.model.web) {
-          this.webUrl = this.model.web;
+    wait(
+      () => {
+        return this.isinited;
+      },
+      () => {
+        if (!this.isloaded) {
+          if (this.model) {
+            this.url = this.model.toString();
+            if (this.model.web) {
+              this.webUrl = this.model.web;
+            }
+          }
+
+          if (this.url) {
+            let src = this.getSrc(this.webUrl, this.url, this.name);
+            this.src = this.sanitizer.bypassSecurityTrustResourceUrl(src);
+            this.isloaded = true;
+            this.loaded.emit();
+          }
         }
       }
-
-      if (this.url) {
-        let src = this.getSrc(this.webUrl, this.url, this.name);
-        this.src = this.sanitizer.bypassSecurityTrustResourceUrl(src);
-        this.isloaded = true;
-        this.loaded.emit();
-      }
-    }
+    );
   }
 
   onLoad(event: Event) {
@@ -312,9 +339,15 @@ export class VideoPlayerComponent
   }
 
   async onstop() {
-    if (this.player) {
-      return this.player.stop();
-    }
+    try {
+      new Promise((x) => {
+        if (this.player) {
+          return this.player.stop();
+        }
+        return void 0;
+      });
+    } catch (error) {}
+    this.src = undefined;
     return;
   }
 

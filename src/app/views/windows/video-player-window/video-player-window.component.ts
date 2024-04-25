@@ -1,5 +1,6 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
@@ -57,6 +58,7 @@ export class VideoPlayerWindowComponent
   duration: TimeDurationModel;
   data?: VideoModel;
   DateTimePickerView = DateTimePickerView;
+  stop: EventEmitter<void> = new EventEmitter();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.time) {
@@ -88,6 +90,8 @@ export class VideoPlayerWindowComponent
     this.mode = mode;
     if (mode == PlayMode.live) {
       this.preview();
+    } else {
+      this.stop.emit();
     }
   }
   async preview() {

@@ -26,7 +26,7 @@ declare class WSPlayerProxy {
   onViewerDoubleClicked: (index: number) => void;
   onViewerClicked: (index: number) => void;
   onRuleStateChanged: (index: number, state: boolean) => void;
-  onStatusChanged: (index: number, state: PlayerState) => void;
+  onStatusChanged: (index: number, state: number) => void;
   destory: () => void;
 }
 
@@ -53,16 +53,4 @@ declare enum ButtonName {
   jump_back = 'jump_back',
   /** 跳进 */
   jump_forward = 'jump_forward',
-}
-declare enum PlayerState {
-  ready = 0,
-  playing = 1,
-  pause = 2,
-  slow = 3,
-  fast = 4,
-  end = 5,
-  opening = 6,
-  closing = 7,
-  frame = 8,
-  closed = 255,
 }
