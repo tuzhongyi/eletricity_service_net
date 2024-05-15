@@ -1,0 +1,43 @@
+<div class="people-stranger-list">
+  <div class="people-stranger-list-body">
+    <div
+      *ngFor="let item of datas; let index = index"
+      (click)="onselect(item)"
+      (dblclick)="ondblclick(item)"
+      [ngStyle]="{
+        width: ' calc((100% - 10px * (' + column + ' - 1)) / ' + column + ')',
+        height: 'calc((100% - 10px * (' + row + ' - 1)) / ' + row + ')'
+      }"
+    >
+      <howell-people-stranger-list-item
+        [data]="item"
+        [selected]="has(item)"
+        [operable]="operable"
+        (enabledChange)="onenabled($event)"
+        (close)="onclose($event)"
+        (record)="onrecord($event)"
+      ></howell-people-stranger-list-item>
+    </div>
+  </div>
+  <div
+    class="people-stranger-list-foot"
+    [ngStyle]="{
+      'justify-content': single ? 'flex-end' : 'space-between'
+    }"
+    *ngIf="haspage || hasfoot"
+  >
+    <div *ngIf="hasfoot">
+      <ng-content select="footer"></ng-content>
+    </div>
+    <app-paginator
+      *ngIf="!!page && haspage"
+      [length]="page.TotalRecordCount"
+      [pageSize]="page.PageSize"
+      [pagerCount]="5"
+      [pageIndex]="page.PageIndex - 1"
+      [showFirstLastButtons]="true"
+      (page)="pageEvent($event)"
+    >
+    </app-paginator>
+  </div>
+</div>

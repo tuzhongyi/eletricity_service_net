@@ -9,16 +9,39 @@ import { ServiceHelper } from './service-helper';
 
 export class BaseRequestService {
   constructor(public http: HttpClient) {}
-  get<R>(url: string) {
-    return firstValueFrom(this.http.get<R>(url));
+  get<R>(url: string): Promise<R> {
+    return new Promise<R>((resolve, reject) => {
+      firstValueFrom(this.http.get<R>(url))
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((res) => {
+          if (res.status === 200) {
+            resolve(res.error.text);
+          } else {
+            reject(res);
+          }
+        });
+    });
   }
   put<T, R>(url: string, model: T) {
     let data = classToPlain(model) as T;
     return firstValueFrom(this.http.put<R>(url, data));
   }
   post<T, R>(url: string, data: T) {
-    let plain = classToPlain(data) as T;
-    return firstValueFrom(this.http.post<R>(url, plain));
+    return new Promise<R>((resolve, reject) => {
+      firstValueFrom(this.http.post<R>(url, data))
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((res) => {
+          if (res.status === 200) {
+            resolve(res.error.text);
+          } else {
+            reject(res);
+          }
+        });
+    });
   }
   delete<R>(url: string) {
     return firstValueFrom(this.http.delete<R>(url));
@@ -119,6 +142,10 @@ export class BaseRequestService {
       this.http.post<HowellResponse<PagedList<T>>>(url, data)
     );
     return ServiceHelper.ResponseProcess(response, type);
+  }
+
+  string(url: string) {
+    return firstValueFrom(this.http.post<string>(url, undefined));
   }
 
   type<T>(type: ClassConstructor<T>): BaseTypeRequestService<T> {

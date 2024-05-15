@@ -1,4 +1,4 @@
-﻿
+
 @font-face {
     font-family: 'HowellFont';
     src: url("Howell.Font.eot") format("embedded-opentype"), url("Howell.Font.woff") format("woff"), url("Howell.Font.ttf") format("truetype"), url("Howell.Font.svg") format("svg");
@@ -2534,4 +2534,72 @@ a .howell-icon-flip-vertical:before {
 
 .howell-icon-sort:before {
     content: "\f389";
+}
+
+.howell-icon-task_tree:before {
+    content: "\f390";
+}
+
+.howell-icon-task_details:before {
+    content: "\f391";
+}
+
+.howell-icon-top:before {
+    content: "\f392";
+}
+
+.howell-icon-middle:before {
+    content: "\f393";
+}
+
+.howell-icon-bottom:before {
+    content: "\f394";
+}
+
+.howell-icon-smart_garbage:before {
+    content: "\f395";
+}
+
+.howell-icon-garbage_1:before {
+    content: "\f396";
+}
+
+.howell-icon-garbage_2:before {
+    content: "\f397";
+}
+
+.howell-icon-garbage_ground:before {
+    content: "\f398";
+}
+
+.howell-icon-robot:before {
+    content: "\f399";
+}
+
+.howell-icon-full_screen:before {
+    content: "\f400";
+}
+
+.howell-icon-type:before {
+    content: "\f401";
+}
+
+.howell-icon-subtitles:before {
+    content: "\f402";
+}
+
+.howell-icon-subtitles_off:before {
+    content: "\f403";
+}
+
+.howell-icon-tree:before {
+    content: "\f404";
+}
+
+.howell-icon-list3:before {
+    content: "\f405";
+}
+
+.howell-icon-dashboard:before {
+    content: "\f406";
 }

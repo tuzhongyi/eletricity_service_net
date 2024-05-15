@@ -33,6 +33,8 @@ export class VideoModel {
 
   web?: string;
 
+  sourceId?: string;
+
   constructor(
     options?:
       | {
@@ -117,6 +119,33 @@ export class VideoModel {
       }.mp4?user=${this.username}&password=${this.password}`;
     }
     return url;
+  }
+
+  toSrt() {
+    if (this.mode === PlayMode.vod && this.beginTime && this.endTime) {
+      let protocol = location.protocol;
+      if (protocol.indexOf(':') < 0) {
+        protocol += ':';
+      }
+      let url = `${protocol}//${this.host}:${this.port}/ws/video/Subtitling/${
+        this.deviceId
+      }/${
+        this.slot
+      }/${this.beginTime.toISOString()}_${this.endTime.toISOString()}/${
+        this.mode
+      }.srt`;
+
+      return url;
+      // let url = UrlTool.get(
+      //   `/ws/video/Subtitling/${this.deviceId}/${
+      //     this.slot
+      //   }/${this.beginTime.toISOString()}_${this.endTime.toISOString()}/${
+      //     this.mode
+      //   }.srt`
+      // );
+      // return url;
+    }
+    throw new Error('当前模式不支持生成字幕');
   }
 
   static fromUrl(url: string, username?: string, password?: string) {

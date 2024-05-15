@@ -1,6 +1,7 @@
 const PROXY_CONFIG = [
   {
     context: [
+      '/api/howell/ver10/subtitling_service/',
       '/howell/ver10/data_service/',
       '/api/howell/ver10/aiop_service/',
       '/amap/',
@@ -14,7 +15,13 @@ const PROXY_CONFIG = [
     secure: false,
   },
   {
-    context: ['/video/wsplayer/'],
+    context: ['/ws/video/Subtitling'],
+    target: 'http://192.168.21.122:8800',
+    changeOrigin: true,
+    secure: false,
+  },
+  {
+    context: [, '/video/wsplayer/'],
     target: 'http://192.168.21.241:8800',
     changeOrigin: true,
     secure: false,

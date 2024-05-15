@@ -4,6 +4,9 @@ import { EmployeesManagerIndexComponent } from './employees-manager/employees-ma
 import { SettingsCameraZoneComponent } from './settings-camera-zone/settings-camera-zone.component';
 import { SettingsMapComponent } from './settings-map/settings-map.component';
 import { SettingsServiceComponent } from './settings-service/settings-service.component';
+import { SettingsSubtitleChannelManagerComponent } from './settings-subtitle-channel-manager/settings-subtitle-channel-manager.component';
+import { SettingsSubtitleChannelSupportedComponent } from './settings-subtitle-channel-supported/settings-subtitle-channel-supported.component';
+import { SettingsSubtitleServerComponent } from './settings-subtitle-server/settings-subtitle-server.component';
 import { SettingsComponent } from './settings.component';
 
 export const SettingComponents = [
@@ -12,6 +15,9 @@ export const SettingComponents = [
   SettingsMapComponent,
   SettingsServiceComponent,
   SettingsCameraZoneComponent,
+  SettingsSubtitleChannelManagerComponent,
+  SettingsSubtitleChannelSupportedComponent,
+  SettingsSubtitleServerComponent,
   EmployeesManagerIndexComponent,
   EmployeesManagerDetailsComponent,
 ];

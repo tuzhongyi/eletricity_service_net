@@ -1,0 +1,29 @@
+<div class="people-stranger-record-list" *ngIf="datas && datas.length > 0">
+  <div class="people-stranger-record-list-body">
+    <div
+      *ngFor="let item of datas"
+      (click)="onclick(item)"
+      [ngStyle]="{
+        width: ' calc((100% - 10px * (' + column + ' - 1)) / ' + column + ')',
+        height: 'calc((100% - 10px * (' + row + ' - 1)) / ' + row + ')'
+      }"
+    >
+      <howell-people-stranger-record-list-item
+        [data]="item"
+      ></howell-people-stranger-record-list-item>
+    </div>
+  </div>
+  <div class="people-stranger-record-list-foot">
+    <app-paginator
+      *ngIf="!!page"
+      [length]="page.TotalRecordCount"
+      [pageSize]="page.PageSize"
+      [pagerCount]="5"
+      [pageIndex]="page.PageIndex - 1"
+      [showFirstLastButtons]="true"
+      (page)="pageEvent($event)"
+    >
+    </app-paginator>
+  </div>
+</div>
+<div class="nodata" *ngIf="!datas || datas.length === 0">无数据</div>

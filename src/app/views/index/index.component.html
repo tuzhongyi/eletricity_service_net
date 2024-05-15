@@ -26,13 +26,14 @@
       ></howell-record>
     </ng-container>
     <ng-container *ngIf="path === NavigationPath.video">
-      <howell-video></howell-video>
+      <howell-video (playback)="trigger.video.playback($event)"></howell-video>
     </ng-container>
     <ng-container *ngIf="path === NavigationPath.setting">
       <howell-settings></howell-settings>
     </ng-container>
     <ng-container *ngIf="path === NavigationPath.employee_track">
-      <howell-employee-track-manager></howell-employee-track-manager>
+      <!-- <howell-employee-track-manager></howell-employee-track-manager> -->
+      <howell-people></howell-people>
     </ng-container>
   </div>
 </div>
@@ -45,7 +46,9 @@
   [cameraId]="window.video.cameraId"
   [title]="window.video.title"
   [mode]="window.video.mode"
-  [time]="window.video.time"
+  [begin]="window.video.begin"
+  [end]="window.video.end"
+  [subtitle]="window.video.subtitle"
 ></howell-video-player-window>
 <app-window
   *ngIf="window.picture.show"

@@ -1,0 +1,56 @@
+.video-source-select-table {
+  height: 100%;
+  width: 100%;
+
+  .body {
+
+    height: calc(100% - 40px - 10px);
+    width: calc(100%);
+
+
+
+    table {
+      border-spacing: 0px 0px;
+      margin: 0;
+      width: 100%;
+
+
+      tr {
+        background-color: unset;
+        height: 36px;
+
+        &.selected {
+          background-color: unset;
+
+          &:hover {
+            background-color: rgba(239, 111, 89, 0.4);
+          }
+
+        }
+
+        td {
+          cursor: pointer;
+          color: white;
+          font-size: 16px;
+
+          &:first-child {
+            padding-left: 20px;
+          }
+
+
+
+
+          .check {
+            display: flex;
+            align-items: center;
+            height: 36px !important;
+            gap: 10px;
+
+
+          }
+        }
+      }
+
+    }
+  }
+}

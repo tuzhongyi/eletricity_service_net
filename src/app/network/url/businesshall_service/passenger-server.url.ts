@@ -1,4 +1,4 @@
-import { businesshall_service_url } from '../businesshall_service.url';
+import { businesshall_service_url } from '../basic.url';
 
 export class PassengerServerUrl {
   static basic() {

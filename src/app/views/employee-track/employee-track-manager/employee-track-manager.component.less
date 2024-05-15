@@ -1,84 +1,72 @@
 .employee-track-manager {
   height: 100%;
   width: 100%;
-  padding: 20px;
   box-sizing: border-box;
 
-  &-head {
-    width: 100%;
-    box-sizing: border-box;
 
-    .title {
-      color: white;
-      font-size: 24px;
-      border-bottom: 1px solid #006764;
-      padding-bottom: 20px;
-    }
-  }
 
-  &-body {
-    height: calc(100% - 65px);
 
-    &-filter {
+
+  &-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    margin-bottom: 10px;
+
+    &-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      color: white;
-      margin-bottom: 10px;
+    }
+  }
 
-      &-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+  &-content {
+    height: calc(100% - 66px);
+    display: flex;
+    justify-content: space-between;
+
+
+
+    .left {
+      width: calc((100% - 10px) * 0.30);
+      height: 100%;
+
+      .info {
+        height: 100px;
+        margin-bottom: 10px;
+      }
+
+      .list {
+        height: calc(100% - 100px - 10px);
       }
     }
 
-    &-content {
-      height: calc(100% - 66px);
-      display: flex;
-      justify-content: space-between;
+    .right {
+      width: calc((100% - 10px) * 0.70);
+      height: 100%;
+      padding: 0 !important;
 
-
-
-      .left {
-        width: calc((100% - 10px) * 0.30);
-        height: 100%;
-
-        .info {
-          height: 100px;
-          margin-bottom: 10px;
-        }
-
-        .list {
-          height: calc(100% - 100px - 10px);
-        }
+      .view {
+        height: calc(100% - 55px);
+        background-color: black;
       }
 
-      .right {
-        width: calc((100% - 10px) * 0.70);
-        height: 100%;
-        padding: 0 !important;
+      .controls {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        border-top: 1px solid #006764;
 
-        .view {
-          height: calc(100% - 55px);
-          background-color: black;
-        }
-
-        .controls {
-          box-sizing: border-box;
-          width: 100%;
-          padding: 10px;
-          display: flex;
-          justify-content: space-between;
-          border-top: 1px solid #006764;
-
-          .hidden {
-            visibility: hidden;
-          }
+        .hidden {
+          visibility: hidden;
         }
       }
     }
   }
+
 
   .panel {
     border: solid #07a990 1px;

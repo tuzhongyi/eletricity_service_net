@@ -25,6 +25,7 @@ export class VideoPlayerWindowBusiness
     let data = await this.getData(cameraId, mode, duration);
 
     let model = this.Converter.Convert(data);
+    model.sourceId = cameraId;
     return model;
   }
   getData(

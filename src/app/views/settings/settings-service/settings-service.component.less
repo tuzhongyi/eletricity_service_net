@@ -4,20 +4,39 @@
   align-items: center;
   width: 100%;
   height: 100%;
+  gap: 20px;
 
 
-
-  &>* {
+  &>div {
     width: 200px;
-    margin-right: 20px;
-
-    &:last-child {
-      margin-right: 0;
-    }
 
     &>* {
       width: 100%;
       height: 50px;
     }
+
+    button {
+      margin-left: 0;
+    }
+  }
+
+
+  .confirm {
+    height: calc(100% + 40px);
+
+    &-head {
+      margin-top: -40px;
+    }
+
+    &-body {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+
+
+  app-window {
+    position: absolute;
   }
 }

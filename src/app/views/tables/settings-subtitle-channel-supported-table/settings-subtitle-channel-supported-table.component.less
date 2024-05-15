@@ -1,0 +1,65 @@
+.settings-subtitle-channel-supported-table {
+  height: 100%;
+  width: 100%;
+
+  table {
+    tr {
+      height: 50px;
+
+      td {
+
+        height: 50px;
+
+        &:first-child {
+          padding: 0 20px;
+          box-sizing: border-box;
+        }
+
+        .check {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .head {
+    height: 50px;
+  }
+
+  .body {
+    overflow-y: scroll;
+    height: calc(100% - 50px);
+    width: calc(100% + 4px);
+
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0px 0px;
+      margin: 0;
+
+      tr {
+
+        td {
+          cursor: pointer;
+
+          .check {
+            height: 50px;
+            pointer-events: none;
+          }
+
+
+        }
+
+        .glyphicon {
+          top: 0;
+          font-size: 15px;
+        }
+      }
+    }
+  }
+}

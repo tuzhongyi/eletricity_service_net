@@ -3,28 +3,40 @@
     <div class="video-title title">
       <div class="left">
         <div
-          (click)="playModeChange(PlayMode.live)"
-          [class.selected]="mode === PlayMode.live"
+          (click)="onnavigation(Navigation.preview)"
+          [class.selected]="navigation === Navigation.preview"
         >
           实时视频
         </div>
         <div
-          (click)="playModeChange(PlayMode.vod)"
-          [class.selected]="mode === PlayMode.vod"
+          (click)="onnavigation(Navigation.playback)"
+          [class.selected]="navigation === Navigation.playback"
         >
           视频回放
         </div>
+        <div
+          (click)="onnavigation(Navigation.subtitle)"
+          [class.selected]="navigation === Navigation.subtitle"
+        >
+          字幕搜索
+        </div>
       </div>
-      <div class="right">
+      <div
+        class="right"
+        *ngIf="
+          navigation === Navigation.preview ||
+          navigation === Navigation.playback
+        "
+      >
         <button
           (click)="screenModeChange(ScreenMode.one)"
-          [class.selected]="screen === ScreenMode.one"
+          [class.selected]="screen.mode === ScreenMode.one"
         >
           <i class="icon-sign-blank"></i>
         </button>
         <button
           (click)="screenModeChange(ScreenMode.four)"
-          [class.selected]="screen === ScreenMode.four"
+          [class.selected]="screen.mode === ScreenMode.four"
         >
           <i class="icon-th-large"></i>
         </button>
@@ -34,29 +46,51 @@
         </button>
       </div>
     </div>
-    <div class="video-content">
-      <div class="left">
-        <div
-          class="video-content-source"
-          [class.playback]="mode === PlayMode.vod"
-        >
-          <howell-video-source-list
+    <div
+      class="video-content"
+      [ngClass]="{
+        subtitle: navigation === Navigation.subtitle
+      }"
+    >
+      <ng-container
+        *ngIf="
+          navigation === Navigation.preview ||
+          navigation === Navigation.playback
+        "
+      >
+        <div class="left" *ngIf="navigation === Navigation.preview">
+          <howell-video-setting-preview
             *ngIf="hallId"
             [hallId]="hallId"
-            (select)="onCameraSelect($event)"
-          ></howell-video-source-list>
+            [(camera)]="selected"
+            (play)="onplay($event)"
+          >
+          </howell-video-setting-preview>
         </div>
-        <div *ngIf="mode === PlayMode.vod" class="config">
-          <howell-video-playback-config (playback)="onPlayback($event)">
-          </howell-video-playback-config>
+
+        <div class="left" *ngIf="navigation === Navigation.playback">
+          <howell-video-setting-playback
+            *ngIf="hallId"
+            [hallId]="hallId"
+            [(camera)]="selected"
+            (play)="onplay($event)"
+          >
+          </howell-video-setting-playback>
         </div>
-      </div>
-      <div class="right howell-video-player-list">
-        <howell-video-player-list
-          [mode]="screen"
-          [play]="play"
-        ></howell-video-player-list>
-      </div>
+
+        <div class="right howell-video-player-list">
+          <howell-video-player-list
+            [mode]="screen.mode"
+            [play]="play"
+            [(index)]="screen.index"
+          ></howell-video-player-list>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="navigation === Navigation.subtitle">
+        <howell-video-keywords
+          (playback)="onplaywindow($event)"
+        ></howell-video-keywords>
+      </ng-container>
     </div>
   </howell-card>
 </div>

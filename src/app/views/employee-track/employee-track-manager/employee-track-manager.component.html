@@ -1,127 +1,120 @@
 <div class="employee-track-manager">
-  <howell-card>
-    <div class="employee-track-manager-head">
-      <div class="title">员工轨迹</div>
-    </div>
-    <div class="employee-track-manager-body">
-      <div class="panel employee-track-manager-body-filter">
-        <div class="filter">
-          <div class="filter-item">
-            <div>开始时间：</div>
-            <div>
-              <input
-                type="text"
-                class="date-select"
-                DateTimePicker
-                [format]="'yyyy-MM-dd HH:mm'"
-                [(date)]="args.duration.begin"
-              />
-            </div>
-          </div>
-          <div class="filter-item">
-            <div>结束时间：</div>
-            <div>
-              <input
-                type="text"
-                class="date-select"
-                DateTimePicker
-                [format]="'yyyy-MM-dd HH:mm'"
-                [(date)]="args.duration.end"
-              />
-            </div>
-          </div>
-          <div class="filter-item">
-            <div>员工：</div>
-            <div class="select-control">
-              <select [(ngModel)]="employee.selected">
-                <option [ngValue]="item" *ngFor="let item of employee.datas">
-                  {{ item.Name }}
-                </option>
-              </select>
-              <div class="please" *ngIf="!employee.selected">请选择</div>
-            </div>
-          </div>
-          <div class="filter-item">
-            <button class="full" (click)="onsearch()">
-              <i class="howell-icon-search2"></i> 查询
-            </button>
-          </div>
+  <div class="panel employee-track-manager-filter">
+    <div class="filter">
+      <div class="filter-item">
+        <div>开始时间：</div>
+        <div>
+          <input
+            type="text"
+            class="date-select"
+            DateTimePicker
+            [format]="'yyyy-MM-dd HH:mm'"
+            [(date)]="args.duration.begin"
+          />
         </div>
       </div>
-      <div class="employee-track-manager-body-content">
-        <div class="left">
-          <div class="panel info">
-            <howell-employee-track-simple-info
-              [model]="employee.selected"
-            ></howell-employee-track-simple-info>
-          </div>
-          <div class="panel list">
-            <howell-employees-track-record-table
-              [args]="args"
-              [load]="load"
-              [init]="false"
-              (image)="onimage($event)"
-              (video)="onvideo($event)"
-              (loaded)="onloaded($event)"
-              [(index)]="index"
-            ></howell-employees-track-record-table>
-          </div>
+      <div class="filter-item">
+        <div>结束时间：</div>
+        <div>
+          <input
+            type="text"
+            class="date-select"
+            DateTimePicker
+            [format]="'yyyy-MM-dd HH:mm'"
+            [(date)]="args.duration.end"
+          />
         </div>
-        <div class="panel right">
-          <div class="view">
-            <ng-container *ngIf="!!selected">
-              <app-image
-                *ngIf="selected.command === Command.image"
-                [url]="selected.Picture"
-                [full]="true"
-              ></app-image>
-              <app-video-player
-                *ngIf="selected.command === Command.video"
-                [play]="selected.play"
-                (onStoping)="onstop()"
-              ></app-video-player>
-            </ng-container>
-          </div>
-          <div class="controls">
-            <div></div>
-            <div>
-              <button
-                title="上一条记录"
-                class="void"
-                [disabled]="index === undefined || index <= 0"
-                (click)="onprov()"
-              >
-                <i class="howell-icon-arrow2left"></i>
-              </button>
-              <button
-                title="下一条记录"
-                class="void"
-                (click)="onnext()"
-                [disabled]="index === undefined || index + 1 >= count"
-              >
-                <i class="howell-icon-arrow2right"></i>
-              </button>
-            </div>
-            <div>
-              <button
-                (click)="autoplay = !autoplay"
-                class="void"
-                [ngClass]="{
-                  selected: autoplay
-                }"
-                title="视频自动播放"
-              >
-                <i class="howell-icon-sort"></i>
-              </button>
-              <button class="void" (click)="tosetting()" title="视频设置">
-                <i class="howell-icon-settingoutline"></i>
-              </button>
-            </div>
-          </div>
+      </div>
+      <div class="filter-item">
+        <div>员工：</div>
+        <div class="select-control">
+          <select [(ngModel)]="employee.selected">
+            <option [ngValue]="item" *ngFor="let item of employee.datas">
+              {{ item.Name }}
+            </option>
+          </select>
+          <div class="please" *ngIf="!employee.selected">请选择</div>
+        </div>
+      </div>
+      <div class="filter-item">
+        <button class="full" (click)="onsearch()">
+          <i class="howell-icon-search2"></i> 查询
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="employee-track-manager-content">
+    <div class="left">
+      <div class="panel info">
+        <howell-employee-track-simple-info
+          [model]="employee.selected"
+        ></howell-employee-track-simple-info>
+      </div>
+      <div class="panel list">
+        <howell-employees-track-record-table
+          [args]="args"
+          [load]="load"
+          [init]="false"
+          (image)="onimage($event)"
+          (video)="onvideo($event)"
+          (loaded)="onloaded($event)"
+          [(index)]="index"
+        ></howell-employees-track-record-table>
+      </div>
+    </div>
+    <div class="panel right">
+      <div class="view">
+        <ng-container *ngIf="!!selected">
+          <app-image
+            *ngIf="selected.command === Command.image"
+            [url]="selected.Picture"
+            [full]="true"
+          ></app-image>
+          <app-video-player
+            *ngIf="selected.command === Command.video"
+            [play]="selected.play"
+            (onStoping)="onstop()"
+          ></app-video-player>
+        </ng-container>
+      </div>
+      <div class="controls">
+        <div></div>
+        <div>
+          <button
+            title="上一条记录"
+            class="void"
+            [disabled]="index === undefined || index <= 0"
+            (click)="onprov()"
+          >
+            <i class="howell-icon-arrow2left"></i>
+          </button>
+          <button
+            title="下一条记录"
+            class="void"
+            (click)="onnext()"
+            [disabled]="index === undefined || index + 1 >= count"
+          >
+            <i class="howell-icon-arrow2right"></i>
+          </button>
+        </div>
+        <div>
+          <button
+            (click)="autoplay = !autoplay"
+            class="void"
+            [ngClass]="{
+              selected: autoplay
+            }"
+            title="视频自动播放"
+          >
+            <i class="howell-icon-sort"></i>
+          </button>
+          <button class="void" (click)="tosetting()" title="视频设置">
+            <i class="howell-icon-settingoutline"></i>
+          </button>
         </div>
       </div>
     </div>
-  </howell-card>
+  </div>
 </div>
 
 <app-window

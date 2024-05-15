@@ -6,7 +6,7 @@ export class SettingsServiceAnalysisBusiness {
   constructor(private service: AnalysisServerRequestService) {}
 
   sync(id: string) {
-    this.service.sync(id);
+    return this.service.sync(id);
   }
   get() {
     return this.service.array();

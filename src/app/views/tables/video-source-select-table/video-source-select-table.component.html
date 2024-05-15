@@ -1,0 +1,23 @@
+<div class="video-source-select-table table">
+  <div class="body nohead" *ngIf="!!datas">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <tbody>
+        <tr
+          *ngFor="let item of datas"
+          [class.selected]="selecteds.includes(item)"
+        >
+          <td (click)="onselect($event, item)">
+            <div class="check">
+              <mat-checkbox
+                [disableRipple]="true"
+                [checked]="selecteds.includes(item)"
+                (click)="onchange($event, item)"
+              ></mat-checkbox>
+              {{ item.name }}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

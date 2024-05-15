@@ -1,6 +1,6 @@
-import { IdModel } from './model.interface';
+import { IIdModel } from './model.interface';
 
-export class AnalysisServer implements IdModel {
+export class AnalysisServer implements IIdModel {
   /**	String	ID	M	*/
   Id!: string;
   /**	String	名称	O	*/

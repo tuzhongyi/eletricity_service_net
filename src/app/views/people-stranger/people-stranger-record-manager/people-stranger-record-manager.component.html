@@ -1,0 +1,60 @@
+<div class="people-stranger-record-manager">
+  <div class="people-stranger-record-manager-head">
+    <div class="filter">
+      <div class="filter-item">
+        <div class="filter-item-title">选择日期：</div>
+        <div class="filter-item-value">
+          <input
+            type="text"
+            DateTimePicker
+            [format]="'yyyy'"
+            [startView]="DateTimePickerView.decade"
+            [minView]="DateTimePickerView.decade"
+            [(date)]="record.opts.date"
+            class="date-select"
+          />
+        </div>
+      </div>
+
+      <div class="filter-item cameras">
+        <div class="filter-item-title">摄像机：</div>
+        <div class="filter-item-value">
+          <common-label-select
+            [autoclose]="true"
+            [selectedNodes]="selection.label_selecteds"
+            [max-height]="'240px'"
+          >
+            <howell-video-source-select-table
+              #tree
+              (selectedsChange)="selection.onselect($event)"
+            ></howell-video-source-select-table>
+          </common-label-select>
+        </div>
+      </div>
+
+      <div class="filter-item">
+        <button class="full" (click)="onsearch()">
+          <i class="howell-icon-search2"></i> 查询
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="people-stranger-record-manager-body">
+    <howell-people-stranger-record-list
+      [opts]="record.opts"
+      [load]="record.load"
+      (select)="onrecordselect($event)"
+    ></howell-people-stranger-record-list>
+  </div>
+</div>
+
+<app-window
+  *ngIf="window.details.show"
+  [model]="window.details"
+  [style]="window.details.style"
+  [title]="window.details.title"
+>
+  <howell-people-stranger-record-details
+    [data]="window.details.data"
+  ></howell-people-stranger-record-details>
+</app-window>

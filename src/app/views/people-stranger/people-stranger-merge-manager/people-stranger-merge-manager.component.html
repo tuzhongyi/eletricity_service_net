@@ -1,0 +1,73 @@
+<div class="people-stranger-merge-manager">
+  <div class="people-stranger-merge-manager-body">
+    <div class="panel people-stranger-merge-manager-body-main">
+      <div class="people-stranger-merge-manager-body-main-title title">
+        合并人员
+      </div>
+      <div
+        *ngIf="!!selected"
+        class="people-stranger-merge-manager-body-main-content"
+      >
+        <div class="pic">
+          <howell-people-picture-face
+            [src]="selected.FacePicture"
+          ></howell-people-picture-face>
+        </div>
+        <div class="people-stranger-merge-manager-body-main-content-item">
+          <div>库内名称：</div>
+          <div>{{ selected.Name }}</div>
+        </div>
+        <div class="people-stranger-merge-manager-body-main-content-item">
+          <div>出现次数：</div>
+          <div>{{ selected.Occurrences }}次</div>
+        </div>
+        <div class="people-stranger-merge-manager-body-main-content-item">
+          <div>首次出现日期：</div>
+          <div>
+            {{ selected.CreationTime | date : "yyyy年MM月dd日" }}
+          </div>
+        </div>
+        <div class="people-stranger-merge-manager-body-main-content-item">
+          <div>是否启用：</div>
+          <div>{{ selected.Enabled ? "是" : "屏蔽" }}</div>
+        </div>
+        <div
+          class="people-stranger-merge-manager-body-main-content-item"
+          *ngIf="selected.Description"
+        >
+          <div>备注：</div>
+          <div>{{ selected.Description }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel people-stranger-merge-manager-body-list">
+      <div class="people-stranger-merge-manager-body-list-title title">
+        待合并人员
+      </div>
+      <div class="people-stranger-merge-manager-body-list-content">
+        <howell-people-stranger-list
+          [business]="business"
+          [column]="3"
+          [row]="4"
+          [opts]="opts"
+          [load]="load"
+          [single]="true"
+          [selecteds]="selected ? [selected] : []"
+          [operable]="{ close: true }"
+          (selectedsChange)="onselect($event)"
+          (close)="onclose($event)"
+        ></howell-people-stranger-list>
+      </div>
+    </div>
+  </div>
+  <div class="people-stranger-merge-manager-foot">
+    <button
+      class="full"
+      [disabled]="!selected || opts.datas.length < 2"
+      (click)="onok()"
+    >
+      确定
+    </button>
+    <button (click)="oncancel()">取消</button>
+  </div>
+</div>

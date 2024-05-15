@@ -1,0 +1,48 @@
+<div
+  class="label-select"
+  tabindex="-1"
+  [style]="{ backgroundColor: showDropDown ? '#003a3b' : 'unset' }"
+  [title]="title"
+>
+  <div class="label-select-header" (click)="toggleHandler($event)">
+    <div class="placeholder" *ngIf="!selectedNodes.length">请选择</div>
+    <div
+      WheelHorizontalScroll
+      class="wrapper"
+      [ngClass]="{
+        single: single
+      }"
+    >
+      <div class="label-select-item" *ngFor="let node of selectedNodes">
+        <div class="label-select-item-title">{{ node.Name }}</div>
+        <div
+          class="clear"
+          *ngIf="showCloseIcon"
+          (click)="removeNode($event, node)"
+        >
+          <i class="howell-icon-Close"></i>
+        </div>
+      </div>
+    </div>
+    <button class="btn">
+      <i
+        class="mdi"
+        [class]="{
+          'mdi-chevron-down': !showDropDown,
+          'mdi-chevron-up': showDropDown
+        }"
+      ></i>
+    </button>
+  </div>
+  <div
+    class="label-select-body"
+    *ngIf="showDropDown"
+    [ngStyle]="{
+      height: height,
+      'max-height': maxHeight
+    }"
+    (click)="$event.stopPropagation()"
+  >
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -1,0 +1,87 @@
+<div class="settings-subtitle-server">
+  <div class="settings-subtitle-server-body" *ngIf="!!model">
+    <div class="form">
+      <div class="form-item">
+        <div class="form-item-title">
+          <span class="must">*</span>
+          <div>服</div>
+          <div>务</div>
+          <div>器</div>
+          <div>名</div>
+          <div>称：</div>
+        </div>
+
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.Name" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <span class="must">*</span>
+          <div>主</div>
+          <div>机</div>
+          <div>地</div>
+          <div>址：</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.Host" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <span class="must">*</span>
+          <div>端</div>
+          <div>口</div>
+          <div>号：</div>
+        </div>
+        <div class="form-item-value select-control">
+          <input type="text" [(ngModel)]="model.Port" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div>最</div>
+          <div>大</div>
+          <div>分</div>
+          <div>析</div>
+          <div>数：</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.MaxChannelCount" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div>用</div>
+          <div>户</div>
+          <div>名：</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.Username" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div>密</div>
+          <div>码：</div>
+        </div>
+        <div class="form-item-value">
+          <input type="password" [(ngModel)]="model.Password" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div>描</div>
+          <div>述：</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.Description" />
+        </div>
+      </div>
+    </div>
+    <div class="settings-subtitle-server-foot">
+      <button class="full" (click)="onok()">确认</button>
+      <button (click)="oncancel()">取消</button>
+    </div>
+  </div>
+</div>

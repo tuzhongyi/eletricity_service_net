@@ -1,0 +1,61 @@
+.people-stranger-manager {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+
+  &-head {
+    height: 34px;
+    margin-bottom: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button {
+      margin: 0;
+
+      &:disabled {
+        border-color: #07a990;
+      }
+    }
+
+    input[type="number"],
+    input.date {
+      width: 175px;
+
+    }
+
+    .operation {
+      display: flex;
+      gap: 10px;
+    }
+  }
+
+  &-body {
+    width: 100%;
+    height: calc(100% - 34px - 10px);
+
+    footer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #17f1c6;
+
+      &>div.btn {
+        cursor: pointer;
+
+        &:hover {
+          color: #ffd0c8;
+        }
+      }
+
+      .number {
+        color: #ff8373;
+      }
+    }
+
+  }
+
+
+
+}

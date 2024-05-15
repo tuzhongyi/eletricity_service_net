@@ -1,0 +1,13 @@
+<div class="video-setting-playback">
+  <div class="video-setting-playback-source">
+    <howell-video-source-list
+      [hallId]="hallId"
+      [selectedId]="camera?.Id"
+      (select)="oncameraselect($event)"
+    ></howell-video-source-list>
+  </div>
+  <div class="video-setting-playback-config">
+    <howell-video-playback-config (playback)="onplayback($event)">
+    </howell-video-playback-config>
+  </div>
+</div>

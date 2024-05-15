@@ -63,6 +63,19 @@ export class DateTimeTool {
     return duration;
   }
 
+  static allYear(date: Date): Duration {
+    let duration = {
+      begin: new Date(),
+      end: new Date(),
+    };
+    duration.begin = new Date(date.getFullYear(), 0, 1);
+    let next = new Date(duration.begin.getTime());
+    next.setFullYear(next.getFullYear() + 1);
+    next.setMilliseconds(-1);
+    duration.end = next;
+    return duration;
+  }
+
   static beforeAndAfter(date: Date, seconds: number = 30): Duration {
     return this.beforeAfter(date, seconds, seconds);
   }
@@ -99,4 +112,28 @@ export class DateTimeTool {
       end: end,
     };
   }
+
+  static equals = {
+    same: (a: Date, b: Date) => {
+      return a.getTime() === b.getTime();
+    },
+    year: (a: Date, b: Date) => {
+      return a.getFullYear() === b.getFullYear();
+    },
+    month: (a: Date, b: Date) => {
+      return this.equals.year(a, b) && a.getMonth() === b.getMonth();
+    },
+    date: (a: Date, b: Date) => {
+      return this.equals.month(a, b) && a.getDate() === b.getDate();
+    },
+    hour: (a: Date, b: Date) => {
+      return this.equals.date(a, b) && a.getHours() === b.getHours();
+    },
+    minute: (a: Date, b: Date) => {
+      return this.equals.hour(a, b) && a.getMinutes() === b.getMinutes();
+    },
+    second: (a: Date, b: Date) => {
+      return this.equals.minute(a, b) && a.getSeconds() === b.getSeconds();
+    },
+  };
 }

@@ -1,7 +1,5 @@
-import {
-  businesshall_service_url,
-  InnerUrl,
-} from '../businesshall_service.url';
+import { businesshall_service_url } from '../basic.url';
+import { IInnerUrl } from '../businesshall_service.url';
 
 export class EventUrl {
   static basic() {
@@ -15,7 +13,7 @@ export class EventUrl {
     return new EventTrackRecordsUrl(this.basic());
   }
 }
-class EventRecordsUrl implements InnerUrl {
+class EventRecordsUrl implements IInnerUrl {
   constructor(private base: string) {}
   basic(): string {
     return `${this.base}/Records`;
@@ -25,7 +23,7 @@ class EventRecordsUrl implements InnerUrl {
     return `${this.basic()}/List`;
   }
 }
-class EventTrackRecordsUrl implements InnerUrl {
+class EventTrackRecordsUrl implements IInnerUrl {
   constructor(private base: string) {}
   basic(): string {
     return `${this.base}/TrackRecords`;

@@ -32,6 +32,8 @@ export class VideoSourceTableComponent
   filter: string[] = [];
   @Input()
   load?: EventEmitter<string>;
+  @Input()
+  selectedId?: string;
 
   constructor(business: VideoSourceTableBusiness) {
     this.business = business;
@@ -68,6 +70,9 @@ export class VideoSourceTableComponent
       }
 
       this.datas = datas;
+      if (this.selectedId) {
+        this.selected = this.datas.find((x) => x.id == this.selectedId);
+      }
     });
   }
 

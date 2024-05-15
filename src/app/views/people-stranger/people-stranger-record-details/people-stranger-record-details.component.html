@@ -1,0 +1,111 @@
+<div class="people-stranger-record-details" *ngIf="!!model">
+  <div class="people-stranger-record-details-pic">
+    <!-- [ngClass]="{ full: full }"
+    (click)="full = !full" -->
+    <!-- <div
+      [ngStyle]="{
+        'background-image': 'url(' + model.Background + ')'
+      }"
+    ></div> -->
+    <img
+      src="{{ model.BackgroundUrl }}"
+      alt=""
+      (click)="onimageclick(model.BackgroundUrl)"
+      (error)="onimageerror($event)"
+    />
+  </div>
+  <div class="people-stranger-record-details-body">
+    <div class="form">
+      <div class="form-item">
+        <img
+          [src]="model.FacePictureUrl"
+          (error)="image.error.camera = true"
+          *ngIf="model.FacePictureUrl && !image.error.camera"
+        />
+
+        <img
+          [src]="model.FaceSetMatch.FaceUrl"
+          (error)="image.error.face = true"
+          *ngIf="
+            !!model.FaceSetMatch &&
+            model.FaceSetMatch.FaceUrl &&
+            !image.error.face
+          "
+        />
+        <div class="face error" *ngIf="image.error.camera">
+          <i class="mdi mdi-account"></i>
+        </div>
+        <div class="face error" *ngIf="image.error.face">
+          <i class="mdi mdi-account"></i>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div>触</div>
+          <div>发</div>
+          <div>日</div>
+          <div>期：</div>
+        </div>
+
+        <div class="form-item-value">
+          {{ model.Time | date : "yyyy年MM月dd日" }}
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div>触</div>
+          <div>发</div>
+          <div>时</div>
+          <div>间：</div>
+        </div>
+
+        <div class="form-item-value">
+          {{ model.Time | date : "HH:mm:ss" }}
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div>摄</div>
+          <div>像</div>
+          <div>机：</div>
+        </div>
+        <div class="form-item-value">
+          {{ model.CameraName }}
+        </div>
+      </div>
+      <ng-container *ngIf="!!model.FaceSetMatch">
+        <div class="form-item">
+          <div class="form-item-title">
+            <div>名</div>
+            <div>单</div>
+            <div>库：</div>
+          </div>
+          <div class="form-item-value select-control">
+            {{ model.FaceSetMatch.FaceSetName }}
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-title">
+            <div>库</div>
+            <div>内</div>
+            <div>名</div>
+            <div>称：</div>
+          </div>
+          <div class="form-item-value select-control">
+            {{ model.FaceSetMatch.FaceName }}
+          </div>
+        </div>
+        <div class="form-item">
+          <div class="form-item-title">
+            <div>相</div>
+            <div>似</div>
+            <div>度：</div>
+          </div>
+          <div class="form-item-value select-control">
+            {{ model.FaceSetMatch.Similarity * 100 }}%
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

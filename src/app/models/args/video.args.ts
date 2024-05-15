@@ -5,6 +5,9 @@ export class VideoArgs<T = any> {
   title: string = '';
   mode: PlayMode = PlayMode.live;
   autoplay: boolean = false;
-  time?: Date;
+  subtitle = false;
+  begin?: Date;
+  end?: Date;
+
   data?: T;
 }

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { Config, TrackConfig } from 'src/app/models/config';
+import { UrlTool } from 'src/app/tools/url-tool/url.tool';
 
 enum ConfigKey {
   track = 'track',
@@ -12,6 +13,13 @@ enum ConfigKey {
 })
 export class ConfigRequestService {
   constructor(private http: HttpClient) {}
+
+  test = {
+    subtitle: () => {
+      let url = UrlTool.get('/assets/test/0.srt');
+      return firstValueFrom(this.http.get(url, { responseType: 'text' }));
+    },
+  };
 
   get(): Promise<Config> {
     let protocol = location.protocol;

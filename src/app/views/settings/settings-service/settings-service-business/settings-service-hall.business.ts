@@ -14,6 +14,6 @@ export class SettingsServiceHallBusiness {
       let hall = await this.store.getBusinessHall();
       hallId = hall.Id;
     }
-    this.service.syncCenterID(hallId);
+    return this.service.syncCenterID(hallId);
   }
 }

@@ -1,0 +1,66 @@
+<div class="settings-subtitle-channel-manager">
+  <div class="settings-subtitle-channel-manager-head">
+    <div class="settings-subtitle-channel-manager-head-filter">
+      <div class="settings-subtitle-channel-manager-head-filter-item">
+        <div class="settings-subtitle-channel-manager-head-filter-item-title">
+          名称：
+        </div>
+        <div class="settings-subtitle-channel-manager-head-filter-item-value">
+          <input
+            type="text"
+            [placeholder]="'请输入...'"
+            [(ngModel)]="opts.name"
+          />
+        </div>
+      </div>
+      <div class="settings-subtitle-channel-manager-head-filter-item">
+        <div class="settings-subtitle-channel-manager-head-filter-item-title">
+          IP地址：
+        </div>
+        <div class="settings-subtitle-channel-manager-head-filter-item-value">
+          <input
+            type="text"
+            [placeholder]="'请输入...'"
+            [(ngModel)]="opts.host"
+          />
+        </div>
+      </div>
+      <div class="settings-subtitle-channel-manager-head-filter-item">
+        <div class="settings-subtitle-channel-manager-head-filter-item-title">
+          协议类型：
+        </div>
+        <div class="settings-subtitle-channel-manager-head-filter-item-value">
+          <select [(ngModel)]="opts.protocol">
+            <option [ngValue]="undefined">全部</option>
+            <option [ngValue]="'Howell8000'">Howell8000</option>
+          </select>
+        </div>
+      </div>
+      <div class="settings-subtitle-channel-manager-head-filter-item">
+        <button class="full" (click)="onsearch()">
+          <i class="howell-icon-search2"></i> 查询
+        </button>
+      </div>
+    </div>
+    <div class="settings-subtitle-channel-manager-head-operation">
+      <!-- <button class="full" (click)="tosync()">
+        <i class="mdi mdi-cloud-sync"></i> 同步
+      </button>
+      <button class="full" (click)="tocreate()">
+        <i class="howell-icon-plus"></i> 添加
+      </button> -->
+    </div>
+  </div>
+
+  <div class="settings-subtitle-channel-manager-body">
+    <howell-settings-subtitle-channel-supported-table
+      [opts]="opts"
+      [load]="load"
+      [(selecteds)]="selecteds"
+    ></howell-settings-subtitle-channel-supported-table>
+  </div>
+  <div class="settings-subtitle-channel-manager-foot">
+    <button class="full" (click)="onok()">确认</button>
+    <button (click)="oncancel()">取消</button>
+  </div>
+</div>

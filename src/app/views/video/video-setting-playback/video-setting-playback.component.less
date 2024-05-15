@@ -1,0 +1,15 @@
+.video-setting-playback {
+  width: 100%;
+  height: 100%;
+
+  @config-height: 236px;
+
+  &-source {
+    height: calc(100% - @config-height - 10px);
+    margin-bottom: 10px;
+  }
+
+  &-config {
+    height: @config-height;
+  }
+}

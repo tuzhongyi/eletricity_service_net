@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ImageResult } from 'src/app/models/image.model';
 import { PictureResult } from 'src/app/models/picture-result.model';
+import { UrlTool } from 'src/app/tools/url-tool/url.tool';
 import { PicturesUrl } from '../../url/medium/pictures/pictures.url';
 
 @Injectable({
@@ -30,7 +31,7 @@ export class Medium {
       image.src = img;
       image.onerror = () => {
         resolve({
-          url: '/assets/images/image-error.png',
+          url: UrlTool.image.error,
           error: true,
         });
       };

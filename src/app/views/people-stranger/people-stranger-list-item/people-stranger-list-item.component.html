@@ -1,0 +1,45 @@
+<div
+  class="people-stranger-list-item"
+  [ngClass]="{ selected: selected }"
+  (mouseover)="image.onmouseover()"
+  (mouseout)="image.onmouseout()"
+  (mousemove)="image.onmouseover()"
+>
+  <div class="operation" *ngIf="operable.close || operable.record">
+    <div *ngIf="operable.record" (click)="onrecord($event)" title="出现记录">
+      <i class="howell-icon-details"></i>
+    </div>
+    <div *ngIf="operable.close" (click)="onclose($event)">
+      <i class="howell-icon-Close"></i>
+    </div>
+  </div>
+  <div class="people-stranger-list-item-pic">
+    <howell-people-picture-face
+      class="pic"
+      [src]="model.FacePicture"
+      [hover]="image.hover"
+      [selected]="selected"
+    >
+      <div class="disabled" *ngIf="!model.Enabled" (click)="onenabled($event)">
+        <i class="howell-icon-eyeoff"></i>
+      </div>
+      <div
+        class="enabled"
+        *ngIf="model.Enabled && operable.enabled"
+        (click)="onenabled($event)"
+      >
+        <i class="howell-icon-eye"></i>
+      </div>
+    </howell-people-picture-face>
+  </div>
+  <div class="people-stranger-list-item-info">
+    <div *ngIf="model.Occurrences != undefined">{{ model.Occurrences }} 次</div>
+    <div>
+      {{ model.CreationTime | date : "YYYY-MM-dd" }}
+    </div>
+
+    <div>
+      {{ model.Name }}
+    </div>
+  </div>
+</div>

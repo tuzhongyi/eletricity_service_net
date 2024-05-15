@@ -17,17 +17,22 @@ declare class WSPlayerProxy {
   fast(): void;
   changeRuleState(state: boolean): void;
   seek(value: number): void;
+  subtitleEnabled(value: boolean): void;
+  setSubtitle(value: string): void;
+
   onStoping: (index: number) => void;
   onPlaying: (index: number) => void;
   /** 获取已播放未知 */
   getPosition: (index: number, value: number) => void;
+  getTimer: (index: number, value: TimeArgs) => void;
   onButtonClicked: (index: number, btn: ButtonName) => void;
   /** 双击全屏 返回值：是否触发全屏 */
   onViewerDoubleClicked: (index: number) => void;
   onViewerClicked: (index: number) => void;
   onRuleStateChanged: (index: number, state: boolean) => void;
   onStatusChanged: (index: number, state: number) => void;
-  destory: () => void;
+  onSubtitleEnableChanged: (index: number, enabled: boolean) => void;
+  destroy: () => void;
 }
 
 declare enum ButtonName {
@@ -53,4 +58,9 @@ declare enum ButtonName {
   jump_back = 'jump_back',
   /** 跳进 */
   jump_forward = 'jump_forward',
+}
+declare interface TimeArgs {
+  current: number;
+  min: number;
+  max: number;
 }

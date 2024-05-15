@@ -1,0 +1,19 @@
+<div
+  class="people-picture-face"
+  [ngClass]="{ hover: hover, selected: selected }"
+>
+  <img
+    [src]="src"
+    style="display: none"
+    *ngIf="!error"
+    (load)="onload($event)"
+    (error)="onerror($event)"
+  />
+
+  <div *ngIf="error" class="error">
+    <i class="mdi mdi-account"></i>
+  </div>
+  <div class="people-picture-face-inner" #inner>
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -1,0 +1,117 @@
+<div class="people-stranger-manager">
+  <div class="people-stranger-manager-head">
+    <div class="filter">
+      <div class="filter-item">
+        <div>开始时间：</div>
+        <div>
+          <input
+            type="text"
+            DateTimePicker
+            [format]="'yyyy年MM月dd日'"
+            [(date)]="opts.begin"
+            class="date"
+          />
+        </div>
+      </div>
+      <div class="filter-item">
+        <div>结束时间：</div>
+        <div>
+          <input
+            type="text"
+            DateTimePicker
+            [format]="'yyyy年MM月dd日'"
+            [(date)]="opts.end"
+            class="date"
+          />
+        </div>
+      </div>
+      <div class="filter-item">
+        <div>最少出现频次：</div>
+        <div class="select-control">
+          <input
+            appTouchSpin
+            type="number"
+            class="input"
+            [min]="0"
+            [(number)]="opts.occurrence"
+          />
+        </div>
+      </div>
+
+      <div class="filter-item">
+        <div>是否启用：</div>
+        <div class="select-control">
+          <select [(ngModel)]="opts.enabled">
+            <option [ngValue]="undefined">全部</option>
+            <option [ngValue]="true">是</option>
+            <option [ngValue]="false">否</option>
+          </select>
+        </div>
+      </div>
+      <div class="filter-item">
+        <button class="full" (click)="onsearch()">
+          <i class="howell-icon-search2"></i> 筛选
+        </button>
+      </div>
+    </div>
+    <div class="operation">
+      <button (click)="onmerge()" [disabled]="selecteds.length < 2">
+        <i class="mdi mdi-source-pull"></i> 合并
+      </button>
+      <button
+        (click)="onstrangerenable(true)"
+        [disabled]="selecteds.length <= 0"
+      >
+        <i class="mdi mdi-eye"></i> 启用
+      </button>
+      <button
+        (click)="onstrangerenable(false)"
+        [disabled]="selecteds.length <= 0"
+      >
+        <i class="mdi mdi-eye-off"></i> 屏蔽
+      </button>
+    </div>
+  </div>
+  <div class="people-stranger-manager-body">
+    <howell-people-stranger-list
+      [column]="data.column"
+      [row]="data.row"
+      [opts]="opts"
+      [load]="load"
+      [operable]="operable"
+      [(selecteds)]="selecteds"
+      [hasfoot]="true"
+      (record)="onstrangerrecord($event)"
+    >
+      <footer class="selection">
+        <div>
+          以选择 <span class="number">{{ selecteds.length }}</span>
+        </div>
+        <div class="btn" (click)="onselectclear()">清空</div>
+      </footer>
+    </howell-people-stranger-list>
+  </div>
+</div>
+
+<app-window
+  *ngIf="window.merge.show"
+  [style]="window.merge.style"
+  [model]="window.merge"
+  [title]="window.merge.title"
+>
+  <howell-people-stranger-merge-manager
+    [datas]="selecteds"
+    (cancel)="window.merge.show = false"
+    (ok)="onmergeok()"
+  ></howell-people-stranger-merge-manager>
+</app-window>
+<app-window
+  *ngIf="window.record.show"
+  [style]="window.record.style"
+  [model]="window.record"
+  [title]="window.record.title"
+>
+  <howell-people-stranger-record-manager
+    [stranger]="window.record.data"
+  ></howell-people-stranger-record-manager>
+</app-window>

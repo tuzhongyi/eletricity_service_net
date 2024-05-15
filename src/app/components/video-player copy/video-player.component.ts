@@ -137,7 +137,7 @@ export class VideoPlayerComponent
 
   ngOnDestroy(): void {
     if (this.player) {
-      this.player.destory();
+      this.player.destroy();
     }
     if (this.registHandle) {
       clearTimeout(this.registHandle);

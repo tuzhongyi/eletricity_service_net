@@ -1,0 +1,100 @@
+<div class="people-stranger-list-filter">
+  <div class="people-stranger-list-filter-head">
+    <div class="filter">
+      <div class="filter-item">
+        <button [ngClass]="{ selected: filter }" (click)="filter = !filter">
+          <i class="mdi mdi-filter-outline"></i>
+        </button>
+      </div>
+      <ng-container *ngIf="filter">
+        <div class="filter-item">
+          <div>开始时间：</div>
+          <div>
+            <input
+              type="text"
+              DateTimePicker
+              [format]="'yyyy-MM-dd'"
+              [startView]="DateTimePickerView.month"
+              [minView]="DateTimePickerView.month"
+              [(date)]="opts.begin"
+              class="input"
+            />
+          </div>
+        </div>
+        <div class="filter-item">
+          <div>结束时间：</div>
+          <div>
+            <input
+              type="text"
+              DateTimePicker
+              [format]="'yyyy-MM-dd'"
+              [startView]="DateTimePickerView.month"
+              [minView]="DateTimePickerView.month"
+              [(date)]="opts.end"
+              class="input"
+            />
+          </div>
+        </div>
+        <div class="filter-item">
+          <div>是否分析：</div>
+          <div class="select-control">
+            <select [(ngModel)]="opts.enabled">
+              <option [ngValue]="undefined">全部</option>
+              <option [ngValue]="true">是</option>
+              <option [ngValue]="false">否</option>
+            </select>
+          </div>
+        </div>
+        <div class="filter-item">
+          <div>最少出现频次：</div>
+          <div class="select-control">
+            <input
+              appTouchSpin
+              type="number"
+              class="input"
+              [min]="0"
+              [(ngModel)]="opts.occurrence"
+            />
+          </div>
+        </div>
+        <div class="filter-item">
+          <button class="full" (click)="onsearch()">
+            <i class="howell-icon-search2"></i> 筛选
+          </button>
+        </div>
+      </ng-container>
+    </div>
+    <div class="operation">
+      <button
+        title="按时间正序"
+        [ngClass]="{ selected: !opts.desc }"
+        (click)="onorder(false)"
+      >
+        <i class="mdi mdi-sort-ascending"></i>
+      </button>
+      <button
+        title="按时间倒序"
+        [ngClass]="{ selected: opts.desc }"
+        (click)="onorder(true)"
+      >
+        <i class="mdi mdi-sort-descending"></i>
+      </button>
+    </div>
+  </div>
+  <div class="panel people-stranger-list-filter-body">
+    <howell-people-stranger-list
+      [column]="5"
+      [row]="4"
+      [single]="true"
+      [opts]="opts"
+      [load]="load"
+      [selecteds]="selected ? [selected] : []"
+      (selectedsChange)="onselect($event)"
+      (sure)="onok()"
+    ></howell-people-stranger-list>
+  </div>
+  <div class="people-stranger-list-filter-foot">
+    <button class="full" [disabled]="!selected" (click)="onok()">确定</button>
+    <button (click)="oncancel()">取消</button>
+  </div>
+</div>

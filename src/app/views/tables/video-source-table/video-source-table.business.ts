@@ -1,9 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { IBusiness } from 'src/app/interfaces/business.interface';
-import {
-  IConverter,
-  IPromiseConverter,
-} from 'src/app/interfaces/converter.interface';
+import { IConverter } from 'src/app/interfaces/converter.interface';
 import { Camera } from 'src/app/models/camera.model';
 import { GetCamerasParams } from 'src/app/network/request/business-hall/business-hall-request.params';
 import { BusinessHallRequestService } from 'src/app/network/request/business-hall/business-hall-request.service';

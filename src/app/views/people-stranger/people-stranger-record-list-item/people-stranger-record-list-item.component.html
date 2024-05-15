@@ -1,0 +1,22 @@
+<div class="people-stranger-record-list-item" *ngIf="!!model">
+  <div class="people-stranger-record-list-item-pic">
+    <div
+      class="face"
+      [ngStyle]="{
+        'background-image': 'url(' + model.FacePictureUrl + ')'
+      }"
+    ></div>
+    <div
+      class="background"
+      [ngStyle]="{
+        'background-image': 'url(' + model.BackgroundUrl + ')'
+      }"
+    ></div>
+  </div>
+  <div class="people-stranger-record-list-item-info">
+    <div>{{ model.CameraName }}</div>
+    <div>
+      {{ model.Time | date : "YYYY-MM-dd HH:mm:ss" }}
+    </div>
+  </div>
+</div>

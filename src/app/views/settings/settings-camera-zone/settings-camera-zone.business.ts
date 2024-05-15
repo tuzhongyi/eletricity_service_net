@@ -1,11 +1,8 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { ZoneType } from 'src/app/enums/zone-type.enum';
 import { IBusiness } from 'src/app/interfaces/business.interface';
 import { IPromiseConverter } from 'src/app/interfaces/converter.interface';
 
 import { Camera } from 'src/app/models/camera.model';
-import { Polygon } from 'src/app/models/polygon.model';
-import { CameraZone } from 'src/app/models/zone.model';
 import { BusinessHallRequestService } from 'src/app/network/request/business-hall/business-hall-request.service';
 import { StoreService } from 'src/app/tools/service/store.service';
 import { SettingsCameraZoneListBusiness } from './business/settings-camera-zone-list.business';
@@ -38,11 +35,16 @@ export class SettingsCameraZoneBusiness
 
   async picture(cameraId: string, picture: string) {
     let hall = await this.store.getBusinessHall();
-    return this.service.camera.picture(hall.Id, cameraId, picture, false);
+    return this.service.camera.picture.upload(
+      hall.Id,
+      cameraId,
+      picture,
+      false
+    );
   }
 
   async capturePicture(cameraId: string) {
     let hall = await this.store.getBusinessHall();
-    return await this.service.camera.capturePicture(hall.Id, cameraId);
+    return await this.service.camera.picture.capture(hall.Id, cameraId);
   }
 }

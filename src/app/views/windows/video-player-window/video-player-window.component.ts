@@ -32,16 +32,13 @@ export class VideoPlayerWindowComponent
   extends WindowComponent
   implements IComponent<IModel, VideoModel>, OnInit, OnChanges, OnDestroy
 {
-  @Input()
-  business: IBusiness<IModel, VideoModel>;
-  @Input()
-  cameraId?: string;
-  @Input()
-  mode: PlayMode = PlayMode.live;
-  @Input()
-  time?: Date;
-  @Input()
-  autoplay: boolean = false;
+  @Input() business: IBusiness<IModel, VideoModel>;
+  @Input() cameraId?: string;
+  @Input() mode: PlayMode = PlayMode.live;
+  @Input() begin?: Date;
+  @Input() end?: Date;
+  @Input() autoplay: boolean = false;
+  @Input() subtitle = false;
 
   constructor(business: VideoPlayerWindowBusiness) {
     super();
@@ -61,13 +58,14 @@ export class VideoPlayerWindowComponent
   stop: EventEmitter<void> = new EventEmitter();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.time) {
-      this.date = this.time;
-      let duration = DateTimeTool.beforeAndAfter(this.time, 30);
-      this.duration = {
-        begin: new TimeModel(duration.begin),
-        end: new TimeModel(duration.end),
-      };
+    if ('begin' in changes) {
+      if (this.begin) {
+        this.duration.begin = new TimeModel(this.begin);
+        this.date = this.begin;
+      }
+    }
+    if ('end' in changes) {
+      this.duration.end = new TimeModel(this.end);
     }
     if (this.mode === PlayMode.live) {
       this.autoplay = true;
@@ -92,6 +90,8 @@ export class VideoPlayerWindowComponent
       this.preview();
     } else {
       this.stop.emit();
+      let duration = DateTimeTool.beforeAndAfter(this.date, 15);
+      this.duration = new TimeDurationModel(duration.begin, duration.end);
     }
   }
   async preview() {

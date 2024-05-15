@@ -1,6 +1,7 @@
 import { CanvasComponent } from './canvas/canvas.component';
 import { CardComponent } from './card/card.component';
 import { CHART_COMPONENTS } from './charts/charts.module';
+import { CommonLabelSelecComponent } from './common-label-select/common-label-select.component';
 import { CommonTreeComponent } from './common-tree/common-tree.component';
 import { ImageControlComponent } from './image-control/image-control.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
@@ -21,6 +22,7 @@ export const components = [
   WindowComponent,
   ...CHART_COMPONENTS,
   CommonTreeComponent,
+  CommonLabelSelecComponent,
   CanvasComponent,
   ImageUploadComponent,
   ImageComponent,

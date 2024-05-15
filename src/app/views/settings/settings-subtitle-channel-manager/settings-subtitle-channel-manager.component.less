@@ -1,0 +1,58 @@
+.settings-subtitle-channel-manager {
+  width: 100%;
+  height: 100%;
+
+  &-head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    &-filter {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+
+      &-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+
+        &>* {
+          &:first-child {
+            flex-grow: 0;
+            white-space: nowrap;
+          }
+
+          &:last-child {
+            flex-grow: 1;
+            width: 200px;
+          }
+
+          &.search {
+            width: auto;
+          }
+        }
+      }
+    }
+  }
+
+  &-body {
+    height: calc(100% - 54px);
+  }
+}
+
+.confirm {
+  height: calc(100% + 40px);
+
+  &-head {
+    margin-top: -40px;
+  }
+
+  &-body {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-size: 18px;
+  }
+}

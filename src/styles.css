@@ -93,7 +93,7 @@ button.void:disabled {
 
 ::-webkit-scrollbar {
   width: 5px;
-  height: 10px;
+  height: 5px;
   position: absolute;
 }
 

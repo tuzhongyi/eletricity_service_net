@@ -50,4 +50,8 @@ export class StoreService {
     this.interval.unsubscribe();
     this.interval = new EventEmitter();
   }
+
+  get isFullScreen() {
+    return document.fullscreenElement && document.fullscreenElement !== null;
+  }
 }

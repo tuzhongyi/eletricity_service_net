@@ -1,4 +1,4 @@
-import { aiop_service_url, basic_url } from '../businesshall_service.url';
+import { aiop_service_url } from '../basic.url';
 
 export abstract class MediumUrl {
   protected static get basic(): string {

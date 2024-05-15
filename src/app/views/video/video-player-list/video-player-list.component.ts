@@ -4,6 +4,7 @@ import {
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { ScreenMode } from 'src/app/enums/screen-mode.enum';
@@ -19,10 +20,14 @@ export class VideoPlayerListComponent implements OnInit, OnChanges {
   mode = ScreenMode.one;
   @Input()
   play?: EventEmitter<VideoModel>;
+  @Input()
+  index: number = 0;
+  @Output()
+  indexChange = new EventEmitter<number>();
 
   constructor() {}
   datas: (VideoModel | undefined)[] = [];
-  index: number = 0;
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mode']) {
       this.initScreens();
@@ -60,6 +65,7 @@ export class VideoPlayerListComponent implements OnInit, OnChanges {
 
   onscreenclicked(index: number) {
     this.index = index;
+    this.indexChange.emit(index);
   }
   onstop(index: number) {
     this.datas[index] = undefined;

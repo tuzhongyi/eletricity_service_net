@@ -1,14 +1,44 @@
 <div class="settings-service">
   <div>
-    <button (click)="syncSRServer()">同步流转服务器</button>
+    <button (click)="onconfirm(Type.sr_server)">同步流转服务器</button>
   </div>
   <div>
-    <button (click)="syncPassengerServer()">同步客流服务器</button>
+    <button (click)="onconfirm(Type.passenger_server)">同步客流服务器</button>
   </div>
   <div>
-    <button (click)="syncAnalysisServer()">同步分析服务器</button>
+    <button (click)="onconfirm(Type.analysis_server)">同步分析服务器</button>
   </div>
   <div>
-    <button (click)="syncCenterID()">同步中心ID</button>
+    <button (click)="onconfirm(Type.center_id)">同步中心ID</button>
   </div>
+  <div><button (click)="onsubtitle()">配置字幕服务</button></div>
+
+  <app-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [style]="window.confirm.style"
+  >
+    <div class="confirm">
+      <div class="confirm-head">
+        <div class="title"><i class="mdi mdi-alert"></i> 提示</div>
+      </div>
+      <div class="confirm-body">
+        <div class="hw-simple-title">{{ window.confirm.message }}</div>
+      </div>
+      <div class="confirm-foot">
+        <button class="full" (click)="onyes()">确定</button>
+        <button (click)="window.confirm.show = false">取消</button>
+      </div>
+    </div>
+  </app-window>
+  <app-window
+    *ngIf="window.subtitle.show"
+    [model]="window.subtitle"
+    [style]="window.subtitle.style"
+    [title]="window.subtitle.title"
+  >
+    <howell-settings-subtitle-server
+      (close)="window.subtitle.show = false"
+    ></howell-settings-subtitle-server>
+  </app-window>
 </div>

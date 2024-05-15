@@ -47,6 +47,8 @@ var PlayerCommand;
     PlayerCommand["download"] = "download";
     PlayerCommand["speed_resume"] = "speedResume";
     PlayerCommand["capture_picture"] = "capturePicture";
+    PlayerCommand["subtitle_text"] = "subtitleText";
+    PlayerCommand["subtitle_enabled"] = "subtitleEnabled";
     PlayerCommand["open_sound"] = "openSound";
     PlayerCommand["close_sound"] = "closeSound";
     PlayerCommand["change_rule_state"] = "changeRuleState";
@@ -64,6 +66,7 @@ var PlayerCommand;
     PlayerCommand["on_status_changed"] = "onStatusChanged";
     PlayerCommand["on_capture_picture"] = "onCapturePicture";
     PlayerCommand["on_rule_state_changed"] = "onRuleStateChanged";
+    PlayerCommand["on_subtitle_enabled_changed"] = "onSubtitleEnableChanged";
 })(PlayerCommand = exports.PlayerCommand || (exports.PlayerCommand = {}));
 
 
@@ -110,10 +113,16 @@ class WSPlayerProxy {
     constructor(iframeId) {
         this.iframeId = iframeId;
         this.status = player_state_enum_1.PlayerState.ready;
-        window.addEventListener('message', this.registevent.bind(this));
+        this.messagehandle = this.registevent.bind(this);
+        window.addEventListener('message', this.messagehandle);
     }
     iframe() {
-        return document.getElementById(this.iframeId);
+        if (typeof this.iframeId === 'string') {
+            return document.getElementById(this.iframeId);
+        }
+        else {
+            return this.iframeId;
+        }
     }
     postMessage(data) {
         let message = JSON.stringify(data);
@@ -123,71 +132,84 @@ class WSPlayerProxy {
         }
     }
     stop() {
-        postMessage({ command: player_command_1.PlayerCommand.stop });
+        this.postMessage({ command: player_command_1.PlayerCommand.stop });
     }
     play() {
-        postMessage({ command: player_command_1.PlayerCommand.play });
+        this.postMessage({ command: player_command_1.PlayerCommand.play });
     }
     seek(value) {
-        postMessage({ command: player_command_1.PlayerCommand.seek, value: value });
+        this.postMessage({ command: player_command_1.PlayerCommand.seek, value: value });
     }
     fast() {
-        postMessage({ command: player_command_1.PlayerCommand.fast });
+        this.postMessage({ command: player_command_1.PlayerCommand.fast });
     }
     slow() {
-        postMessage({ command: player_command_1.PlayerCommand.slow });
+        this.postMessage({ command: player_command_1.PlayerCommand.slow });
     }
     capturePicture() {
-        postMessage({ command: player_command_1.PlayerCommand.capture_picture });
+        this.postMessage({ command: player_command_1.PlayerCommand.capture_picture });
     }
     pause() {
-        postMessage({ command: player_command_1.PlayerCommand.pause });
+        this.postMessage({ command: player_command_1.PlayerCommand.pause });
     }
     speedResume() {
-        postMessage({ command: player_command_1.PlayerCommand.speed_resume });
+        this.postMessage({ command: player_command_1.PlayerCommand.speed_resume });
     }
     resume() {
-        postMessage({ command: player_command_1.PlayerCommand.resume });
+        this.postMessage({ command: player_command_1.PlayerCommand.resume });
     }
     frame() {
-        postMessage({ command: player_command_1.PlayerCommand.frame });
+        this.postMessage({ command: player_command_1.PlayerCommand.frame });
     }
     fullScreen() {
-        postMessage({ command: player_command_1.PlayerCommand.fullscreen });
+        this.postMessage({ command: player_command_1.PlayerCommand.fullscreen });
     }
     resize(width, height) {
-        postMessage({ command: player_command_1.PlayerCommand.resize, width: width, height: height });
+        this.postMessage({
+            command: player_command_1.PlayerCommand.resize,
+            width: width,
+            height: height,
+        });
     }
     fullExit() {
-        postMessage({ command: player_command_1.PlayerCommand.fullexit });
+        this.postMessage({ command: player_command_1.PlayerCommand.fullexit });
     }
     download(filename, type) {
-        postMessage({
+        this.postMessage({
             command: player_command_1.PlayerCommand.download,
             filename: filename,
             type: type,
         });
     }
     openSound() {
-        postMessage({ command: player_command_1.PlayerCommand.open_sound });
+        this.postMessage({ command: player_command_1.PlayerCommand.open_sound });
     }
     closeSound() {
-        postMessage({ command: player_command_1.PlayerCommand.close_sound });
+        this.postMessage({ command: player_command_1.PlayerCommand.close_sound });
     }
     getVolume() {
-        postMessage({ command: player_command_1.PlayerCommand.get_volume });
+        this.postMessage({ command: player_command_1.PlayerCommand.get_volume });
     }
     setVolume(value) {
-        postMessage({ command: player_command_1.PlayerCommand.set_volume, value: value });
+        this.postMessage({ command: player_command_1.PlayerCommand.set_volume, value: value });
     }
-    destory() {
-        window.removeEventListener('message', this.registevent);
+    subtitleEnabled(value) {
+        this.postMessage({ command: player_command_1.PlayerCommand.subtitle_enabled, value: value });
+    }
+    setSubtitle(value) {
+        this.postMessage({ command: player_command_1.PlayerCommand.subtitle_text, value: value });
+    }
+    destroy() {
+        window.removeEventListener('message', this.messagehandle);
         if (this.tools) {
-            this.tools.destory();
+            this.tools.destroy();
         }
     }
+    destory() {
+        this.destroy();
+    }
     changeRuleState(value) {
-        postMessage({ command: player_command_1.PlayerCommand.change_rule_state, value: value });
+        this.postMessage({ command: player_command_1.PlayerCommand.change_rule_state, value: value });
     }
     registevent(e) {
         if (e && e.data) {
@@ -231,7 +253,7 @@ class WSPlayerProxy {
                     break;
                 case player_command_1.PlayerCommand.get_timer:
                     if (this.getTimer) {
-                        this.getTimer(data.value);
+                        this.getTimer(parseInt(data.index), data.value);
                     }
                     new Promise(() => {
                         if (this.tools) {
@@ -270,6 +292,11 @@ class WSPlayerProxy {
                 case player_command_1.PlayerCommand.on_status_changed:
                     if (this.onStatusChanged) {
                         this.onStatusChanged(parseInt(data.index), data.value);
+                    }
+                    break;
+                case player_command_1.PlayerCommand.on_subtitle_enabled_changed:
+                    if (this.onSubtitleEnableChanged) {
+                        this.onSubtitleEnableChanged(parseInt(data.index), data.value);
                     }
                     break;
                 default:

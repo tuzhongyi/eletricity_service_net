@@ -1,7 +1,5 @@
-import {
-  businesshall_service_url,
-  InnerUrl,
-} from '../businesshall_service.url';
+import { businesshall_service_url } from '../basic.url';
+import { IInnerUrl } from '../businesshall_service.url';
 
 export class AnalysisServerUrl {
   static basic() {
@@ -21,7 +19,7 @@ export class AnalysisServerUrl {
   }
 }
 
-class AnalysisServerAudioSourceUrl implements InnerUrl {
+class AnalysisServerAudioSourceUrl implements IInnerUrl {
   constructor(private base: string) {}
   basic(): string {
     return `${this.base}/AudioSources`;

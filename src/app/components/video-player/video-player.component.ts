@@ -18,21 +18,26 @@ import { VideoModel } from 'src/app/models/video.model';
 import { ConfigRequestService } from 'src/app/network/request/config/config.service';
 import { base64encode, utf16to8 } from 'src/app/tools/base64';
 import { wait } from 'src/app/tools/tools';
-import { PlayerState } from './video-player.model';
+import { VideoPlayerSubtitleBusiness } from './business/video-player-subtitle.business';
+import { VideoPlayerBusiness } from './business/video-player.business';
+import { VideoPlayerCreater as Creater } from './video-player.creater';
+import { PlayerState, WSPlayerEventArgs } from './video-player.model';
 
 @Component({
   selector: 'app-video-player',
   templateUrl: './video-player.component.html',
   styleUrls: ['./video-player.component.less'],
+  providers: [VideoPlayerSubtitleBusiness, VideoPlayerBusiness],
 })
 export class VideoPlayerComponent
   implements OnDestroy, OnInit, AfterViewInit, OnChanges
 {
   @Input() url?: string;
   @Input() model?: VideoModel;
-  @Input() webUrl: string = this.createWebUrl();
+  @Input() webUrl: string = Creater.WebUrl();
   @Input() name: string = '';
   @Input() index = 0;
+  @Input() subtitle = false;
   @Input() play?: EventEmitter<VideoModel>;
   @Input() stop?: EventEmitter<void>;
   @Input() download?: EventEmitter<{ filename: string; type: string }>;
@@ -57,8 +62,11 @@ export class VideoPlayerComponent
   @Output() onViewerDoubleClicked: EventEmitter<number> = new EventEmitter();
   @Output() onRuleStateChanged: EventEmitter<boolean> = new EventEmitter();
   @Output() onViewerClicked: EventEmitter<number> = new EventEmitter();
+  @Output() onSubtitleEnableChanged: EventEmitter<WSPlayerEventArgs> =
+    new EventEmitter();
 
   constructor(
+    private business: VideoPlayerBusiness,
     private sanitizer: DomSanitizer,
     private config: ConfigRequestService
   ) {}
@@ -69,15 +77,26 @@ export class VideoPlayerComponent
   playing = false;
   stream: StreamType = StreamType.main;
   registHandle?: NodeJS.Timer;
+  subtitleopened = false;
   private _ruleState: boolean = false;
   private _player?: WSPlayerProxy;
-  private get player(): WSPlayerProxy | undefined {
-    if (!this.iframe || !this.iframe.nativeElement.contentWindow)
-      return undefined;
-    if (!this._player) {
-      this._player = new WSPlayerProxy(this.iframe.nativeElement);
-    }
-    return this._player;
+  private get player(): Promise<WSPlayerProxy> {
+    return new Promise<WSPlayerProxy>((resolve) => {
+      if (this._player) {
+        resolve(this._player);
+      }
+      wait(
+        () => {
+          return !!this.iframe && !!this.iframe.nativeElement.contentWindow;
+        },
+        () => {
+          if (!this._player) {
+            this._player = new WSPlayerProxy(this.iframe.nativeElement);
+          }
+          resolve(this._player);
+        }
+      );
+    });
   }
 
   @ViewChild('iframe') iframe!: ElementRef;
@@ -95,78 +114,14 @@ export class VideoPlayerComponent
     if (changes['model'] && !changes['model'].firstChange) {
       this.isloaded = false;
     }
-    if (changes['play'] && this.play) {
-      this.play.subscribe((x) => {
-        this.model = x;
-        this.onplay(x);
-      });
-    }
-    if (changes['stop'] && this.stop) {
-      this.stop.subscribe((x) => {
-        this.onstop();
-      });
-    }
-    if (changes['download'] && this.download) {
-      this.download.subscribe((x) => {
-        this.ondownload(x.filename, x.type);
-      });
-    }
-    if (changes['resize'] && this.resize) {
-      this.resize.subscribe((x) => {
-        this.onresize(x.width, x.height);
-      });
-    }
-    if (changes['fullscreen'] && this.fullscreen) {
-      this.fullscreen.subscribe((x) => {
-        this.onfullScreen();
-      });
-    }
-    if (changes['frame'] && this.frame) {
-      this.frame.subscribe((x) => {
-        this.onframe();
-      });
-    }
-    if (changes['resume'] && this.resume) {
-      this.resume.subscribe((x) => {
-        this.onresume();
-      });
-    }
-    if (changes['speedResume'] && this.speedResume) {
-      this.speedResume.subscribe((x) => {
-        this.onspeedResume();
-      });
-    }
-    if (changes['pause'] && this.pause) {
-      this.pause.subscribe((x) => {
-        this.onpause();
-      });
-    }
-    if (changes['capturePicture'] && this.capturePicture) {
-      this.capturePicture.subscribe((x) => {
-        this.oncapturePicture();
-      });
-    }
-    if (changes['slow'] && this.slow) {
-      this.slow.subscribe((x) => {
-        this.onslow();
-      });
-    }
-    if (changes['fast'] && this.fast) {
-      this.fast.subscribe((x) => {
-        this.onfast();
-      });
-    }
-    if (changes['seek'] && this.seek) {
-      this.seek.subscribe((x) => {
-        this.onseek(x);
-      });
-    }
+
     this.load();
   }
   ngAfterViewInit(): void {
     this.load();
   }
   async ngOnInit() {
+    this.regist();
     await this.init();
     this.load();
   }
@@ -175,30 +130,82 @@ export class VideoPlayerComponent
       clearTimeout(this.registHandle);
     }
     this.destroy.emit(this.model);
+
+    this.player.then((x) => {
+      x.destroy();
+    });
   }
-  createWebUrl() {
-    let protocol = location.protocol;
-    if (!protocol.includes(':')) {
-      protocol += ':';
+
+  regist() {
+    if (this.play) {
+      this.play.subscribe((x) => {
+        this.model = x;
+        this.onplay(x);
+      });
     }
-    let port = '';
-    if (location.port) {
-      port = ':' + location.port;
+    if (this.stop) {
+      this.stop.subscribe((x) => {
+        this.onstop();
+      });
     }
-    return `${protocol}//${location.hostname}${port}/video/wsplayer/wsplayer.html`;
+    if (this.download) {
+      this.download.subscribe((x) => {
+        this.ondownload(x.filename, x.type);
+      });
+    }
+    if (this.resize) {
+      this.resize.subscribe((x) => {
+        this.onresize(x.width, x.height);
+      });
+    }
+    if (this.fullscreen) {
+      this.fullscreen.subscribe((x) => {
+        this.onfullScreen();
+      });
+    }
+    if (this.frame) {
+      this.frame.subscribe((x) => {
+        this.onframe();
+      });
+    }
+    if (this.resume) {
+      this.resume.subscribe((x) => {
+        this.onresume();
+      });
+    }
+    if (this.speedResume) {
+      this.speedResume.subscribe((x) => {
+        this.onspeedResume();
+      });
+    }
+    if (this.pause) {
+      this.pause.subscribe((x) => {
+        this.onpause();
+      });
+    }
+    if (this.capturePicture) {
+      this.capturePicture.subscribe((x) => {
+        this.oncapturePicture();
+      });
+    }
+    if (this.slow) {
+      this.slow.subscribe((x) => {
+        this.onslow();
+      });
+    }
+    if (this.fast) {
+      this.fast.subscribe((x) => {
+        this.onfast();
+      });
+    }
+    if (this.seek) {
+      this.seek.subscribe((x) => {
+        this.onseek(x);
+      });
+    }
   }
+
   async init() {
-    let protocol = location.protocol;
-    if (!protocol.includes(':')) {
-      protocol += ':';
-    }
-    let port = '';
-    if (location.port) {
-      port = location.port;
-    }
-    this.webUrl = `${protocol}//${location.hostname}${
-      port.indexOf(':') < 0 ? ':' : ''
-    }${port}/video/wsplayer/wsplayer.html`;
     let x = await this.config.get();
     let url = x.videoUrl
       .replace('localhost', location.hostname)
@@ -206,7 +213,7 @@ export class VideoPlayerComponent
     this.webUrl = url;
 
     if (location.port === '9526') {
-      this.webUrl = `${protocol}//${location.hostname}:${location.port}/video/wsplayer/wsplayer.html`;
+      this.webUrl = Creater.WebUrl();
     }
     this.isinited = true;
   }
@@ -236,100 +243,119 @@ export class VideoPlayerComponent
   }
 
   onLoad(event: Event) {
-    wait(
-      () => {
-        return !!this.player;
-      },
-      () => {
-        this.eventRegist();
-      }
-    );
+    let iframe = event.target as HTMLIFrameElement;
+    if (iframe && iframe.src) {
+      this.player.then((x) => {
+        this.eventRegist(x);
+      });
+    }
   }
 
-  eventRegist() {
-    if (this.player) {
-      this.player.getPosition = (index: number = 0, val: any) => {
-        if (this.index != index) return;
-        if (val >= 1) {
-          this.playing = false;
+  async eventRegist(player: WSPlayerProxy) {
+    player.onPlaying = (index: number = 0) => {
+      if (this.index != index) return;
+      this.onPlaying.emit();
+      if (player && this.subtitle) {
+        player.subtitleEnabled(this.subtitle);
+      }
+    };
+    player.onRuleStateChanged = (index: number = 0, state: boolean) => {
+      if (this.index != index) return;
+      // this.saveRuleState(state);
+      this.onRuleStateChanged.emit(state);
+    };
+    player.onStoping = (index: number = 0) => {
+      if (this.index != index) return;
+      this.onStoping.emit(index);
+    };
+    player.getPosition = (index: number = 0, value: number) => {
+      if (this.index != index) return;
+      if (value >= 1) {
+        this.playing = false;
+      }
+
+      this.getPosition.emit(value);
+    };
+    player.getTimer = (index: number = 0, value: TimeArgs) => {
+      if (this.index != index) return;
+      if (this.subtitleopened) {
+        if (player) {
+          let item = this.business.subtitle.get(
+            index,
+            value.current - value.min
+          );
+          player.setSubtitle(item ? item.text ?? '' : '');
         }
-      };
-      this.player.onPlaying = (index: number = 0) => {
-        if (this.index != index) return;
-        this.onPlaying.emit();
-      };
-      this.player.onRuleStateChanged = (index: number = 0, state: boolean) => {
-        if (this.index != index) return;
-        // this.saveRuleState(state);
-        this.onRuleStateChanged.emit(state);
-      };
-      this.player.onStoping = (index: number = 0) => {
-        if (this.index != index) return;
-        this.onStoping.emit(index);
-      };
-      this.player.getPosition = (index: number = 0, value: number) => {
-        if (this.index != index) return;
-        this.getPosition.emit(value);
-      };
-      this.player.onButtonClicked = (index: number = 0, btn: ButtonName) => {
-        if (this.index != index) return;
-        this.onButtonClicked.emit(btn);
+      }
+    };
+    player.onSubtitleEnableChanged = (index: number, enabled: boolean) => {
+      if (this.index != index) return;
+      this.onSubtitleEnableChanged.emit({ index: index, value: enabled });
+      this.subtitleopened = enabled;
+      if (enabled && this.model) {
+        this.business.subtitle.load(index, this.model);
+      } else {
+        this.business.subtitle.close(index);
+      }
+    };
+    player.onButtonClicked = (index: number = 0, btn: ButtonName) => {
+      if (this.index != index) return;
+      this.onButtonClicked.emit(btn);
 
-        new Promise((x) => {
-          let url = new HowellUrl(this.webUrl);
-          if (
-            location.hostname !== url.Host &&
-            location.port != url.Port.toString()
-          ) {
-            switch (btn) {
-              case ButtonName.fullscreen:
-                if (this.iframe) {
-                  (
-                    this.iframe.nativeElement as HTMLIFrameElement
-                  ).requestFullscreen();
-                }
-                break;
+      new Promise((x) => {
+        let url = new HowellUrl(this.webUrl);
+        if (
+          location.hostname !== url.Host &&
+          location.port != url.Port.toString()
+        ) {
+          switch (btn) {
+            case ButtonName.fullscreen:
+              if (this.iframe) {
+                (
+                  this.iframe.nativeElement as HTMLIFrameElement
+                ).requestFullscreen();
+              }
+              break;
 
-              default:
-                break;
-            }
+            default:
+              break;
           }
-        });
-      };
-
-      this.player.onViewerClicked = (index: number = 0) => {
-        if (this.index != index) return;
-        this.onViewerClicked.emit(index);
-      };
-      this.player.onViewerDoubleClicked = (index: number = 0) => {
-        if (this.index != index) return;
-        this.onViewerDoubleClicked.emit(index);
-        new Promise((x) => {
-          let url = new HowellUrl(this.webUrl);
-          if (
-            location.hostname !== url.Host &&
-            location.port != url.Port.toString()
-          ) {
-            if (this.iframe) {
-              (
-                this.iframe.nativeElement as HTMLIFrameElement
-              ).requestFullscreen();
-            }
-          }
-        });
-      };
-      this.player.onStatusChanged = (index: number = 0, state: PlayerState) => {
-        if (this.index != index) return;
-        switch (state) {
-          case PlayerState.playing:
-            this.onseek(this.reserve);
-            break;
-
-          default:
-            break;
         }
-      };
-    }
+      });
+    };
+
+    player.onViewerClicked = (index: number = 0) => {
+      if (this.index != index) return;
+      this.onViewerClicked.emit(index);
+    };
+    player.onViewerDoubleClicked = (index: number = 0) => {
+      if (this.index != index) return;
+      this.onViewerDoubleClicked.emit(index);
+      new Promise((x) => {
+        let url = new HowellUrl(this.webUrl);
+        if (
+          location.hostname !== url.Host &&
+          location.port != url.Port.toString()
+        ) {
+          if (this.iframe) {
+            (
+              this.iframe.nativeElement as HTMLIFrameElement
+            ).requestFullscreen();
+          }
+        }
+      });
+    };
+    player.onStatusChanged = (index: number = 0, state: PlayerState) => {
+      if (this.index != index) return;
+      switch (state) {
+        case PlayerState.playing:
+          this.onseek(this.reserve);
+          break;
+
+        default:
+          break;
+      }
+    };
   }
   onplay(model: VideoModel) {
     this.model = model;
@@ -340,11 +366,10 @@ export class VideoPlayerComponent
 
   async onstop() {
     try {
-      new Promise((x) => {
-        if (this.player) {
-          return this.player.stop();
-        }
-        return void 0;
+      new Promise(() => {
+        this.player.then((x) => {
+          x.stop();
+        });
       });
     } catch (error) {}
     this.src = undefined;
@@ -352,58 +377,58 @@ export class VideoPlayerComponent
   }
 
   ondownload(filename: string, type: string) {
-    if (this.player) {
-      this.player.download(filename, type);
-    }
+    this.player.then((x) => {
+      x.download(filename, type);
+    });
   }
   onresize(width: number, height: number) {
-    if (this.player) {
-      this.player.resize(width, height);
-    }
+    this.player.then((x) => {
+      x.resize(width, height);
+    });
   }
   onfullScreen() {
-    if (this.player) {
-      this.player.fullScreen();
-    }
+    this.player.then((x) => {
+      x.fullScreen();
+    });
   }
   onframe() {
-    if (this.player) {
-      this.player.frame();
-    }
+    this.player.then((x) => {
+      x.frame();
+    });
   }
   onresume() {
-    if (this.player) {
-      this.player.resume();
-    }
+    this.player.then((x) => {
+      x.resume();
+    });
   }
   onspeedResume() {
-    if (this.player) {
-      this.player.speedResume();
-    }
+    this.player.then((x) => {
+      x.speedResume();
+    });
   }
   onpause() {
-    if (this.player) {
-      this.player.pause();
-    }
+    this.player.then((x) => {
+      x.pause();
+    });
   }
   oncapturePicture() {
-    if (this.player) {
-      this.player.capturePicture();
-    }
+    this.player.then((x) => {
+      x.capturePicture();
+    });
   }
   onslow() {
-    if (this.player) {
-      this.player.slow();
-    }
+    this.player.then((x) => {
+      x.slow();
+    });
   }
   onfast() {
-    if (this.player) {
-      this.player.fast();
-    }
+    this.player.then((x) => {
+      x.fast();
+    });
   }
   onseek(value: number) {
-    if (this.player) {
-      this.player.seek(value);
-    }
+    this.player.then((x) => {
+      x.seek(value);
+    });
   }
 }

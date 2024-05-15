@@ -1,0 +1,108 @@
+<div class="settings-subtitle-channel-manager">
+  <div class="settings-subtitle-channel-manager-head">
+    <div class="settings-subtitle-channel-manager-head-filter">
+      <div class="settings-subtitle-channel-manager-head-filter-item">
+        <div>字幕服务器：</div>
+        <div>
+          <select [(ngModel)]="opts.serverId">
+            <option *ngIf="servers.length > 1" [ngValue]="undefined">
+              全部
+            </option>
+            <option *ngFor="let item of servers" [ngValue]="item.Id">
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="settings-subtitle-channel-manager-head-filter-item">
+        <div>启用：</div>
+        <div>
+          <select [(ngModel)]="opts.enabled">
+            <option [ngValue]="undefined">全部</option>
+            <option [ngValue]="true">是</option>
+            <option [ngValue]="false">否</option>
+          </select>
+        </div>
+      </div>
+      <div class="settings-subtitle-channel-manager-head-filter-item">
+        <div>名称：</div>
+        <div>
+          <input
+            type="text"
+            [placeholder]="'请输入...'"
+            [(ngModel)]="opts.name"
+          />
+        </div>
+      </div>
+
+      <div class="settings-subtitle-channel-manager-head-filter-item">
+        <button class="full search" (click)="onsearch()">
+          <i class="howell-icon-search2"></i> 查询
+        </button>
+      </div>
+    </div>
+    <div class="settings-subtitle-channel-manager-head-operation">
+      <button class="full" (click)="onsupported()">
+        <i class="mdi mdi-plus"></i> 快速添加
+      </button>
+      <button
+        class="full"
+        title="同步本地业务摄像机到字幕服务器"
+        (click)="onsyncfrombusiness()"
+      >
+        <i class="mdi mdi-cloud-sync"></i> 同步摄像机
+      </button>
+      <button
+        class="full"
+        title="本地的字幕服务器通道同步到实际的字幕服务器上"
+        (click)="onsynctoserver()"
+      >
+        <i class="mdi mdi-cloud-sync"></i> 同步服务器
+      </button>
+      <!-- <button class="full" (click)="tosync()">
+        <i class="mdi mdi-cloud-sync"></i> 同步
+      </button>
+      <button class="full" (click)="tocreate()">
+        <i class="howell-icon-plus"></i> 添加
+      </button> -->
+    </div>
+  </div>
+
+  <div class="settings-subtitle-channel-manager-body">
+    <howell-settings-subtitle-channel-table
+      [options]="opts"
+      [load]="load"
+      (remove)="onremove($event)"
+      (enablechange)="onenablechange($event)"
+    ></howell-settings-subtitle-channel-table>
+  </div>
+
+  <app-window
+    *ngIf="window.supported.show"
+    [model]="window.supported"
+    [style]="window.supported.style"
+    [title]="window.supported.title"
+  >
+    <howell-settings-subtitle-channel-supported
+      (close)="onsupportedclose($event)"
+    ></howell-settings-subtitle-channel-supported>
+  </app-window>
+  <app-window
+    *ngIf="window.confirm.show"
+    [model]="window.confirm"
+    [style]="window.confirm.style"
+  >
+    <div class="confirm">
+      <div class="confirm-head">
+        <div class="title"><i class="mdi mdi-alert"></i> 提示</div>
+      </div>
+      <div class="confirm-body">
+        <div class="hw-simple-title">{{ window.confirm.message }}</div>
+      </div>
+      <div class="confirm-foot">
+        <button class="full" (click)="onconfirmyes()">确定</button>
+        <button (click)="window.confirm.show = false">取消</button>
+      </div>
+    </div>
+  </app-window>
+</div>

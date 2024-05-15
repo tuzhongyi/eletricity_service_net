@@ -12,6 +12,9 @@ export class VideoSourceListComponent implements OnInit {
   filter: string[] = [];
   @Input()
   load?: EventEmitter<string> = new EventEmitter();
+  @Input()
+  selectedId?: string;
+
   @Output()
   select: EventEmitter<Camera> = new EventEmitter();
   @Input()

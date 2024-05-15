@@ -25,6 +25,12 @@
       >
         员工管理
       </div>
+      <div
+        (click)="changePath(SettingPath.subtitle)"
+        [class.selected]="path === SettingPath.subtitle"
+      >
+        字幕配置
+      </div>
     </div>
     <div class="settings-content">
       <ng-container *ngIf="path === SettingPath.camera_position">
@@ -38,6 +44,9 @@
       </ng-container>
       <ng-container *ngIf="path === SettingPath.employees_manager">
         <howell-employees-manager-index></howell-employees-manager-index>
+      </ng-container>
+      <ng-container *ngIf="path === SettingPath.subtitle">
+        <howell-settings-subtitle-channel-manager></howell-settings-subtitle-channel-manager>
       </ng-container>
     </div>
   </howell-card>

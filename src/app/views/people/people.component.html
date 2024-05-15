@@ -1,0 +1,31 @@
+<div class="people">
+  <howell-card>
+    <div class="people-head">
+      <div class="title">
+        <div
+          class="title-item"
+          [ngClass]="{ selected: navigation === Navigation.employee_track }"
+          (click)="navigation = Navigation.employee_track"
+        >
+          员工轨迹
+        </div>
+        <div
+          class="title-item"
+          [ngClass]="{ selected: navigation === Navigation.stranger }"
+          (click)="navigation = Navigation.stranger"
+        >
+          高频人员
+        </div>
+      </div>
+    </div>
+    <div class="people-body">
+      <howell-employee-track-manager
+        *ngIf="navigation === Navigation.employee_track"
+      ></howell-employee-track-manager>
+      <howell-people-stranger-manager
+        *ngIf="navigation === Navigation.stranger"
+      >
+      </howell-people-stranger-manager>
+    </div>
+  </howell-card>
+</div>

@@ -1,11 +1,12 @@
 import { SelectionChange } from '@angular/cdk/collections';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { CommonTreeComponent } from './common-tree.component';
+import { ICommonTree } from './common-tree.interface';
 import { CommonFlatNode, CommonNestNode } from './common-tree.model';
 
-export abstract class CommonTree {
+export abstract class CommonTree implements ICommonTree {
   protected _nestedNodeMap = new Map<string, CommonNestNode>();
   public dataSubject = new BehaviorSubject<CommonNestNode[]>([]);
   public tree?: CommonTreeComponent;

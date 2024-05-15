@@ -1,7 +1,5 @@
-import {
-  businesshall_service_url,
-  InnerUrl,
-} from '../businesshall_service.url';
+import { businesshall_service_url } from '../basic.url';
+import { AInnerUrl, IInnerUrl } from '../businesshall_service.url';
 
 export class BusinessHallsUrl {
   static basic() {
@@ -44,8 +42,12 @@ export class BusinessHallsUrl {
   static empolyee(hallId: string) {
     return new BusinessHallsEmployeesUrl(this.item(hallId));
   }
+
+  static stranger(hallId: string) {
+    return new BusinessHallsStrangerServerUrl(this.item(hallId));
+  }
 }
-class BusinessHallsStatisticUrl implements InnerUrl {
+class BusinessHallsStatisticUrl implements IInnerUrl {
   constructor(private base: string) {}
 
   basic(): string {
@@ -59,7 +61,7 @@ class BusinessHallsStatisticUrl implements InnerUrl {
     return `${this.basic()}/List`;
   }
 }
-class BusinessHallsFloorsUrl implements InnerUrl {
+class BusinessHallsFloorsUrl implements IInnerUrl {
   constructor(private base: string) {}
 
   basic(): string {
@@ -79,7 +81,7 @@ class BusinessHallsFloorsUrl implements InnerUrl {
   }
 }
 
-class BusinessHallsFloorsZonesUrl implements InnerUrl {
+class BusinessHallsFloorsZonesUrl implements IInnerUrl {
   constructor(private base: string) {}
   basic(): string {
     return `${this.base}/Zones`;
@@ -92,7 +94,7 @@ class BusinessHallsFloorsZonesUrl implements InnerUrl {
   }
 }
 
-class BusinessHallsCamerasUrl implements InnerUrl {
+class BusinessHallsCamerasUrl implements IInnerUrl {
   constructor(private base: string) {}
   basic(): string {
     return `${this.base}/Cameras`;
@@ -107,7 +109,7 @@ class BusinessHallsCamerasUrl implements InnerUrl {
   }
 
   picture(cameraId: string) {
-    return `${this.item(cameraId)}/Picture`;
+    return new BusinessHallsCamerasPictureUrl(this.item(cameraId));
   }
   capturePicture(cameraId: string) {
     return `${this.item(cameraId)}/CapturePicture`;
@@ -118,7 +120,13 @@ class BusinessHallsCamerasUrl implements InnerUrl {
   }
 }
 
-class BusinessHallsCamerasZonesUrl implements InnerUrl {
+class BusinessHallsCamerasPictureUrl extends AInnerUrl {
+  constructor(base: string) {
+    super(`${base}/Picture`);
+  }
+}
+
+class BusinessHallsCamerasZonesUrl implements IInnerUrl {
   constructor(private base: string) {}
   basic(): string {
     return `${this.base}/Zones`;
@@ -147,5 +155,25 @@ class BusinessHallsEmployeesUrl {
   }
   item(id: string) {
     return `${this.basic()}/${id}`;
+  }
+}
+
+class BusinessHallsStrangerServerUrl extends AInnerUrl {
+  constructor(base: string) {
+    super(`${base}/Strangers`);
+  }
+
+  merge() {
+    return `${this.basic()}/Merge`;
+  }
+
+  record() {
+    return new BusinessHallsStrangerRecordServerUrl(this.basic());
+  }
+}
+
+class BusinessHallsStrangerRecordServerUrl extends AInnerUrl {
+  constructor(base: string) {
+    super(`${base}/Records`);
   }
 }

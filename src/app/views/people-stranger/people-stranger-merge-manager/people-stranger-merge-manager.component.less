@@ -1,0 +1,80 @@
+.people-stranger-merge-manager {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+
+
+  &-body {
+    display: flex;
+    gap: 10px;
+    height: calc(100% - 50px);
+    justify-content: space-between;
+
+    &-main {
+      height: 100%;
+      width: 200px;
+
+      &-title {
+        height: 24px;
+        width: 100%;
+      }
+
+      &-content {
+        width: 100%;
+        height: calc(100% - 24px - 20px);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .pic {
+          width: 100%;
+          height: 9vw;
+        }
+
+
+        &-item {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+
+          &>div:first-child {
+            color: #cefff5;
+          }
+        }
+      }
+
+
+    }
+
+    &-list {
+      width: calc(100% - 200px - 10px);
+
+      box-sizing: border-box;
+
+      &-title {
+        height: 24px;
+        width: 100%;
+      }
+
+      &-content {
+        width: 100%;
+        height: calc(100% - 24px - 20px);
+        overflow-y: auto;
+      }
+    }
+  }
+
+  &-foot {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    height: 50px
+  }
+
+  .panel {
+    border: solid #07a990 1px;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+}

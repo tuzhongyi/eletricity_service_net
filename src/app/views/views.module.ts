@@ -23,6 +23,9 @@ import Adsame from 'src/assets/echart-theme/adsame.json';
 import { CustomDateItemPipe } from '../pipes/custom-date-item.pipe';
 import { EmployeeTrackComponents } from './employee-track/employee-track.module';
 import { LoginComponent } from './login/login.component';
+import { PeopleStrangerComponents } from './people-stranger/people-stranger.module';
+import { PeoplePictureFaceComponent } from './people/people-picture-face/people-picture-face.component';
+import { PeopleComponent } from './people/people.component';
 import { SettingComponents } from './settings/settings.module';
 import { TreeComponents } from './trees/trees.module';
 import { WindowComponents } from './windows/windows.module';
@@ -43,6 +46,9 @@ const ViewComponents = [
   ...SettingComponents,
   ...TreeComponents,
   ...EmployeeTrackComponents,
+  PeopleComponent,
+  PeoplePictureFaceComponent,
+  ...PeopleStrangerComponents,
   components,
   CustomDateItemPipe,
 ];
