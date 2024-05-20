@@ -1,75 +1,17 @@
-<div class="realtime-device-list-table table">
-  <div class="head">
+<div class="video-keyword-table table">
+  <div class="body nohead" *ngIf="!!datas">
     <table border="0" cellpadding="0" cellspacing="0">
       <colgroup>
         <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
       </colgroup>
-      <thead>
-        <tr>
-          <td>摄像机</td>
-          <td>开始时间</td>
-          <td>结束时间</td>
-          <td>内容</td>
-          <td>操作</td>
-        </tr>
-      </thead>
-    </table>
-  </div>
-  <div class="body" *ngIf="!!datas" #body>
-    <table
-      border="0"
-      cellpadding="0"
-      cellspacing="0"
-      [ngStyle]="{
-        height: page && page.RecordCount === options.pageSize ? '100%' : 'auto'
-      }"
-    >
-      <colgroup>
-        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
-      </colgroup>
       <tbody>
-        <tr
-          *ngFor="let item of datas"
-          [ngStyle]="{
-            height:
-              page && page.RecordCount === options.pageSize && body_height
-                ? 'unset'
-                : body_height! / options.pageSize + 'px'
-          }"
-        >
-          <td>{{ item.ChannelName }}</td>
-          <td>{{ item.BeginTime | date : "yyyy-MM-dd HH:mm:ss.SSS" }}</td>
-          <td>{{ item.EndTime | date : "HH:mm:ss.SSS" }}</td>
-
-          <td>{{ item.Subtitles }}</td>
-          <td>
-            <div class="operation">
-              <div class="playback" (click)="onplayback(item)">
-                <i class="howell-icon-video-playback1"></i>
-              </div>
-            </div>
+        <tr *ngFor="let item of datas" [class.selected]="item === selected">
+          <td>{{ item.Position | date : "HH:mm:ss" }}</td>
+          <td (click)="onselect(item)" [title]="item.Subtitles">
+            {{ item.Subtitles }}
           </td>
         </tr>
       </tbody>
     </table>
-  </div>
-  <div class="footer" *ngIf="page">
-    <div class="footer-item">
-      <div class="footer-info">
-        <div class="info-item">当前数量: {{ page && page.RecordCount }}</div>
-        <div class="info-item">总数量: {{ page && page.TotalRecordCount }}</div>
-      </div>
-    </div>
-    <div class="footer-item">
-      <app-paginator
-        [length]="page ? page.TotalRecordCount : 0"
-        [pageSize]="page ? page.PageSize : 0"
-        [pagerCount]="5"
-        [pageIndex]="page.PageIndex - 1"
-        [showFirstLastButtons]="true"
-        (page)="pageEvent($event)"
-      >
-      </app-paginator>
-    </div>
   </div>
 </div>

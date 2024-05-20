@@ -8,13 +8,13 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
-import { VideoArgs } from 'src/app/models/args/video.args';
-import { Page } from 'src/app/models/page.model';
 import { SubtitlingItem } from 'src/app/models/subtitling/subtitling-item.model';
 import { Language } from 'src/app/tools/language';
 import { VideoKeywordTableBusiness } from './video-keyword-table.business';
-import { VideoKeywordTableOptions } from './video-keyword-table.model';
+import {
+  SubtitlingItemModel,
+  VideoKeywordTableOptions,
+} from './video-keyword-table.model';
 
 @Component({
   selector: 'howell-video-keyword-table',
@@ -23,19 +23,17 @@ import { VideoKeywordTableOptions } from './video-keyword-table.model';
   providers: [VideoKeywordTableBusiness],
 })
 export class VideoKeywordTableComponent implements OnInit, OnDestroy {
-  @Input()
-  options: VideoKeywordTableOptions = new VideoKeywordTableOptions();
-  @Input()
-  load?: EventEmitter<VideoKeywordTableOptions>;
-  @Output()
-  playback: EventEmitter<VideoArgs<SubtitlingItem>> = new EventEmitter();
+  @Input() options: VideoKeywordTableOptions = new VideoKeywordTableOptions();
+  @Input() load?: EventEmitter<VideoKeywordTableOptions>;
+  @Input() selected?: SubtitlingItemModel;
+  @Output() selectedChange = new EventEmitter<SubtitlingItemModel>();
+  @Output() loaded = new EventEmitter<SubtitlingItem[]>();
 
   constructor(private business: VideoKeywordTableBusiness) {}
 
-  datas?: SubtitlingItem[];
-  widths = ['20%', '20%', '20%', '30%', '10%'];
+  datas?: SubtitlingItemModel[];
+  widths = ['86px'];
   Language = Language;
-  page?: Page;
   @ViewChild('body') bodyElement?: ElementRef;
 
   get body_height() {
@@ -64,20 +62,13 @@ export class VideoKeywordTableComponent implements OnInit, OnDestroy {
 
   loadData() {
     this.business.load(this.options).then((x) => {
-      this.datas = x.Data;
-      this.page = x.Page;
+      this.datas = x;
+      this.loaded.emit(x);
     });
   }
 
-  async pageEvent(page: PageEvent) {
-    this.options.pageIndex = page.pageIndex + 1;
-    this.options.pageSize = page.pageSize;
-
-    this.loadData();
-  }
-
-  onplayback(item: SubtitlingItem) {
-    let args = this.business.convert(item);
-    this.playback.emit(args);
+  onselect(item: SubtitlingItemModel) {
+    this.selected = item;
+    this.selectedChange.emit(item);
   }
 }

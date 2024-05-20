@@ -21,6 +21,7 @@ export class PeopleStrangerListComponent implements OnInit {
   @Input() business: IBusiness<PagedList<Stranger>>;
   @Input() opts: IPeopleStrangerListOptions = new PeopleStrangerListOptions();
   @Input('load') loadEvent?: EventEmitter<IPeopleStrangerListOptions>;
+  @Input() reload?: EventEmitter<Stranger[]>;
   @Input() column: number = 7;
   @Input() row = 4;
   @Input() selecteds: Stranger[] = [];
@@ -48,6 +49,16 @@ export class PeopleStrangerListComponent implements OnInit {
       this.loadEvent.subscribe((opts) => {
         this.opts = opts;
         this.load();
+      });
+    }
+    if (this.reload) {
+      this.reload.subscribe((datas) => {
+        datas.forEach((x) => {
+          let index = this.datas.findIndex((y) => CompareTool.Id(x, y));
+          if (index >= 0) {
+            this.datas[index] = x;
+          }
+        });
       });
     }
     this.opts.pageSize = this.row * this.column;

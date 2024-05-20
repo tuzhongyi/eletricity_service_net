@@ -33,6 +33,7 @@ export class SettingsSubtitleChannelSupportedBusiness {
     if (server) {
       let serverId = server.Id;
       let all = datas.map((x) => {
+        x.Enabled = true;
         return this.service.server.channel.create(serverId, x);
       });
       return Promise.all(all);

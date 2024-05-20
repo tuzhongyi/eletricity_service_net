@@ -1,41 +1,32 @@
-import { PlayMode } from 'src/app/enums/play-mode.enum';
-import { IConverter } from 'src/app/interfaces/converter.interface';
-import { VideoArgs } from 'src/app/models/args/video.args';
-import { PagedList } from 'src/app/models/page.model';
+import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { SubtitlingItem } from 'src/app/models/subtitling/subtitling-item.model';
+import { SubtitlingItemModel } from './video-keyword-table.model';
 
-export class VideoKeywordTableConverter
-  implements
-    IConverter<PagedList<SubtitlingItem>, PagedList<VideoArgs<SubtitlingItem>>>
-{
-  Convert(
-    source: PagedList<SubtitlingItem>
-  ): PagedList<VideoArgs<SubtitlingItem>> {
-    let paged = new PagedList<VideoArgs<SubtitlingItem>>();
-    paged.Page = source.Page;
-    paged.Data = source.Data.map((x) => {
-      return this.item.Convert(x);
-    });
-    return paged;
+export class VideoKeywordTableItemConverter {
+  convert(
+    source: SubtitlingItem,
+    begin: Date,
+    offset: number
+  ): SubtitlingItemModel {
+    let plain = instanceToPlain(source);
+    let model = plainToInstance(SubtitlingItemModel, plain);
+    model.Position = this.time2position(source.BeginTime, begin, offset);
+
+    return model;
   }
-  item = new VideoKeywordTableItemConverter();
-}
 
-export class VideoKeywordTableItemConverter
-  implements IConverter<SubtitlingItem, VideoArgs<SubtitlingItem>>
-{
-  Convert(source: SubtitlingItem, ...res: any[]): VideoArgs<SubtitlingItem> {
-    let args = new VideoArgs();
-    args.cameraId = source.ChannelId;
-    args.title = source.ChannelName ?? source.ChannelId;
-    args.begin = source.BeginTime;
-    args.end = source.EndTime;
-    args.mode = PlayMode.vod;
-    args.autoplay = true;
-    args.subtitle = true;
+  time2position(time: Date, begin: Date, offset: number) {
+    return new Date(
+      time.getTime() -
+        begin.getTime() +
+        time.getTimezoneOffset() * 1000 * 60 +
+        offset
+    );
+  }
 
-    args.data = source;
-
-    return args;
+  position2time(position: Date) {
+    return new Date(
+      position.getTime() - position.getTimezoneOffset() * 1000 * 60
+    );
   }
 }

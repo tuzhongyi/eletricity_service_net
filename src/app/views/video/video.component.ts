@@ -47,7 +47,7 @@ export class VideoComponent implements OnInit {
       case VideoNavigation.playback:
         this.mode = PlayMode.vod;
         break;
-      case VideoNavigation.subtitle:
+      case VideoNavigation.keyword:
         this.mode = PlayMode.vod;
         break;
       default:

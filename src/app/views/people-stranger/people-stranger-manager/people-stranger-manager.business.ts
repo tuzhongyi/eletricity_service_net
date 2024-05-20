@@ -15,11 +15,9 @@ export class PeopleStrangerManagerBusiness {
       });
 
     if (all.length == 0) {
-      return false;
+      return datas;
     }
 
-    return Promise.all(all).then((x) => {
-      return true;
-    });
+    return Promise.all(all);
   }
 }

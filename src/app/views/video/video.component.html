@@ -15,19 +15,13 @@
           视频回放
         </div>
         <div
-          (click)="onnavigation(Navigation.subtitle)"
-          [class.selected]="navigation === Navigation.subtitle"
+          (click)="onnavigation(Navigation.keyword)"
+          [class.selected]="navigation === Navigation.keyword"
         >
           字幕搜索
         </div>
       </div>
-      <div
-        class="right"
-        *ngIf="
-          navigation === Navigation.preview ||
-          navigation === Navigation.playback
-        "
-      >
+      <div class="right" *ngIf="navigation != Navigation.keyword">
         <button
           (click)="screenModeChange(ScreenMode.one)"
           [class.selected]="screen.mode === ScreenMode.one"
@@ -49,7 +43,7 @@
     <div
       class="video-content"
       [ngClass]="{
-        subtitle: navigation === Navigation.subtitle
+        subtitle: navigation === Navigation.keyword
       }"
     >
       <ng-container
@@ -86,9 +80,10 @@
           ></howell-video-player-list>
         </div>
       </ng-container>
-      <ng-container *ngIf="navigation === Navigation.subtitle">
+      <ng-container *ngIf="navigation === Navigation.keyword">
         <howell-video-keywords
           (playback)="onplaywindow($event)"
+          [screen]="screen"
         ></howell-video-keywords>
       </ng-container>
     </div>

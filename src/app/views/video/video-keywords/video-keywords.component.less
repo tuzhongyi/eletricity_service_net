@@ -2,71 +2,87 @@
   height: 100%;
   width: 100%;
 
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 
-
-  &-title {
-    color: white;
-    font-size: 24px;
-    border-bottom: 1px solid #006764;
-    padding-bottom: 20px;
-  }
+  @filter-width: 370px;
+  @filter-height: 218px;
+  @filter-gap: 15px;
 
   &-filter {
-    margin-bottom: 20px;
-    width: 100%;
-    height: 34px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 
-    &>* {
-      display: flex;
-      align-items: center;
-    }
+    width: @filter-width;
+    height: 100%;
+    overflow-x: visible;
+    padding: 10px;
 
-    .right {
-      width: 300px;
-      justify-content: end;
+    .filter {
+      display: block;
+      height: @filter-height;
+      margin-bottom: @filter-gap;
 
 
-    }
+      &-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: white;
+        font-size: 18px;
+        margin: 0;
+        margin-bottom: 10px;
 
-    &-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: white;
-      font-size: 18px;
-      margin-right: 10px;
 
-      &:last-child {
-        margin-right: 0;
-      }
+        &-title {
+          width: 90px;
+          font-size: 18px;
+          white-space: nowrap;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
 
-      input {
-        width: 200px;
-      }
+        &-value {
+          width: calc(100% - 90px);
 
-      select {
-        width: 150px;
-      }
+          &.time {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 34px;
 
-      &.search {
-        &>* {
-          margin-right: 10px;
+            span {
+              margin: 0 5px;
+            }
+          }
+        }
 
-          &:last-child {
-            margin-right: 0;
+        &.search {
+          button {
+            width: 100%;
           }
         }
       }
     }
 
-    ;
+    &-list {
+      height: calc(100% - @filter-height - @filter-gap);
+      width: calc(100%);
+      overflow-y: auto;
+      overflow-x: visible;
+
+    }
+
   }
 
-  &-table {
-    height: calc(100% - 20px - 34px);
+  &-video {
+    width: calc(100% - @filter-width - 10px);
+    height: 100%;
   }
 
+  .panel {
+    border: solid #07a990 1px;
+    box-sizing: border-box;
+
+  }
 }

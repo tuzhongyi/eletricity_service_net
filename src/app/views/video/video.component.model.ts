@@ -1,5 +1,5 @@
 export enum VideoNavigation {
   preview,
   playback,
-  subtitle,
+  keyword,
 }

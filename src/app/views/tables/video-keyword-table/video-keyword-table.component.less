@@ -1,69 +1,25 @@
-.realtime-device-list-table {
-  width: 100%;
+.video-keyword-table {
   height: 100%;
-
-  @head-height: 70px;
-  @foot-height: 50px;
-
-  &>* {
-    box-sizing: border-box;
-  }
-
-  .head {
-    height: @head-height;
-    border: solid #07a990 1px;
-    margin-bottom: 0;
-    width: 100%
-  }
+  width: 100%;
 
   .body {
-    border: solid #07a990 1px;
-    border-top: none;
-    height: calc(100% - @head-height - @foot-height);
-    width: 100%;
+    overflow-y: scroll;
+    height: calc(100%);
+    width: calc(100%);
 
     table {
-      width: 100%;
-      border-collapse: collapse;
-      border-spacing: 0px 0px;
-      margin: 0;
+      border-spacing: 0px 5px;
 
       tr {
-        background-color: transparent;
-        height: 47.5px;
+        height: 34px !important;
 
+        td {
+          cursor: pointer;
+          padding: 0 5px !important;
+          font-size: 18px !important;
 
-        .glyphicon {
-          top: 0;
-          font-size: 15px;
         }
       }
-    }
-  }
-
-  .footer {
-    height: @foot-height;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: solid #07a990 1px;
-    border-top: none;
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-
-    &-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      width: 200px;
-    }
-
-    &-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
     }
   }
 }

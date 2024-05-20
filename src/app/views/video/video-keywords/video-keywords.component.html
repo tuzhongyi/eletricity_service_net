@@ -1,41 +1,52 @@
 <div class="video-keywords">
-  <div class="video-keywords-filter">
-    <div class="left">
-      <div class="video-keywords-filter-item">
-        <div>开始时间：</div>
-        <div>
+  <div class="panel video-keywords-filter">
+    <div class="filter">
+      <div class="filter-item">
+        <div class="filter-item-title">
+          <div>选</div>
+          <div>择</div>
+          <div>日</div>
+          <div>期：</div>
+        </div>
+        <div class="filter-item-value">
           <input
-            width="200px"
             type="text"
             DateTimePicker
-            [format]="'yyyy-MM-dd HH:mm'"
+            [format]="'yyyy-MM-dd'"
             [startView]="DateTimePickerView.month"
-            [minView]="DateTimePickerView.day"
-            [(date)]="options.begin"
-            (dateChange)="onbegin($event)"
+            [minView]="DateTimePickerView.month"
+            [(date)]="date"
             class="date-select"
           />
         </div>
       </div>
-      <div class="video-keywords-filter-item">
-        <div>结束时间：</div>
-        <div>
-          <input
-            width="200px"
-            type="text"
-            DateTimePicker
-            [format]="'yyyy-MM-dd HH:mm'"
-            [startView]="DateTimePickerView.month"
-            [minView]="DateTimePickerView.day"
-            [(date)]="options.end"
-            (dateChange)="onend($event)"
-            class="date-select"
-          />
+      <div class="filter-item">
+        <div class="filter-item-title">
+          <div>选</div>
+          <div>择</div>
+          <div>时</div>
+          <div>间：</div>
+        </div>
+        <div class="filter-item-value time">
+          <app-time-control
+            [time]="begin"
+            (onchange)="onbegin($event)"
+          ></app-time-control>
+          <span> - </span>
+
+          <app-time-control
+            [time]="end"
+            (onchange)="onend($event)"
+          ></app-time-control>
         </div>
       </div>
-      <div class="video-keywords-filter-item">
-        <div>摄像机：</div>
-        <div style="width: 250px">
+      <div class="filter-item">
+        <div class="filter-item-title">
+          <div>摄</div>
+          <div>像</div>
+          <div>机：</div>
+        </div>
+        <div class="filter-item-value">
           <common-label-select
             [autoclose]="true"
             [selectedNodes]="selection.label_selecteds"
@@ -48,9 +59,13 @@
         </div>
       </div>
 
-      <div class="video-keywords-filter-item">
-        <div>关键字：</div>
-        <div>
+      <div class="filter-item">
+        <div class="filter-item-title">
+          <div>关</div>
+          <div>键</div>
+          <div>字：</div>
+        </div>
+        <div class="filter-item-value">
           <input
             type="text"
             [(ngModel)]="options.key"
@@ -58,18 +73,30 @@
           />
         </div>
       </div>
-      <div class="video-keywords-filter-item">
+      <div class="filter-item search">
         <button class="full" (click)="onsearch()">
           <i class="howell-icon-search2"></i> 查询
         </button>
       </div>
     </div>
+    <div class="video-keywords-filter-list">
+      <howell-video-keyword-table
+        [load]="load"
+        [selected]="selected"
+        (selectedChange)="onselect($event)"
+        (loaded)="onloaded($event)"
+      ></howell-video-keyword-table>
+    </div>
   </div>
-
-  <div class="video-keywords-table">
-    <howell-video-keyword-table
-      [load]="load"
-      (playback)="onplayback($event)"
-    ></howell-video-keyword-table>
+  <div class="panel video-keywords-video">
+    <howell-video-player-list
+      [mode]="video.screen.mode"
+      [play]="video.toplay"
+      [seek]="video.toseek"
+      [subtitle]="video.opensubtitle"
+      [(index)]="video.screen.index"
+      (playing)="video.playing($event)"
+      (stoping)="video.stoping($event)"
+    ></howell-video-player-list>
   </div>
 </div>

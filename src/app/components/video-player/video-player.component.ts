@@ -52,6 +52,10 @@ export class VideoPlayerComponent
   @Input() fast?: EventEmitter<void>;
   @Input() changeRuleState?: EventEmitter<boolean>;
   @Input() seek?: EventEmitter<number>;
+  @Input('reserve') set inputreserve(value: number | undefined) {
+    if (value === undefined) return;
+    this.reserve = value;
+  }
 
   @Output() loaded: EventEmitter<void> = new EventEmitter();
   @Output() destroy: EventEmitter<VideoModel> = new EventEmitter();
@@ -70,6 +74,7 @@ export class VideoPlayerComponent
     private sanitizer: DomSanitizer,
     private config: ConfigRequestService
   ) {}
+
   reserve: number = 15 * 1000;
   src?: SafeResourceUrl;
   isinited = false;
@@ -252,13 +257,10 @@ export class VideoPlayerComponent
   }
 
   async eventRegist(player: WSPlayerProxy) {
-    player.onPlaying = (index: number = 0) => {
-      if (this.index != index) return;
-      this.onPlaying.emit();
-      if (player && this.subtitle) {
-        player.subtitleEnabled(this.subtitle);
-      }
-    };
+    // player.onPlaying = (index: number = 0) => {
+    //   if (this.index != index) return;
+    //   this.onPlaying.emit(this.index);
+    // };
     player.onRuleStateChanged = (index: number = 0, state: boolean) => {
       if (this.index != index) return;
       // this.saveRuleState(state);
@@ -279,13 +281,7 @@ export class VideoPlayerComponent
     player.getTimer = (index: number = 0, value: TimeArgs) => {
       if (this.index != index) return;
       if (this.subtitleopened) {
-        if (player) {
-          let item = this.business.subtitle.get(
-            index,
-            value.current - value.min
-          );
-          player.setSubtitle(item ? item.text ?? '' : '');
-        }
+        this.setsubtitle(index, value);
       }
     };
     player.onSubtitleEnableChanged = (index: number, enabled: boolean) => {
@@ -349,7 +345,13 @@ export class VideoPlayerComponent
       if (this.index != index) return;
       switch (state) {
         case PlayerState.playing:
-          this.onseek(this.reserve);
+          if (this.reserve) {
+            this.onseek(this.reserve);
+          }
+          if (this.subtitle) {
+            this.subtitleenable(this.subtitle);
+          }
+          this.onPlaying.emit(this.index);
           break;
 
         default:
@@ -429,6 +431,20 @@ export class VideoPlayerComponent
   onseek(value: number) {
     this.player.then((x) => {
       x.seek(value);
+    });
+  }
+  subtitleenable(enabled: boolean) {
+    this.player.then((x) => {
+      x.subtitleEnabled(enabled);
+    });
+  }
+
+  setsubtitle(index: number, value: TimeArgs) {
+    this.player.then((x) => {
+      if (x) {
+        let item = this.business.subtitle.get(index, value.current - value.min);
+        x.setSubtitle(item ? item.text ?? '' : '');
+      }
     });
   }
 }

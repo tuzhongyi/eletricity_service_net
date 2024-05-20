@@ -1,7 +1,8 @@
 {
   "playback": {
     "begin": -15,
-    "end": 15
+    "end": 15,
+    "subtitle": -10
   },
   "track": {
     "begin": 15,

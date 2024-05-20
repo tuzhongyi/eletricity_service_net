@@ -24,6 +24,7 @@ export class PeopleStrangerManagerComponent implements OnInit {
 
   opts = new PeopleStrangerListOptions();
   load = new EventEmitter<IPeopleStrangerListOptions>();
+  reload = new EventEmitter<Stranger[]>();
   window = new PeopleStrangerManagerWindow();
 
   data = {
@@ -72,10 +73,7 @@ export class PeopleStrangerManagerComponent implements OnInit {
         .update(this.selecteds, enabled)
         .then((x) => {
           this.toastr.success('操作成功');
-          this.selecteds = [];
-          if (x) {
-            this.load.emit(this.opts);
-          }
+          this.reload.emit(x);
         })
         .catch((x) => {
           this.toastr.error('操作失败');
