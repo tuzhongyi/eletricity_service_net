@@ -52,10 +52,6 @@ export class VideoPlayerComponent
   @Input() fast?: EventEmitter<void>;
   @Input() changeRuleState?: EventEmitter<boolean>;
   @Input() seek?: EventEmitter<number>;
-  @Input('reserve') set inputreserve(value: number | undefined) {
-    if (value === undefined) return;
-    this.reserve = value;
-  }
 
   @Output() loaded: EventEmitter<void> = new EventEmitter();
   @Output() destroy: EventEmitter<VideoModel> = new EventEmitter();
@@ -75,7 +71,6 @@ export class VideoPlayerComponent
     private config: ConfigRequestService
   ) {}
 
-  reserve: number = 15 * 1000;
   src?: SafeResourceUrl;
   isinited = false;
   isloaded = false;
@@ -345,9 +340,6 @@ export class VideoPlayerComponent
       if (this.index != index) return;
       switch (state) {
         case PlayerState.playing:
-          if (this.reserve) {
-            this.onseek(this.reserve);
-          }
           if (this.subtitle) {
             this.subtitleenable(this.subtitle);
           }

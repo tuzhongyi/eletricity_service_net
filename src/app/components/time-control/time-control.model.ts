@@ -49,3 +49,9 @@ export class TimeDurationModel {
   begin: TimeModel;
   end: TimeModel;
 }
+
+export enum TimeItem {
+  hour,
+  minute,
+  second,
+}

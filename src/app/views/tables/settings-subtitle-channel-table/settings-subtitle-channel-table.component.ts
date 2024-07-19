@@ -34,15 +34,12 @@ import {
 export class SettingsSubtitleChannelTableComponent
   implements OnInit, OnDestroy
 {
-  @Input()
-  options: SettingsSubtitleChannelTableOptions =
+  @Input() options: SettingsSubtitleChannelTableOptions =
     new SettingsSubtitleChannelTableOptions();
-  @Input()
-  load?: EventEmitter<SettingsSubtitleChannelTableOptions>;
-  @Output()
-  remove = new EventEmitter<SubtitlingChannel>();
-  @Output()
-  enablechange = new EventEmitter<SubtitlingChannel>();
+  @Input() load?: EventEmitter<SettingsSubtitleChannelTableOptions>;
+  @Output() remove = new EventEmitter<SubtitlingChannel>();
+  @Output() enablechange = new EventEmitter<SubtitlingChannel>();
+  @Output() schedule = new EventEmitter<SubtitlingChannel>();
 
   constructor(private business: SettingsSubtitleChannelTableBusiness) {}
 
@@ -98,5 +95,10 @@ export class SettingsSubtitleChannelTableComponent
     this.options.pageSize = page.pageSize;
 
     this.loadData();
+  }
+
+  onschedule(e: Event, item: SubtitlingChannelModel) {
+    e.stopImmediatePropagation();
+    this.schedule.emit(item);
   }
 }

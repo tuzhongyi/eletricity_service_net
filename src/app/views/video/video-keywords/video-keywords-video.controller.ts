@@ -1,6 +1,9 @@
 import { EventEmitter } from '@angular/core';
 import { ScreenMode } from 'src/app/enums/screen-mode.enum';
-import { VideoModel } from 'src/app/models/video.model';
+import {
+  HowellPlaybackArgs,
+  HowellVideoPlayerArgs,
+} from 'src/app/howell-components/howell-video-player/howell-video-player.model';
 import { wait } from 'src/app/tools/tools';
 
 export class VideoKeywordsVideoController {
@@ -9,7 +12,7 @@ export class VideoKeywordsVideoController {
     index: 0,
   };
 
-  toplay = new EventEmitter<VideoModel>();
+  toplay = new EventEmitter<HowellVideoPlayerArgs>();
   toseek = new EventEmitter<number>();
   opensubtitle = new EventEmitter<boolean>();
 
@@ -27,7 +30,7 @@ export class VideoKeywordsVideoController {
     }
   }
 
-  play(model: VideoModel) {
+  play(model: HowellPlaybackArgs) {
     this.opensubtitle.emit(true);
     this.toplay.emit(model);
   }

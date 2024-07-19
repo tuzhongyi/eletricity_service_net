@@ -17,12 +17,12 @@
     <div class="video-playback-config-datetime-date">
       <div class="video-playback-config-datetime-title">开始时间：</div>
 
-      <app-time-control [time]="begin"></app-time-control>
+      <app-time-control [time]="begin" [end]="end"></app-time-control>
     </div>
     <div class="video-playback-config-datetime-date">
       <div class="video-playback-config-datetime-title">结束时间：</div>
 
-      <app-time-control [time]="end"></app-time-control>
+      <app-time-control [time]="end" [begin]="begin"></app-time-control>
     </div>
     <div class="operation">
       <button (click)="onPlaybackClicked()" class="full">开始回放</button>

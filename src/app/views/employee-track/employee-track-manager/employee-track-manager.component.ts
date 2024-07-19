@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { HowellPlaybackArgs } from 'src/app/howell-components/howell-video-player/howell-video-player.model';
 import { TrackConfig } from 'src/app/models/config';
 import { EmployeeTrackRecord } from 'src/app/models/employee-track-record.model';
 import default_config from 'src/assets/configs/config.json';
@@ -86,12 +87,15 @@ export class EmployeeTrackManagerComponent implements OnInit {
     this.selected = this.converter.convert(item);
     this.selected.command = EmployeesTrackRecordTableLastCommand.image;
   }
-  async onvideo(item: EmployeeTrackRecord) {
+  onvideo(item: EmployeeTrackRecord) {
     this.selected = this.converter.convert(item);
     this.selected.command = EmployeesTrackRecordTableLastCommand.video;
     if (item.ResourceId) {
-      let model = await this.business.playback(item.ResourceId, item.EventTime);
-      this.selected.play.emit(model);
+      let args = new HowellPlaybackArgs();
+      args.cameraId = item.ResourceId;
+      args.time = item.EventTime;
+      args.track = true;
+      this.selected.playback.emit(args);
     }
   }
 

@@ -1,5 +1,5 @@
 import { EventEmitter } from '@angular/core';
-import { VideoUrl } from 'src/app/models/video-url.model';
+import { HowellPlaybackArgs } from 'src/app/howell-components/howell-video-player/howell-video-player.model';
 import { VideoModel } from 'src/app/models/video.model';
 
 export class PeopleStrangerRecordDetailsVideoController {
@@ -7,20 +7,16 @@ export class PeopleStrangerRecordDetailsVideoController {
   show = false;
   name = '';
 
-  model?: VideoModel;
+  event = { playback: new EventEmitter<HowellPlaybackArgs>() };
 
   onstop() {
     this.show = false;
   }
 
-  play(url: VideoUrl) {
-    this.model = new VideoModel(url.Url);
-    // if (url.Username) {
-    //   model.username = url.Username;
-    // }
-    // if (url.Password) {
-    //   model.password = url.Password;
-    // }
-    // this.toplay.emit(model);
+  playback(cameraId: string, time: Date) {
+    let args = new HowellPlaybackArgs();
+    args.cameraId = cameraId;
+    args.time = time;
+    this.event.playback.emit(args);
   }
 }

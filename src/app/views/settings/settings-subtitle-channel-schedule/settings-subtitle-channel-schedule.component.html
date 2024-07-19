@@ -1,0 +1,60 @@
+<div class="settings-subtitle-channel-sheet">
+  <div class="settings-subtitle-channel-sheet-body" *ngIf="!!data">
+    <div class="settings-subtitle-channel-sheet-body-week">
+      <select [(ngModel)]="week">
+        <option [ngValue]="item" *ngFor="let item of weeks">
+          {{ Language.Week(item) }}
+        </option>
+      </select>
+      <button (click)="oncopy()">
+        <i class="mdi mdi-content-copy"></i> 复制
+      </button>
+    </div>
+    <div class="settings-subtitle-channel-sheet-body-list">
+      <div
+        class="settings-subtitle-channel-sheet-body-list-item"
+        *ngFor="let item of data.Days[week].Segments; let i = index"
+      >
+        <div class="settings-subtitle-channel-sheet-body-list-item-time">
+          <div>{{ i + 1 }}：</div>
+          <app-time-control
+            [(time)]="item.StartTime"
+            [end]="item.StopTime"
+          ></app-time-control>
+          -
+          <app-time-control
+            [(time)]="item.StopTime"
+            [begin]="item.StartTime"
+          ></app-time-control>
+        </div>
+        <button (click)="onremove(i)">
+          <i class="howell-icon-delete-bin td-icon"></i>
+        </button>
+      </div>
+    </div>
+    <button
+      class="settings-subtitle-channel-sheet-body-list-plus"
+      (click)="onadd()"
+    >
+      <i class="howell-icon-plus"></i> 添加
+    </button>
+  </div>
+  <div class="settings-subtitle-channel-sheet-foot">
+    <button class="full" (click)="onok()">确认</button>
+    <button (click)="oncancel()">取消</button>
+  </div>
+</div>
+
+<app-window
+  *ngIf="window.copy.show"
+  [model]="window.copy"
+  [style]="window.copy.style"
+  [title]="window.copy.title"
+  [closeButton]="false"
+>
+  <howell-settings-subtitle-channel-schedule-week-copy
+    [day]="window.copy.day"
+    (cancel)="window.copy.show = false"
+    (copy)="docopy($event)"
+  ></howell-settings-subtitle-channel-schedule-week-copy>
+</app-window>

@@ -3,34 +3,22 @@ import { Injectable } from '@angular/core';
 import { IBusiness } from 'src/app/interfaces/business.interface';
 import { PagedList } from 'src/app/models/page.model';
 import { SubtitlingItem } from 'src/app/models/subtitling/subtitling-item.model';
-import { ConfigRequestService } from 'src/app/network/request/config/config.service';
 import { GetKeywordSubtitlingParams } from 'src/app/network/request/subtitling/subtitling-request.params';
 import { SubtitlingRequestService } from 'src/app/network/request/subtitling/subtitling-request.service';
-import { VideoKeywordTableItemConverter } from './video-keyword-table.converter';
-import {
-  SubtitlingItemModel,
-  VideoKeywordTableOptions,
-} from './video-keyword-table.model';
+import { VideoKeywordTableOptions } from './video-keyword-table.model';
 
 @Injectable()
 export class VideoKeywordTableBusiness
-  implements IBusiness<SubtitlingItem[], SubtitlingItemModel[]>
+  implements IBusiness<SubtitlingItem[], SubtitlingItem[]>
 {
-  constructor(
-    private service: SubtitlingRequestService,
-    private config: ConfigRequestService
-  ) {}
-  converter = new VideoKeywordTableItemConverter();
-  async load(opts: VideoKeywordTableOptions): Promise<SubtitlingItemModel[]> {
+  constructor(private service: SubtitlingRequestService) {}
+  async load(opts: VideoKeywordTableOptions): Promise<SubtitlingItem[]> {
     let datas = await this.getData(opts);
     if (datas.length == 0) {
       return [];
     }
-    let config = await this.config.get();
-    let model = datas.map((x) =>
-      this.convert(x, datas[0].BeginTime, config.playback.begin)
-    );
-    return model;
+
+    return datas;
   }
   async getData(opts: VideoKeywordTableOptions): Promise<SubtitlingItem[]> {
     let params = new GetKeywordSubtitlingParams();
@@ -57,9 +45,5 @@ export class VideoKeywordTableBusiness
       index++;
     } while (index <= paged.Page.PageCount);
     return data;
-  }
-
-  convert(item: SubtitlingItem, begin: Date, offset: number) {
-    return this.converter.convert(item, begin, -offset * 1000);
   }
 }

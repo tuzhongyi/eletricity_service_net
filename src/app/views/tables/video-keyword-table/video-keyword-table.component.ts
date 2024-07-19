@@ -11,10 +11,7 @@ import {
 import { SubtitlingItem } from 'src/app/models/subtitling/subtitling-item.model';
 import { Language } from 'src/app/tools/language';
 import { VideoKeywordTableBusiness } from './video-keyword-table.business';
-import {
-  SubtitlingItemModel,
-  VideoKeywordTableOptions,
-} from './video-keyword-table.model';
+import { VideoKeywordTableOptions } from './video-keyword-table.model';
 
 @Component({
   selector: 'howell-video-keyword-table',
@@ -25,13 +22,14 @@ import {
 export class VideoKeywordTableComponent implements OnInit, OnDestroy {
   @Input() options: VideoKeywordTableOptions = new VideoKeywordTableOptions();
   @Input() load?: EventEmitter<VideoKeywordTableOptions>;
-  @Input() selected?: SubtitlingItemModel;
-  @Output() selectedChange = new EventEmitter<SubtitlingItemModel>();
+  @Input() autoload = false;
+  @Input() selected?: SubtitlingItem;
+  @Output() selectedChange = new EventEmitter<SubtitlingItem>();
   @Output() loaded = new EventEmitter<SubtitlingItem[]>();
 
   constructor(private business: VideoKeywordTableBusiness) {}
 
-  datas?: SubtitlingItemModel[];
+  datas?: SubtitlingItem[];
   widths = ['86px'];
   Language = Language;
   @ViewChild('body') bodyElement?: ElementRef;
@@ -57,7 +55,9 @@ export class VideoKeywordTableComponent implements OnInit, OnDestroy {
         this.loadData();
       });
     }
-    this.loadData();
+    if (this.autoload) {
+      this.loadData();
+    }
   }
 
   loadData() {
@@ -67,7 +67,7 @@ export class VideoKeywordTableComponent implements OnInit, OnDestroy {
     });
   }
 
-  onselect(item: SubtitlingItemModel) {
+  onselect(item: SubtitlingItem) {
     this.selected = item;
     this.selectedChange.emit(item);
   }

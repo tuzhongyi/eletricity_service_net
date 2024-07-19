@@ -14,13 +14,17 @@
       (error)="onimageerror($event)"
       *ngIf="!video.show"
     />
+    <span class="icon" *ngIf="!video.show">
+      <i class="mdi mdi-play"></i>
+    </span>
 
-    <app-video-player
+    <howell-video-player
       *ngIf="video.show"
       [name]="video.name"
-      [model]="video.model"
+      [playback]="video.event.playback"
       (onStoping)="video.show = false"
-    ></app-video-player>
+      (viewed)="onplayback()"
+    ></howell-video-player>
   </div>
   <div class="people-stranger-record-details-body">
     <div class="form">

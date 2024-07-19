@@ -60,7 +60,14 @@
           </td>
           <td>
             <div class="operation">
-              <div class="delete" (click)="onremove($event, item)">
+              <div
+                class="sheet"
+                (click)="onschedule($event, item)"
+                title="工作表"
+              >
+                <i class="mdi mdi-calendar-clock"></i>
+              </div>
+              <div class="delete" (click)="onremove($event, item)" title="删除">
                 <i class="howell-icon-delete-bin"></i>
               </div>
             </div>

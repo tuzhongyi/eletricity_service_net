@@ -1,5 +1,9 @@
+import { EventEmitter } from '@angular/core';
+import {
+  HowellPlaybackArgs,
+  HowellPreviewArgs,
+} from 'src/app/howell-components/howell-video-player/howell-video-player.model';
 import { ImageControlModel } from 'src/app/models/image-control.model';
-import { VideoModel } from 'src/app/models/video.model';
 import { DurationParams } from 'src/app/network/request/IParams.interface';
 
 export class ImageVideoControlModel {
@@ -12,17 +16,35 @@ export class ImageVideoControlModel {
   stationId: string;
   image?: ImageControlModel;
 
-  private _video?: VideoModel;
-  public get video(): VideoModel | undefined {
-    return this._video;
+  event = {
+    preview: new EventEmitter<HowellPreviewArgs>(),
+    playback: new EventEmitter<HowellPlaybackArgs>(),
+    stop: new EventEmitter<void>(),
+  };
+
+  private _playing = false;
+  public get playing(): boolean {
+    return this._playing;
   }
-  public set video(v: VideoModel | undefined) {
-    this._video = v;
-    if (this.videoChanged) {
-      this.videoChanged(this._video);
-    }
+
+  preview(cameraId: string) {
+    let args = new HowellPreviewArgs();
+    args.cameraId = cameraId;
+    this.event.preview.emit(args);
+    this._playing = true;
   }
-  videoChanged?: (video?: VideoModel) => void;
+  playback(cameraId: string, begin: Date, end: Date) {
+    let args = new HowellPlaybackArgs();
+    args.cameraId = cameraId;
+
+    args.duration = { begin, end };
+    this.event.playback.emit(args);
+    this._playing = true;
+  }
+  stop() {
+    this.event.stop.emit();
+    this._playing = false;
+  }
 }
 
 export class ImageVideoControlOperation {

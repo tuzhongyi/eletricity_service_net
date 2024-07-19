@@ -3,7 +3,6 @@ import { SubtitlingItem } from 'src/app/models/subtitling/subtitling-item.model'
 import { VideoModel } from 'src/app/models/video.model';
 import { ConfigRequestService } from 'src/app/network/request/config/config.service';
 import { SRServerRequestService } from 'src/app/network/request/sr-server/sr-server.service';
-import { SubtitlingItemModel } from '../../tables/video-keyword-table/video-keyword-table.model';
 
 @Injectable()
 export class VideoKeywordsBusiness {
@@ -36,7 +35,7 @@ export class VideoKeywordsBusiness {
     });
   }
 
-  async position(item: SubtitlingItemModel, begin: Date) {
+  async position(item: SubtitlingItem, begin: Date) {
     let config = await this.config.get();
     let _begin = new Date(begin.getTime());
     _begin.setSeconds(_begin.getSeconds());

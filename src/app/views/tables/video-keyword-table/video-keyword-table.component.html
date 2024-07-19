@@ -6,7 +6,7 @@
       </colgroup>
       <tbody>
         <tr *ngFor="let item of datas" [class.selected]="item === selected">
-          <td>{{ item.Position | date : "HH:mm:ss" }}</td>
+          <td>{{ item.BeginTime | date : "HH:mm:ss" }}</td>
           <td (click)="onselect(item)" [title]="item.Subtitles">
             {{ item.Subtitles }}
           </td>

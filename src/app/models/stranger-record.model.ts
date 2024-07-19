@@ -1,7 +1,7 @@
 import { Transform, Type } from 'class-transformer';
 import { FaceSetMatchResult } from './face-set-match-result.model';
 import { IIdModel } from './model.interface';
-import { transformBase64, transformDateTime } from './transform.model';
+import { transformDateTime } from './transform.model';
 
 /**	StrangerRecord (陌生人出现记录)	*/
 export class StrangerRecord implements IIdModel {
@@ -19,10 +19,8 @@ export class StrangerRecord implements IIdModel {
   /**	String	摄像机名称	O	*/
   CameraName?: string;
   /**	String	抓拍的人脸照片ID	O	*/
-  @Transform(transformBase64)
   FacePictureUrl?: string;
   /**	String	背景照片ID	O	*/
-  @Transform(transformBase64)
   BackgroundUrl?: string;
   /**	FaceSetMatchResult	人脸比对结果	O	*/
   @Type(() => FaceSetMatchResult)

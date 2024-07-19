@@ -1,8 +1,10 @@
 import { WindowViewModel } from 'src/app/components/window-control/window.model';
+import { SubtitlingChannel } from 'src/app/models/subtitling/subtitling-channel.model';
 
 export class SettingsSubtitleChannelManagerWindow {
   supported = new SupportedWindow();
   confirm = new ConfirmWindow();
+  schedule = new scheduleWindow();
 }
 
 class SupportedWindow extends WindowViewModel {
@@ -22,4 +24,14 @@ class ConfirmWindow extends WindowViewModel {
   title = '提示';
   message = '';
   yes!: Promise<void>;
+}
+
+class scheduleWindow extends WindowViewModel {
+  style = {
+    width: '600px',
+    height: '590px',
+  };
+  title = '工作表';
+
+  channel?: SubtitlingChannel;
 }

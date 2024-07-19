@@ -70,11 +70,12 @@
             [url]="selected.Picture"
             [full]="true"
           ></app-image>
-          <app-video-player
+          <howell-video-player
             *ngIf="selected.command === Command.video"
-            [play]="selected.play"
+            [preview]="selected.preview"
+            [playback]="selected.playback"
             (onStoping)="onstop()"
-          ></app-video-player>
+          ></howell-video-player>
         </ng-container>
       </div>
       <div class="controls">

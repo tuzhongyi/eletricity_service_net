@@ -138,4 +138,16 @@ export class SettingsSubtitleChannelManagerComponent implements OnInit {
     }
     this.window.supported.show = false;
   }
+
+  onschedule(item: SubtitlingChannel) {
+    this.window.schedule.channel = item;
+    this.window.schedule.show = true;
+  }
+  onscheduleclose(result: boolean) {
+    if (result) {
+      this.toastr.success('操作成功');
+      this.load.emit(this.opts);
+    }
+    this.window.schedule.show = false;
+  }
 }

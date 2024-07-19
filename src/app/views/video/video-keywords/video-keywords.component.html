@@ -30,13 +30,15 @@
         <div class="filter-item-value time">
           <app-time-control
             [time]="begin"
-            (onchange)="onbegin($event)"
+            (timeChange)="onbegin($event)"
+            [end]="end"
           ></app-time-control>
           <span> - </span>
 
           <app-time-control
             [time]="end"
-            (onchange)="onend($event)"
+            (timeChange)="onend($event)"
+            [begin]="begin"
           ></app-time-control>
         </div>
       </div>
@@ -93,7 +95,7 @@
       [mode]="video.screen.mode"
       [play]="video.toplay"
       [seek]="video.toseek"
-      [subtitle]="video.opensubtitle"
+      [subtitling]="subtitling"
       [(index)]="video.screen.index"
       (playing)="video.playing($event)"
       (stoping)="video.stoping($event)"

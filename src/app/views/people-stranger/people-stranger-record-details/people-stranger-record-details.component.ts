@@ -38,13 +38,15 @@ export class PeopleStrangerRecordDetailsComponent implements OnInit {
   }
 
   onimageclick() {
+    this.video.show = !!(this.data && this.data.CameraId);
+  }
+
+  onplayback() {
     if (this.data && this.data.CameraId) {
-      this.business.playback(this.data.CameraId, this.data.Time).then((x) => {
-        this.video.show = true;
-        this.video.play(x);
-      });
+      this.video.playback(this.data.CameraId, this.data.Time);
     }
   }
+
   onimageerror(e: Event) {
     let img = e.target as HTMLImageElement;
     img.src = UrlTool.image.error;

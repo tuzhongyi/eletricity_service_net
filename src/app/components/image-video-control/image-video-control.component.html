@@ -9,13 +9,15 @@
     ></app-image-control>
   </div>
   <div class="image-video-control-video" *ngIf="display.video">
-    <app-video-player
-      [model]="model.video"
-      (destroy)="onVideoDestroy($event)"
+    <howell-video-player
+      [index]="index"
+      [preview]="model.event.preview"
+      [playback]="model.event.playback"
+      (destroy)="onVideoDestroy()"
       (onStoping)="onstoping()"
-      [stop]="tostop"
+      [stop]="model.event.stop"
     >
-    </app-video-player>
+    </howell-video-player>
   </div>
 
   <div class="operation">

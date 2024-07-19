@@ -1,0 +1,27 @@
+<div class="settings-subtitle-channel-schedule-week-copy">
+  <div class="settings-subtitle-channel-schedule-week-copy-head">
+    <div class="all" (click)="onall()">全选</div>
+  </div>
+  <div class="settings-subtitle-channel-schedule-week-copy-body" *ngIf="!!day">
+    <div class="settings-subtitle-channel-schedule-week-copy-body-checkboxs">
+      <mat-checkbox
+        [disableRipple]="true"
+        [checked]="copied.includes(item)"
+        [indeterminate]="day.DayOfWeek === item"
+        [disabled]="day.DayOfWeek === item"
+        *ngFor="let item of weeks"
+        (change)="onweek(item)"
+        >{{ Language.Week(item) }}</mat-checkbox
+      >
+    </div>
+    <div class="settings-subtitle-channel-schedule-week-copy-controls"></div>
+  </div>
+  <div class="settings-subtitle-channel-schedule-week-copy-foot">
+    <button class="hw-green-btn" (click)="oncopy()">
+      <i class="mdi mdi-content-copy"></i> 复制
+    </button>
+    <button class="hw-gray-btn" (click)="onclose()">
+      <i class="howell-icon-Close"></i> 取消
+    </button>
+  </div>
+</div>

@@ -34,10 +34,16 @@
         <div class="video-player-window-head-item">
           <div class="video-player-window-head-item-title">时间：</div>
 
-          <app-time-control [time]="duration.begin"></app-time-control>
+          <app-time-control
+            [time]="duration.begin"
+            [end]="duration.end"
+          ></app-time-control>
 
           <div class="_">-</div>
-          <app-time-control [time]="duration.end"></app-time-control>
+          <app-time-control
+            [time]="duration.end"
+            [begin]="duration.begin"
+          ></app-time-control>
         </div>
         <div class="video-player-window-head-item">
           <button class="full" (click)="playback()">开始回放</button>

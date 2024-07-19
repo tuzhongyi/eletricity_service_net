@@ -2,12 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { TimeModel } from 'src/app/components/time-control/time-control.model';
 import { DateTimePickerView } from 'src/app/directives/date-time-picker.directive';
 import { ScreenMode } from 'src/app/enums/screen-mode.enum';
+import { HowellSubtitlingArgs } from 'src/app/howell-components/howell-video-player/howell-video-player.model';
 import { VideoArgs } from 'src/app/models/args/video.args';
 import { SubtitlingItem } from 'src/app/models/subtitling/subtitling-item.model';
-import {
-  SubtitlingItemModel,
-  VideoKeywordTableOptions,
-} from '../../tables/video-keyword-table/video-keyword-table.model';
+import { VideoKeywordTableOptions } from '../../tables/video-keyword-table/video-keyword-table.model';
 import { VideoKeywordsVideoController } from './video-keywords-video.controller';
 import { VideoKeywordsBusiness } from './video-keywords.business';
 import { VideoKeywordsChannelSelection } from './video-keywords.selection';
@@ -39,7 +37,8 @@ export class VideoKeywordsComponent implements OnInit {
 
   video = new VideoKeywordsVideoController();
 
-  selected?: SubtitlingItemModel;
+  selected?: SubtitlingItem;
+  subtitling = new EventEmitter<HowellSubtitlingArgs>();
 
   selection = new VideoKeywordsChannelSelection();
   date = new Date();
@@ -62,7 +61,11 @@ export class VideoKeywordsComponent implements OnInit {
 
   onsearch() {
     this.options.begin.setDate(this.date.getDate());
+    this.options.begin.setMonth(this.date.getMonth());
+    this.options.begin.setFullYear(this.date.getFullYear());
     this.options.end.setDate(this.date.getDate());
+    this.options.end.setMonth(this.date.getMonth());
+    this.options.end.setFullYear(this.date.getFullYear());
     this.load.emit(this.options);
   }
 
@@ -71,20 +74,12 @@ export class VideoKeywordsComponent implements OnInit {
     this.video.isplaying = false;
   }
 
-  async onselect(item: SubtitlingItemModel) {
+  async onselect(item: SubtitlingItem) {
     this.selected = item;
     if (this.datas.length === 0) return;
-    if (!this.video.isplaying) {
-      let model = await this.business.playback(
-        item,
-        this.datas[0].BeginTime,
-        this.datas[this.datas.length - 1].EndTime
-      );
-      model.sourceId = item.ChannelId;
-      this.video.play(model);
-    }
-    let position = await this.business.position(item, this.datas[0].BeginTime);
-
-    this.video.seek(position);
+    let args = new HowellSubtitlingArgs();
+    args.datas = this.datas;
+    args.selected = item;
+    this.subtitling.emit(args);
   }
 }

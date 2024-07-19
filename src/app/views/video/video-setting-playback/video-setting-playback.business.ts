@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Duration } from 'src/app/models/duration.model';
-import { DurationParams } from 'src/app/network/request/IParams.interface';
 import { SRServerRequestService } from 'src/app/network/request/sr-server/sr-server.service';
 import { SubtitlingRequestService } from 'src/app/network/request/subtitling/subtitling-request.service';
 
@@ -17,8 +15,4 @@ export class VideoSettingPlaybackBusiness {
     sr: SRServerRequestService;
     subtitle: SubtitlingRequestService;
   };
-
-  getUrl(cameraId: string, duration: Duration) {
-    return this.service.sr.playback(cameraId, DurationParams.from(duration));
-  }
 }

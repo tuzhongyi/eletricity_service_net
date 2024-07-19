@@ -16,14 +16,12 @@ export class VideoPlayerSubtitleBusiness {
     this.service = {
       subtitling: subtitling,
       config: config,
-      sr: sr,
     };
   }
 
   service: {
     subtitling: SubtitlingRequestService;
     config: ConfigRequestService;
-    sr: SRServerRequestService;
   };
 
   converter = new VideoPlayerConverter();

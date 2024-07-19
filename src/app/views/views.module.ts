@@ -20,6 +20,7 @@ import 'echarts/theme/shine.js';
 import 'echarts/theme/vintage.js';
 import { NgxEchartsModule } from 'ngx-echarts';
 import Adsame from 'src/assets/echart-theme/adsame.json';
+import { Howell_Components } from '../howell-components/howell-components.module';
 import { CustomDateItemPipe } from '../pipes/custom-date-item.pipe';
 import { EmployeeTrackComponents } from './employee-track/employee-track.module';
 import { LoginComponent } from './login/login.component';
@@ -46,6 +47,7 @@ const ViewComponents = [
   ...SettingComponents,
   ...TreeComponents,
   ...EmployeeTrackComponents,
+  ...Howell_Components,
   PeopleComponent,
   PeoplePictureFaceComponent,
   ...PeopleStrangerComponents,

@@ -15,6 +15,11 @@ export class PeopleStrangerListItemBusiness {
   }
 
   image(data: Stranger) {
+    return this.service.camera.picture.get(
+      data.HallId,
+      data.DeviceId,
+      data.FacePictureUrl ?? ''
+    );
     // if (data.FaceIds && data.FaceIds.length > 0) {
     //   let faceId = data.FaceIds[0];
     //   return this.service.camera.picture.get(

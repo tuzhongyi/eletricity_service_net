@@ -1,4 +1,3 @@
-import { SubtitlingItem } from 'src/app/models/subtitling/subtitling-item.model';
 import { DateTimeTool } from 'src/app/tools/datetime.tool';
 
 export class VideoKeywordTableOptions {
@@ -11,8 +10,4 @@ export class VideoKeywordTableOptions {
   end: Date;
   key: string = '';
   channels: string[] = [];
-}
-
-export class SubtitlingItemModel extends SubtitlingItem {
-  Position!: Date;
 }

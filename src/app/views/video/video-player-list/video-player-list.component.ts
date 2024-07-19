@@ -8,7 +8,12 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { ScreenMode } from 'src/app/enums/screen-mode.enum';
-import { VideoModel } from 'src/app/models/video.model';
+import {
+  HowellPlaybackArgs,
+  HowellPreviewArgs,
+  HowellSubtitlingArgs,
+  HowellVideoPlayerArgs,
+} from 'src/app/howell-components/howell-video-player/howell-video-player.model';
 import { VideoPlayerListItem } from './video-player-list.model';
 
 @Component({
@@ -18,10 +23,10 @@ import { VideoPlayerListItem } from './video-player-list.model';
 })
 export class VideoPlayerListComponent implements OnInit, OnChanges {
   @Input() mode = ScreenMode.one;
-  @Input() play?: EventEmitter<VideoModel>;
-  @Input() subtitle?: EventEmitter<boolean>;
+  @Input() play?: EventEmitter<HowellVideoPlayerArgs>;
   @Input() seek?: EventEmitter<number>;
   @Input() index: number = 0;
+  @Input() subtitling?: EventEmitter<HowellSubtitlingArgs>;
   @Output() indexChange = new EventEmitter<number>();
 
   @Output() playing = new EventEmitter<number>();
@@ -36,7 +41,7 @@ export class VideoPlayerListComponent implements OnInit, OnChanges {
     if (changes['mode']) {
       this.initScreens();
       if (this.mode > ScreenMode.one && this.index != 0) {
-        this.datas[0].data = undefined;
+        this.datas[0].stop();
       }
     }
   }
@@ -47,17 +52,19 @@ export class VideoPlayerListComponent implements OnInit, OnChanges {
   }
 
   initScreens() {
+    let current = this.datas[this.index];
+
     this.datas = [];
     for (let i = 0; i < this.mode; i++) {
-      const element = this.datas[i];
       this.datas.push(new VideoPlayerListItem());
     }
-    let index = this.index;
-    if (index >= this.mode) {
-      index = 0;
-      this.datas[index] = this.datas[this.index];
+    if (this.index >= this.mode) {
+      this.index = 0;
     }
-    this.datas[index].selected = true;
+    if (current) {
+      this.datas[this.index] = current;
+    }
+    this.datas[this.index].selected = true;
   }
 
   registEvent() {
@@ -69,17 +76,22 @@ export class VideoPlayerListComponent implements OnInit, OnChanges {
       });
     }
     if (this.play) {
-      this.play.subscribe((x) => {
+      this.play.subscribe((args) => {
         if (this.datas.length > this.index) {
-          this.datas[this.index].data = x;
+          if (args instanceof HowellPreviewArgs) {
+            this.datas[this.index].preview(args);
+          } else if (args instanceof HowellPlaybackArgs) {
+            this.datas[this.index].playback(args);
+          } else {
+            throw new Error('Invalid args type');
+          }
         }
       });
     }
-    if (this.subtitle) {
-      this.subtitle.subscribe((x) => {
+    if (this.subtitling) {
+      this.subtitling.subscribe((args) => {
         if (this.datas.length > this.index) {
-          this.datas[this.index].subtitle = x;
-          this.datas[this.index].reserve = 0;
+          this.datas[this.index].subtitling(args);
         }
       });
     }
@@ -90,7 +102,7 @@ export class VideoPlayerListComponent implements OnInit, OnChanges {
     this.indexChange.emit(index);
   }
   onstop(index: number) {
-    this.datas[index].data = undefined;
+    this.datas[index].stop();
     this.stoping.emit(index);
   }
 

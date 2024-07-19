@@ -7,7 +7,6 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { DurationParams } from 'src/app/network/request/IParams.interface';
 import {
   ImageVideoControlModel,
   ImageVideoControlOperation,
@@ -63,7 +62,7 @@ export class ImageVideoMultControlComponent implements OnInit, OnChanges {
 
   onplay(item: ImageVideoControlModel) {
     if (this.played) {
-      this.played.video = undefined;
+      this.played.stop();
     }
     this.played = item;
     this.onplayed.emit(this.played);

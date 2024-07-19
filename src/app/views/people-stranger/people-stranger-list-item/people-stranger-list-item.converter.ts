@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
-import { Base64 } from 'js-base64';
 import { Stranger } from 'src/app/models/stranger.model';
 import { BusinessHallRequestService } from 'src/app/network/request/business-hall/business-hall-request.service';
+import { Medium } from 'src/app/network/request/medium/medium';
 import { StoreService } from 'src/app/tools/service/store.service';
 import { StrangerModel } from './people-stranger-list-item.model';
 
@@ -17,12 +17,18 @@ export class PeopleStrangerListItemConverter {
     let model = plainToInstance(StrangerModel, plain);
 
     if (model.FacePictureUrl) {
-      model.FacePicture = Base64.decode(model.FacePictureUrl);
+      model.FacePicture = this.image(source);
     }
-
-    // model.FacePicture =
-    //   'http://192.168.21.202:80/picture/Streaming/tracks/203/?name=ch00002_010001400117f3efc000033ac000000000004fdd77eb0ac9b000&;size=13228';
-
     return model;
+  }
+
+  image(data: Stranger) {
+    return Medium.data(data.FacePictureUrl);
+
+    // return this.service.camera.picture.get(
+    //   data.HallId,
+    //   data.DeviceId,
+    //   data.FacePictureUrl ?? ''
+    // );
   }
 }

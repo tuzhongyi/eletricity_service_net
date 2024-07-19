@@ -9,16 +9,17 @@
     *ngFor="let item of datas; let i = index"
     (click)="onscreenclicked(i)"
   >
-    <app-video-player
-      *ngIf="datas[i] && datas[i].data"
+    <howell-video-player
+      *ngIf="!!datas[i]"
       [index]="i"
-      [model]="datas[i].data"
+      [preview]="datas[i].event.preview"
+      [playback]="datas[i].event.playback"
+      [subtitling]="datas[i].event.subtitling"
+      [stop]="datas[i].event.stop"
       (onViewerClicked)="onscreenclicked($event)"
       (onStoping)="onstop($event)"
       (onPlaying)="onplaying($event)"
       [seek]="datas[i].seek"
-      [subtitle]="datas[i].subtitle"
-      [reserve]="datas[i].reserve"
-    ></app-video-player>
+    ></howell-video-player>
   </div>
 </div>

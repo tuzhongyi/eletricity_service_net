@@ -68,6 +68,10 @@ export class VideoPlayerConverter {
       date: datas[2],
       content: datas[3],
     };
+    if (!item.content) {
+      item.content = item.date;
+    }
+
     return item;
   }
 
