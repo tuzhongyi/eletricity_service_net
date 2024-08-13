@@ -67,6 +67,8 @@ var PlayerCommand;
     PlayerCommand["on_capture_picture"] = "onCapturePicture";
     PlayerCommand["on_rule_state_changed"] = "onRuleStateChanged";
     PlayerCommand["on_subtitle_enabled_changed"] = "onSubtitleEnableChanged";
+    PlayerCommand["get_osd_time"] = "getOsdTime";
+    PlayerCommand["on_osd_time"] = "onOsdTime";
 })(PlayerCommand = exports.PlayerCommand || (exports.PlayerCommand = {}));
 
 
@@ -199,6 +201,9 @@ class WSPlayerProxy {
     setSubtitle(value) {
         this.postMessage({ command: player_command_1.PlayerCommand.subtitle_text, value: value });
     }
+    getOSDTime() {
+        this.postMessage({ command: player_command_1.PlayerCommand.get_osd_time });
+    }
     destroy() {
         window.removeEventListener('message', this.messagehandle);
         if (this.tools) {
@@ -297,6 +302,11 @@ class WSPlayerProxy {
                 case player_command_1.PlayerCommand.on_subtitle_enabled_changed:
                     if (this.onSubtitleEnableChanged) {
                         this.onSubtitleEnableChanged(parseInt(data.index), data.value);
+                    }
+                    break;
+                case player_command_1.PlayerCommand.on_osd_time:
+                    if (this.onOsdTime) {
+                        this.onOsdTime(parseInt(data.index), parseInt(data.value));
                     }
                     break;
                 default:

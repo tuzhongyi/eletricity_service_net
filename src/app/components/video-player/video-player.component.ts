@@ -38,6 +38,7 @@ export class VideoPlayerComponent
   @Input() name: string = '';
   @Input() index = 0;
   @Input() subtitle = false;
+  @Input() localsubtitle = true;
   @Input() play?: EventEmitter<VideoModel>;
   @Input() stop?: EventEmitter<void>;
   @Input() download?: EventEmitter<{ filename: string; type: string }>;
@@ -52,6 +53,8 @@ export class VideoPlayerComponent
   @Input() fast?: EventEmitter<void>;
   @Input() changeRuleState?: EventEmitter<boolean>;
   @Input() seek?: EventEmitter<number>;
+  @Input() subtitling?: EventEmitter<string>;
+  @Input() getOSDTime?: EventEmitter<void>;
 
   @Output() loaded: EventEmitter<void> = new EventEmitter();
   @Output() destroy: EventEmitter<VideoModel> = new EventEmitter();
@@ -64,6 +67,8 @@ export class VideoPlayerComponent
   @Output() onViewerClicked: EventEmitter<number> = new EventEmitter();
   @Output() onSubtitleEnableChanged: EventEmitter<WSPlayerEventArgs> =
     new EventEmitter();
+  @Output() onOSDTime: EventEmitter<number> = new EventEmitter();
+  @Output() timer = new EventEmitter<TimeArgs>();
 
   constructor(
     private business: VideoPlayerBusiness,
@@ -203,6 +208,18 @@ export class VideoPlayerComponent
         this.onseek(x);
       });
     }
+    if (this.getOSDTime) {
+      this.getOSDTime.subscribe((x) => {
+        this._getOSDTime();
+      });
+    }
+    if (this.subtitling) {
+      this.subtitling.subscribe((text) => {
+        this.player.then((x) => {
+          x.setSubtitle(text);
+        });
+      });
+    }
   }
 
   async init() {
@@ -275,18 +292,21 @@ export class VideoPlayerComponent
     };
     player.getTimer = (index: number = 0, value: TimeArgs) => {
       if (this.index != index) return;
-      if (this.subtitleopened) {
-        this.setsubtitle(index, value);
-      }
+      this.timer.emit(value);
+      // if (this.subtitleopened) {
+      //   this.setsubtitle(index, value);
+      // }
     };
     player.onSubtitleEnableChanged = (index: number, enabled: boolean) => {
       if (this.index != index) return;
       this.onSubtitleEnableChanged.emit({ index: index, value: enabled });
       this.subtitleopened = enabled;
-      if (enabled && this.model) {
-        this.business.subtitle.load(index, this.model);
-      } else {
-        this.business.subtitle.close(index);
+      if (this.localsubtitle) {
+        if (enabled && this.model) {
+          this.business.subtitle.load(index, this.model);
+        } else {
+          this.business.subtitle.close(index);
+        }
       }
     };
     player.onButtonClicked = (index: number = 0, btn: ButtonName) => {
@@ -350,6 +370,10 @@ export class VideoPlayerComponent
           break;
       }
     };
+    player.onOsdTime = (index: number = 0, value: number) => {
+      if (this.index != index) return;
+      this._onOSDTime(value);
+    };
   }
   onplay(model: VideoModel) {
     this.model = model;
@@ -401,8 +425,8 @@ export class VideoPlayerComponent
     });
   }
   onpause() {
-    this.player.then((x) => {
-      x.pause();
+    return this.player.then((x) => {
+      return x.pause();
     });
   }
   oncapturePicture() {
@@ -422,7 +446,9 @@ export class VideoPlayerComponent
   }
   onseek(value: number) {
     this.player.then((x) => {
-      x.seek(value);
+      this.onpause().then(() => {
+        x.seek(value);
+      });
     });
   }
   subtitleenable(enabled: boolean) {
@@ -432,11 +458,27 @@ export class VideoPlayerComponent
   }
 
   setsubtitle(index: number, value: TimeArgs) {
+    // let date = {
+    //   min: formatDate(new Date(value.min), 'HH:mm:ss', 'en'),
+    //   max: formatDate(new Date(value.max), 'HH:mm:ss', 'en'),
+    //   current: formatDate(new Date(value.current), 'HH:mm:ss', 'en'),
+    // };
+    // console.log('timer', date);
     this.player.then((x) => {
       if (x) {
         let item = this.business.subtitle.get(index, value.current - value.min);
         x.setSubtitle(item ? item.text ?? '' : '');
       }
     });
+  }
+
+  _getOSDTime() {
+    this.player.then((x) => {
+      x.getOSDTime();
+    });
+  }
+
+  _onOSDTime(value: number) {
+    this.onOSDTime.emit(value);
   }
 }

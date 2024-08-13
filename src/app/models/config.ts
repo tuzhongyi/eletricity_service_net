@@ -8,8 +8,14 @@ export interface Config {
 interface PlaybackConfig {
   begin: number;
   end: number;
-  subtitle: number;
+  subtitle: PlaybackSubtitleConfig;
 }
+
+interface PlaybackSubtitleConfig {
+  begin: number;
+  offset: number;
+}
+
 export interface TrackConfig {
   begin: number;
   duration: number;

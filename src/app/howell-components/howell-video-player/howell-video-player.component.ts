@@ -41,6 +41,7 @@ export class HowellVideoPlayerComponent implements OnInit {
   @Output() onViewerClicked: EventEmitter<number> = new EventEmitter();
   @Output() onPlaying: EventEmitter<number> = new EventEmitter();
   @Output() viewed: EventEmitter<void> = new EventEmitter();
+  @Input() pause = new EventEmitter<void>();
 
   constructor(
     private business: HowellVideoPlayerBusiness,
@@ -60,7 +61,7 @@ export class HowellVideoPlayerComponent implements OnInit {
       this.onbegin();
     }
   }
-  private reserve = 15 * 1000;
+  private reserve = 0 * 1000;
 
   ngOnInit(): void {
     if (this.input_preview) {
@@ -93,6 +94,9 @@ export class HowellVideoPlayerComponent implements OnInit {
     });
     this.subtitle.stop.subscribe(() => {
       this.stop.emit();
+    });
+    this.subtitle.pause.subscribe(() => {
+      this.pause.emit();
     });
   }
 
@@ -133,7 +137,23 @@ export class HowellVideoPlayerComponent implements OnInit {
     this.onPlaying.emit(index);
   }
 
+  onposition(value: number) {
+    if (this.subtitle.opened) {
+      this.subtitle.onposition(value);
+      return;
+    }
+  }
+  ontimer(time: TimeArgs) {
+    if (this.subtitle.opened) {
+      this.subtitle.ontimer(time);
+      return;
+    }
+  }
+
   onbegin() {
-    this.seek.emit(this.reserve - 5 * 1000);
+    if (this.reserve) {
+      this.pause.emit();
+      this.seek.emit(this.reserve - 5 * 1000);
+    }
   }
 }

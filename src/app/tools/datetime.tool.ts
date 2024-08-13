@@ -112,6 +112,18 @@ export class DateTimeTool {
       end: end,
     };
   }
+  static before2End(date: Date, before: number, end: number): Duration {
+    let begin = new Date(date.getTime());
+    begin.setSeconds(begin.getSeconds() + before);
+
+    let _end = new Date(date.getTime());
+    _end.setSeconds(_end.getSeconds() + end);
+
+    return {
+      begin: begin,
+      end: _end,
+    };
+  }
 
   static equals = {
     same: (a: Date, b: Date) => {

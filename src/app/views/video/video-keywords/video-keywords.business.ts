@@ -41,7 +41,9 @@ export class VideoKeywordsBusiness {
     _begin.setSeconds(_begin.getSeconds());
     let current = new Date(item.BeginTime.getTime());
     current.setSeconds(
-      current.getSeconds() + config.playback.subtitle - config.playback.begin
+      current.getSeconds() +
+        config.playback.subtitle.begin -
+        config.playback.begin
     );
     return current.getTime() - _begin.getTime();
   }

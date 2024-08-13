@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { interval, Subscription } from 'rxjs';
+import { Subscription, interval } from 'rxjs';
 import { BusinessHall } from 'src/app/models/business-hall.model';
 import { Page } from 'src/app/models/page.model';
 import { BusinessHallRequestService } from 'src/app/network/request/business-hall/business-hall-request.service';
@@ -20,7 +20,7 @@ export class StoreService {
       let list = await this.service.list().catch(() => {
         let hall = new BusinessHall();
         hall.Id = '';
-        hall.Name = '某某电力营业厅';
+        hall.Name = '某某AI营业厅';
         return {
           Page: new Page(),
           Data: [hall],

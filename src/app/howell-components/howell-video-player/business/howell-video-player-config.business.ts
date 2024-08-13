@@ -19,7 +19,7 @@ export class HowellVideoPlayerConfigBusiness {
       return this.track.duration(time);
     }
     let config = await this.config();
-    let duration = DateTimeTool.beforeDuration(
+    let duration = DateTimeTool.before2End(
       time,
       config.playback.begin,
       config.playback.end

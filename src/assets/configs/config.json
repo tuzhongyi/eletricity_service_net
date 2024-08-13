@@ -2,10 +2,13 @@
   "playback": {
     "begin": -15,
     "end": 15,
-    "subtitle": -10
+    "subtitle": {
+      "begin": -10,
+      "offset": -2
+    }
   },
   "track": {
-    "begin": 15,
+    "begin": -15,
     "duration": 30,
     "autoplay": true
   },

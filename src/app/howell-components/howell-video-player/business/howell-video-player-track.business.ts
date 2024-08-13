@@ -17,6 +17,8 @@ export class HowellVideoPlayerTrackBusiness {
       config.begin,
       config.duration
     );
+
+    console.log(duration);
     return duration;
   }
 }

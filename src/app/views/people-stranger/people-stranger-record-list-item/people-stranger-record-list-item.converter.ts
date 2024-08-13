@@ -13,7 +13,6 @@ export class PeopleStrangerRecordListItemConverter {
     private store: StoreService
   ) {}
   convert(source: StrangerRecord) {
-    console.log(source);
     let plain = instanceToPlain(source);
     let model = plainToInstance(StrangerRecordModel, plain);
     model.FacePictureUrl = this.image(

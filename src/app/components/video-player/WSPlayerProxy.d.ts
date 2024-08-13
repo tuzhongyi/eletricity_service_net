@@ -19,6 +19,7 @@ declare class WSPlayerProxy {
   seek(value: number): void;
   subtitleEnabled(value: boolean): void;
   setSubtitle(value: string): void;
+  getOSDTime(): void;
 
   onStoping: (index: number) => void;
   onPlaying: (index: number) => void;
@@ -32,6 +33,7 @@ declare class WSPlayerProxy {
   onRuleStateChanged: (index: number, state: boolean) => void;
   onStatusChanged: (index: number, state: number) => void;
   onSubtitleEnableChanged: (index: number, enabled: boolean) => void;
+  onOsdTime?: (index: number, value: number) => void;
   destroy: () => void;
 }
 
