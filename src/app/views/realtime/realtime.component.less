@@ -43,5 +43,44 @@
       left: 55px;
     }
 
+    .trigger {
+      width: 100%;
+      height: 100%;
+
+      &-head {
+        height: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        .title {
+          margin-bottom: 0;
+        }
+
+        .operation {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          gap: 10px;
+          color: #cefff5;
+
+
+          &>* {
+            cursor: pointer;
+
+            &:hover {
+              color: #fff;
+            }
+
+          }
+        }
+      }
+
+      &-body {
+        height: calc(100% - 24px - 20px);
+      }
+    }
+
   }
 }

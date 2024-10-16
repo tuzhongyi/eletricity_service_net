@@ -20,13 +20,17 @@ declare class WSPlayerProxy {
   subtitleEnabled(value: boolean): void;
   setSubtitle(value: string): void;
   getOSDTime(): void;
+  openSound(): void;
+  closeSound(): void;
+  getVolume(): void;
+  setVolume(value: number): void;
 
   onStoping: (index: number) => void;
   onPlaying: (index: number) => void;
   /** 获取已播放未知 */
   getPosition: (index: number, value: number) => void;
   getTimer: (index: number, value: TimeArgs) => void;
-  onButtonClicked: (index: number, btn: ButtonName) => void;
+  onButtonClicked: (index: number, btn: string) => void;
   /** 双击全屏 返回值：是否触发全屏 */
   onViewerDoubleClicked: (index: number) => void;
   onViewerClicked: (index: number) => void;
@@ -34,33 +38,10 @@ declare class WSPlayerProxy {
   onStatusChanged: (index: number, state: number) => void;
   onSubtitleEnableChanged: (index: number, enabled: boolean) => void;
   onOsdTime?: (index: number, value: number) => void;
+
   destroy: () => void;
 }
 
-declare enum ButtonName {
-  /** 播放 */
-  play = 'play',
-  /** 恢复 */
-  resume = 'resume',
-  /** 暂停 */
-  pause = 'pause',
-  /** 停止 */
-  stop = 'stop',
-  /** 全屏 */
-  fullscreen = 'fullscreen',
-  /** 截图 */
-  capturepicture = 'capturepicture',
-  /** 慢放 */
-  slow = 'slow',
-  /** 快放 */
-  fast = 'fast',
-  /** 单帧 */
-  forward = 'forward',
-  /** 回跳 */
-  jump_back = 'jump_back',
-  /** 跳进 */
-  jump_forward = 'jump_forward',
-}
 declare interface TimeArgs {
   current: number;
   min: number;

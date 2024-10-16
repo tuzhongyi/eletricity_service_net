@@ -1,22 +1,11 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PictureArgsConverter } from 'src/app/converters/args/picture-args.converter';
 import { VideoArgsConverter } from 'src/app/converters/args/video-args.converter';
 import { EventType } from 'src/app/enums/event-type.enum';
 import { TimeUnit } from 'src/app/enums/time-unit.enum';
-import { IBusiness } from 'src/app/interfaces/business.interface';
-import { IComponent } from 'src/app/interfaces/component.interfact';
 import { PictureArgs } from 'src/app/models/args/picture.args';
 import { VideoArgs } from 'src/app/models/args/video.args';
-import { IModel } from 'src/app/models/model.interface';
+import { EventRecord } from 'src/app/models/event-record.model';
 import { DurationParams } from 'src/app/network/request/IParams.interface';
 import { DateTimeTool } from 'src/app/tools/datetime.tool';
 import { Language } from 'src/app/tools/language';
@@ -29,52 +18,39 @@ import { RealtimeRecordModel } from './realtime-record-table.model';
   styleUrls: ['../table-list.less', './realtime-record-table.component.less'],
   providers: [RealtimeRecordTableBusiness],
 })
-export class RealtimeRecordTableComponent
-  implements
-    IComponent<IModel, RealtimeRecordModel[]>,
-    OnInit,
-    OnChanges,
-    OnDestroy
-{
-  @Input()
-  business: IBusiness<IModel, RealtimeRecordModel[]>;
-  @Input()
-  date: Date = new Date();
-  @Input()
-  types?: EventType[];
-  @Input()
-  load?: EventEmitter<EventType[]>;
-  @Output()
-  loaded: EventEmitter<RealtimeRecordModel[]> = new EventEmitter();
-  @Output()
-  picture: EventEmitter<PictureArgs> = new EventEmitter();
-  @Output()
-  playback: EventEmitter<VideoArgs> = new EventEmitter();
+export class RealtimeRecordTableComponent implements OnInit {
+  @Input() date: Date = new Date();
+  @Input() types?: EventType[];
+  @Input() load?: EventEmitter<EventType[]>;
+  @Output() loaded: EventEmitter<RealtimeRecordModel[]> = new EventEmitter();
+  @Output() picture: EventEmitter<PictureArgs> = new EventEmitter();
+  @Output() playback: EventEmitter<VideoArgs> = new EventEmitter();
+  @Input() insert?: EventEmitter<EventRecord>;
+  @Output() trigger: EventEmitter<EventRecord> = new EventEmitter();
 
-  constructor(business: RealtimeRecordTableBusiness) {
-    this.business = business;
-  }
-  ngOnDestroy(): void {
-    if (this.load) {
-      this.load.unsubscribe();
-    }
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['load']) {
-      if (this.load) {
-        this.load.subscribe((x) => {
-          this.types = x;
-          this.loadData();
-        });
-      }
-    }
-  }
+  constructor(private business: RealtimeRecordTableBusiness) {}
   width = ['30%', '10%', '20%', '20%', '20%'];
 
-  datas?: RealtimeRecordModel[];
+  datas: RealtimeRecordModel[] = [];
   Language = Language;
 
   ngOnInit(): void {
+    if (this.load) {
+      this.load.subscribe((x) => {
+        this.types = x;
+        this.loadData();
+      });
+    }
+    if (this.insert) {
+      this.insert.subscribe((record) => {
+        let data = this.business.convert(record);
+        let index = this.datas.findIndex((x) => x.id === record.Id);
+        if (index < 0) {
+          this.datas.unshift(data);
+        }
+        this.onTrigger(data);
+      });
+    }
     this.loadData();
   }
 
@@ -96,5 +72,8 @@ export class RealtimeRecordTableComponent
   onPlayback(item: RealtimeRecordModel) {
     let args = VideoArgsConverter.Convert(item.data);
     this.playback.emit(args);
+  }
+  onTrigger(item: RealtimeRecordModel) {
+    this.trigger.emit(item.data);
   }
 }

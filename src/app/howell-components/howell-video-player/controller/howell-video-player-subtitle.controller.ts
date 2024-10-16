@@ -39,10 +39,16 @@ export class HowellVideoPlayerSubtitleController {
   private selected?: SubtitlingItem;
   reserve = 5 * 1000;
   stoping = false;
+  private _offset?: number;
   get offset() {
     return new Promise<number>((resolve) => {
+      if (this._offset != undefined) {
+        resolve(this._offset);
+        return;
+      }
       this.config.get().then((x) => {
-        resolve(x.playback.subtitle.offset);
+        this._offset = x.playback.subtitle.offset;
+        resolve(this._offset);
       });
     });
   }

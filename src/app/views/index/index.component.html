@@ -38,18 +38,22 @@
   </div>
 </div>
 
-<howell-video-player-window
+<app-window
   *ngIf="window.video.show"
   [model]="window.video"
   [style]="window.video.style"
-  [autoplay]="window.video.autoplay"
-  [cameraId]="window.video.cameraId"
   [title]="window.video.title"
-  [mode]="window.video.mode"
-  [begin]="window.video.begin"
-  [end]="window.video.end"
-  [subtitle]="window.video.subtitle"
-></howell-video-player-window>
+>
+  <howell-video-player-window
+    [autoplay]="window.video.autoplay"
+    [cameraId]="window.video.cameraId"
+    [mode]="window.video.mode"
+    [begin]="window.video.begin"
+    [end]="window.video.end"
+    [subtitle]="window.video.subtitle"
+  ></howell-video-player-window>
+</app-window>
+
 <app-window
   *ngIf="window.picture.show"
   [model]="window.picture"

@@ -13,6 +13,7 @@
         (loaded)="onRecordLoaded($event)"
         (playback)="onPlayback($event)"
         (picture)="onPicture($event)"
+        (trigger)="onTrigger($event)"
       ></howell-realtime-record-list>
     </howell-card>
   </div>
@@ -21,7 +22,29 @@
       <!-- <howell-realtime-heatmap
         (pointClick)="onPointClicked($event)"
       ></howell-realtime-heatmap> -->
-      <howell-realtime-statistic> </howell-realtime-statistic>
+      <howell-realtime-statistic *ngIf="!trigger.show">
+      </howell-realtime-statistic>
+
+      <div class="trigger" *ngIf="trigger.show">
+        <div class="trigger-head">
+          <div class="title">
+            {{ trigger.name }}
+          </div>
+          <div class="operation">
+            <div (click)="trigger.show = false">
+              <i class="howell-icon-Close"></i>
+            </div>
+          </div>
+        </div>
+        <div class="trigger-body">
+          <howell-video-player
+            [name]="trigger.name"
+            [playback]="trigger.event.playback"
+            (onStoping)="trigger.show = false"
+            (viewed)="trigger.onplayback()"
+          ></howell-video-player>
+        </div>
+      </div>
     </howell-card>
   </div>
 </div>

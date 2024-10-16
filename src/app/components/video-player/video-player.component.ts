@@ -18,6 +18,7 @@ import { VideoModel } from 'src/app/models/video.model';
 import { ConfigRequestService } from 'src/app/network/request/config/config.service';
 import { base64encode, utf16to8 } from 'src/app/tools/base64';
 import { wait } from 'src/app/tools/tools';
+import { ButtonName } from './WSPlayerButtonName.enum';
 import { VideoPlayerSubtitleBusiness } from './business/video-player-subtitle.business';
 import { VideoPlayerBusiness } from './business/video-player.business';
 import { VideoPlayerCreater as Creater } from './video-player.creater';
@@ -301,6 +302,9 @@ export class VideoPlayerComponent
       if (this.index != index) return;
       this.onSubtitleEnableChanged.emit({ index: index, value: enabled });
       this.subtitleopened = enabled;
+      if (this.subtitleopened) {
+        this.opensound();
+      }
       if (this.localsubtitle) {
         if (enabled && this.model) {
           this.business.subtitle.load(index, this.model);
@@ -309,9 +313,9 @@ export class VideoPlayerComponent
         }
       }
     };
-    player.onButtonClicked = (index: number = 0, btn: ButtonName) => {
+    player.onButtonClicked = (index: number = 0, btn: string) => {
       if (this.index != index) return;
-      this.onButtonClicked.emit(btn);
+      this.onButtonClicked.emit(btn as ButtonName);
 
       new Promise((x) => {
         let url = new HowellUrl(this.webUrl);
@@ -327,7 +331,6 @@ export class VideoPlayerComponent
                 ).requestFullscreen();
               }
               break;
-
             default:
               break;
           }
@@ -454,6 +457,12 @@ export class VideoPlayerComponent
   subtitleenable(enabled: boolean) {
     this.player.then((x) => {
       x.subtitleEnabled(enabled);
+    });
+  }
+
+  opensound() {
+    this.player.then((x) => {
+      x.openSound();
     });
   }
 
