@@ -5,6 +5,7 @@ import { PictureArgs } from 'src/app/models/args/picture.args';
 import { VideoArgs } from 'src/app/models/args/video.args';
 import { Camera } from 'src/app/models/camera.model';
 import { EventRecord } from 'src/app/models/event-record.model';
+import { Language } from 'src/app/tools/language';
 import { RealtimeRecordModel } from '../tables/realtime-record-table/realtime-record-table.model';
 import { RealtimeDeviceModel } from './realtime-device-list/realtime-device-list.model';
 import { RealtimePassengerInfo } from './realtime-information/realtime-information.model';
@@ -64,7 +65,9 @@ export class RealtimeComponent implements OnInit {
     }
     setTimeout(() => {
       this.trigger.data = data;
-      this.trigger.name = data.ResourceName ?? '';
+      this.trigger.name = `${data.ResourceName ?? ''} ${Language.EventType(
+        data.EventType
+      )}`;
       this.trigger.show = true;
     }, 10);
   }

@@ -7,5 +7,6 @@ export class MqttConfig {
 }
 
 class MqttConfigTrigger {
+  duration = 10;
   eventtypes: EventType[] = [];
 }

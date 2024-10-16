@@ -2,6 +2,7 @@
   "host": "localhost",
   "port": 15883,
   "trigger": {
+    "duration": 10,
     "eventtypes": [
       3,
       4,

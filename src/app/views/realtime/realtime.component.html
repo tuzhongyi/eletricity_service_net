@@ -39,9 +39,9 @@
         <div class="trigger-body">
           <howell-video-player
             [name]="trigger.name"
-            [playback]="trigger.event.playback"
-            (onStoping)="trigger.show = false"
-            (viewed)="trigger.onplayback()"
+            [preview]="trigger.event.preview"
+            (viewed)="trigger.onpreview()"
+            (onPlaying)="trigger.autoclose()"
           ></howell-video-player>
         </div>
       </div>
