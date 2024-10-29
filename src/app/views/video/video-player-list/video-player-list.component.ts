@@ -40,9 +40,9 @@ export class VideoPlayerListComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mode']) {
       this.initScreens();
-      if (this.mode > ScreenMode.one && this.index != 0) {
-        this.datas[0].stop();
-      }
+      // if (this.mode > ScreenMode.one && this.index != 0) {
+      //   this.datas[0].stop();
+      // }
     }
   }
 
@@ -51,20 +51,44 @@ export class VideoPlayerListComponent implements OnInit, OnChanges {
     this.registEvent();
   }
 
-  initScreens() {
+  initModeOne() {
     let current = this.datas[this.index];
-
+    if (!current) {
+      current = new VideoPlayerListItem(0);
+    }
+    this.index = 0;
+    this.datas = [current];
+  }
+  initModelMore() {
+    let temps = this.datas;
     this.datas = [];
     for (let i = 0; i < this.mode; i++) {
-      this.datas.push(new VideoPlayerListItem());
+      let old = temps.find((x) => x.index == i);
+      if (old && old.playing) {
+        this.datas.push(old);
+      } else {
+        this.datas.push(new VideoPlayerListItem(i));
+      }
     }
     if (this.index >= this.mode) {
-      this.index = 0;
+      this.index = this.mode - 1;
+    } else {
+      let current = this.datas.find((x) => x.selected);
+      if (current) {
+        this.index = current.index;
+      }
     }
-    if (current) {
-      this.datas[this.index] = current;
+  }
+
+  initScreens() {
+    if (this.mode == ScreenMode.one) {
+      this.initModeOne();
+    } else {
+      this.initModelMore();
     }
-    this.datas[this.index].selected = true;
+    for (let i = 0; i < this.datas.length; i++) {
+      this.datas[i].selected = this.index === i;
+    }
   }
 
   registEvent() {
@@ -98,8 +122,8 @@ export class VideoPlayerListComponent implements OnInit, OnChanges {
   }
 
   onscreenclicked(index: number) {
-    this.index = index;
-    this.indexChange.emit(index);
+    this.index = this.datas.findIndex((x) => x.index == index);
+    this.indexChange.emit(this.index);
   }
   onstop(index: number) {
     this.datas[index].stop();

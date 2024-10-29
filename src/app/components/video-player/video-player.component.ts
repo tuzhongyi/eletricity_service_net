@@ -17,18 +17,24 @@ import { HowellUrl } from 'src/app/models/howell-url.model';
 import { VideoModel } from 'src/app/models/video.model';
 import { ConfigRequestService } from 'src/app/network/request/config/config.service';
 import { base64encode, utf16to8 } from 'src/app/tools/base64';
+import { HtmlTool } from 'src/app/tools/html-tool/html.tool';
 import { wait } from 'src/app/tools/tools';
 import { ButtonName } from './WSPlayerButtonName.enum';
+import { VideoPlayerKeepBusiness } from './business/video-player-keep.business';
 import { VideoPlayerSubtitleBusiness } from './business/video-player-subtitle.business';
 import { VideoPlayerBusiness } from './business/video-player.business';
 import { VideoPlayerCreater as Creater } from './video-player.creater';
-import { PlayerState, WSPlayerEventArgs } from './video-player.model';
+import { PlayerState, TimeArgs, WSPlayerEventArgs } from './video-player.model';
 
 @Component({
   selector: 'app-video-player',
   templateUrl: './video-player.component.html',
   styleUrls: ['./video-player.component.less'],
-  providers: [VideoPlayerSubtitleBusiness, VideoPlayerBusiness],
+  providers: [
+    VideoPlayerSubtitleBusiness,
+    VideoPlayerKeepBusiness,
+    VideoPlayerBusiness,
+  ],
 })
 export class VideoPlayerComponent
   implements OnDestroy, OnInit, AfterViewInit, OnChanges
@@ -105,9 +111,10 @@ export class VideoPlayerComponent
     });
   }
 
-  @ViewChild('iframe') iframe!: ElementRef;
+  @ViewChild('iframe') iframe!: ElementRef<HTMLIFrameElement>;
 
   getSrc(webUrl: string, url: string, cameraName?: string) {
+    // webUrl = webUrl.replace('wsplayer.html', 'wsplayer_v2.html');
     let result = webUrl + '?url=' + base64encode(url);
     if (cameraName) {
       let name = utf16to8(cameraName);
@@ -143,6 +150,10 @@ export class VideoPlayerComponent
   }
 
   regist() {
+    this.business.keep.load.subscribe(() => {
+      this.isloaded = false;
+      this.load();
+    });
     if (this.play) {
       this.play.subscribe((x) => {
         this.model = x;
@@ -270,64 +281,88 @@ export class VideoPlayerComponent
   }
 
   async eventRegist(player: WSPlayerProxy) {
-    // player.onPlaying = (index: number = 0) => {
-    //   if (this.index != index) return;
-    //   this.onPlaying.emit(this.index);
-    // };
-    player.onRuleStateChanged = (index: number = 0, state: boolean) => {
+    let that = this;
+    player.onPlaying = (index: number = 0) => {
       if (this.index != index) return;
-      // this.saveRuleState(state);
-      this.onRuleStateChanged.emit(state);
+      this.business.keep.keep(player);
+    };
+
+    player.onRuleStateChanged = (index: number = 0, state: boolean) => {
+      if (that.index != index) return;
+      // that.saveRuleState(state);
+      that.onRuleStateChanged.emit(state);
     };
     player.onStoping = (index: number = 0) => {
-      if (this.index != index) return;
-      this.onStoping.emit(index);
+      if (document.visibilityState == 'hidden') {
+        return;
+      }
+      try {
+        if (that.index != index) return;
+        player.status = PlayerState.closed;
+        if (!HtmlTool.iframe.crossorigin(that.iframe.nativeElement.src)) {
+          try {
+            that.iframe.nativeElement.contentWindow?.document.clear();
+            that.iframe.nativeElement.src = '';
+            that._player = undefined;
+          } catch (e) {}
+        }
+
+        that.src = undefined;
+        that.playing = false;
+
+        this.business.keep.clear({ keep: true });
+
+        that.onStoping.emit(index);
+      } catch (error) {
+        console.error(error);
+      }
     };
     player.getPosition = (index: number = 0, value: number) => {
-      if (this.index != index) return;
+      if (that.index != index) return;
       if (value >= 1) {
-        this.playing = false;
+        that.playing = false;
       }
 
-      this.getPosition.emit(value);
+      that.getPosition.emit(value);
     };
     player.getTimer = (index: number = 0, value: TimeArgs) => {
-      if (this.index != index) return;
-      this.timer.emit(value);
-      // if (this.subtitleopened) {
-      //   this.setsubtitle(index, value);
+      if (that.index != index) return;
+      that.timer.emit(value);
+
+      // if (that.subtitleopened) {
+      //   that.setsubtitle(index, value);
       // }
     };
     player.onSubtitleEnableChanged = (index: number, enabled: boolean) => {
-      if (this.index != index) return;
-      this.onSubtitleEnableChanged.emit({ index: index, value: enabled });
-      this.subtitleopened = enabled;
-      if (this.subtitleopened) {
-        this.opensound();
+      if (that.index != index) return;
+      that.onSubtitleEnableChanged.emit({ index: index, value: enabled });
+      that.subtitleopened = enabled;
+      if (that.subtitleopened) {
+        that.opensound();
       }
-      if (this.localsubtitle) {
-        if (enabled && this.model) {
-          this.business.subtitle.load(index, this.model);
+      if (that.localsubtitle) {
+        if (enabled && that.model) {
+          that.business.subtitle.load(index, that.model);
         } else {
-          this.business.subtitle.close(index);
+          that.business.subtitle.close(index);
         }
       }
     };
     player.onButtonClicked = (index: number = 0, btn: string) => {
-      if (this.index != index) return;
-      this.onButtonClicked.emit(btn as ButtonName);
+      if (that.index != index) return;
+      that.onButtonClicked.emit(btn as ButtonName);
 
       new Promise((x) => {
-        let url = new HowellUrl(this.webUrl);
+        let url = new HowellUrl(that.webUrl);
         if (
           location.hostname !== url.Host &&
           location.port != url.Port.toString()
         ) {
           switch (btn) {
             case ButtonName.fullscreen:
-              if (this.iframe) {
+              if (that.iframe) {
                 (
-                  this.iframe.nativeElement as HTMLIFrameElement
+                  that.iframe.nativeElement as HTMLIFrameElement
                 ).requestFullscreen();
               }
               break;
@@ -339,34 +374,41 @@ export class VideoPlayerComponent
     };
 
     player.onViewerClicked = (index: number = 0) => {
-      if (this.index != index) return;
-      this.onViewerClicked.emit(index);
+      if (that.index != index) return;
+      that.onViewerClicked.emit(index);
     };
     player.onViewerDoubleClicked = (index: number = 0) => {
-      if (this.index != index) return;
-      this.onViewerDoubleClicked.emit(index);
+      if (that.index != index) return;
+      that.onViewerDoubleClicked.emit(index);
       new Promise((x) => {
-        let url = new HowellUrl(this.webUrl);
+        let url = new HowellUrl(that.webUrl);
         if (
           location.hostname !== url.Host &&
           location.port != url.Port.toString()
         ) {
-          if (this.iframe) {
+          if (that.iframe) {
             (
-              this.iframe.nativeElement as HTMLIFrameElement
+              that.iframe.nativeElement as HTMLIFrameElement
             ).requestFullscreen();
           }
         }
       });
     };
     player.onStatusChanged = (index: number = 0, state: PlayerState) => {
-      if (this.index != index) return;
+      if (that.index != index) return;
+      player.status = state;
+      console.log('onStatusChanged', PlayerState[state]);
       switch (state) {
         case PlayerState.playing:
-          if (this.subtitle) {
-            this.subtitleenable(this.subtitle);
+          this.business.keep.clear({ play: true });
+
+          if (that.subtitle) {
+            that.subtitleenable(that.subtitle);
           }
-          this.onPlaying.emit(this.index);
+          that.onPlaying.emit(that.index);
+          break;
+        case PlayerState.closed:
+          this.business.keep.clear({ keep: true });
           break;
 
         default:
@@ -374,13 +416,13 @@ export class VideoPlayerComponent
       }
     };
     player.onOsdTime = (index: number = 0, value: number) => {
-      if (this.index != index) return;
-      this._onOSDTime(value);
+      if (that.index != index) return;
+      that._onOSDTime(value);
     };
   }
   onplay(model: VideoModel) {
     this.model = model;
-    this.model.stream = this.stream;
+    // this.model.stream = this.stream;
     this.isloaded = false;
     this.load();
   }
@@ -393,7 +435,12 @@ export class VideoPlayerComponent
         });
       });
     } catch (error) {}
+    if (!HtmlTool.iframe.crossorigin(this.iframe.nativeElement.src)) {
+      this.iframe.nativeElement.contentWindow?.document.clear();
+    }
+
     this.src = undefined;
+
     return;
   }
 
@@ -490,4 +537,67 @@ export class VideoPlayerComponent
   _onOSDTime(value: number) {
     this.onOSDTime.emit(value);
   }
+
+  // handle: { keep?: NodeJS.Timer; tryplay?: NodeJS.Timer } = {};
+
+  // keep() {
+  //   this.player.then((player) => {
+  //     if (this.handle.keep) {
+  //       clearTimeout(this.handle.keep);
+  //       this.handle.keep = undefined;
+  //     }
+
+  //     if (player.status === PlayerState.playing) {
+  //       this.handle.keep = setTimeout(() => {
+  //         this.trystop(player);
+  //         console.log('keep to stop');
+  //         this.tryplay(player);
+  //       }, 15 * 1000);
+  //     }
+  //   });
+  // }
+
+  // trystop(player: WSPlayerProxy) {
+  //   return new Promise<void>((resolve) => {
+  //     player.stop();
+  //     let handle: NodeJS.Timer | undefined = undefined;
+  //     wait(
+  //       () => {
+  //         return player.status !== PlayerState.playing;
+  //       },
+  //       () => {
+  //         if (handle) {
+  //           clearTimeout(handle);
+  //         }
+  //         resolve();
+  //       }
+  //     );
+
+  //     handle = setTimeout(() => {
+  //       if (player.status === PlayerState.playing) {
+  //         this.trystop(player).then(() => {
+  //           resolve();
+  //         });
+  //       }
+  //     }, 5 * 1000);
+  //   });
+  // }
+
+  // tryplay(player: WSPlayerProxy) {
+  //   wait(
+  //     () => {
+  //       return player.status !== PlayerState.playing;
+  //     },
+  //     () => {
+  //       this.isloaded = false;
+  //       this.load();
+  //       console.log('keep to load');
+  //       this.handle.tryplay = setTimeout(() => {
+  //         if (player.status !== PlayerState.playing) {
+  //           this.tryplay(player);
+  //         }
+  //       }, 15 * 1000);
+  //     }
+  //   );
+  // }
 }

@@ -33,11 +33,14 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.store.stopInterval();
   }
   title: string = '';
-  path: NavigationPath = NavigationPath.realtime;
+  path: NavigationPath = NavigationPath.home;
   NavigationPath = NavigationPath;
   current?: CurrentBusinessHallStatistic;
   date: Date = new Date();
   passenger: RealtimePassengerInfo = new RealtimePassengerInfo();
+  head = {
+    show: true,
+  };
 
   async ngOnInit() {
     if (!this.cookie.get(CookieKey.username)) {
@@ -68,5 +71,8 @@ export class IndexComponent implements OnInit, OnDestroy {
     } else {
       this.store.stopInterval();
     }
+  }
+  onheaddisplay() {
+    this.head.show = !this.head.show;
   }
 }

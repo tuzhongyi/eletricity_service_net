@@ -48,6 +48,7 @@ export class RealtimeRecordTableComponent implements OnInit {
         if (index < 0) {
           this.datas.unshift(data);
         }
+        console.log('触发窗口');
         this.onTrigger(data);
       });
     }

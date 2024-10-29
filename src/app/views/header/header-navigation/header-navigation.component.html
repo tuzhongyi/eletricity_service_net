@@ -1,9 +1,15 @@
 <div class="header-navigation">
   <button
+    [class.selected]="path === NavigationPath.home"
+    (click)="onchanged(NavigationPath.home)"
+  >
+    <div>首页</div>
+  </button>
+  <button
     [class.selected]="path === NavigationPath.realtime"
     (click)="onchanged(NavigationPath.realtime)"
   >
-    <div>首页</div>
+    <div>实时统计</div>
   </button>
   <button
     [class.selected]="path === NavigationPath.passenger"
@@ -18,14 +24,12 @@
     <div>视频监控</div>
   </button>
   <button
-    class="long"
     [class.selected]="path === NavigationPath.record"
     (click)="onchanged(NavigationPath.record)"
   >
     <div>AI分析记录</div>
   </button>
   <button
-    class="long"
     [class.selected]="path === NavigationPath.people"
     (click)="onchanged(NavigationPath.people)"
   >

@@ -1,3 +1,4 @@
+import { AlarmComponent } from './alarm-control/alarm.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { CardComponent } from './card/card.component';
 import { CHART_COMPONENTS } from './charts/charts.module';
@@ -26,4 +27,5 @@ export const components = [
   CanvasComponent,
   ImageUploadComponent,
   ImageComponent,
+  AlarmComponent,
 ];

@@ -39,6 +39,7 @@ export class VideoPlayerWindowComponent
   @Input() end?: Date;
   @Input() autoplay: boolean = false;
   @Input() subtitle = false;
+  @Input() index = 255;
 
   constructor(business: VideoPlayerWindowBusiness) {
     super();

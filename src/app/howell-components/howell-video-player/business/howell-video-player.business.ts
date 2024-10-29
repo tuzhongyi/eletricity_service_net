@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { StreamType } from 'src/app/enums/stream-type.enum';
 import { VideoUrl } from 'src/app/models/video-url.model';
 import { VideoModel } from 'src/app/models/video.model';
 import {
@@ -25,7 +24,7 @@ export class HowellVideoPlayerBusiness {
   async preview(args: HowellPreviewArgs) {
     let params = new GetPreviewUrlParams();
     params.CameraId = args.cameraId;
-    params.StreamType = StreamType.main;
+    params.StreamType = args.stream;
     let url = await this.sr.preview(params);
     let model = this.convert(url);
     model.sourceId = args.cameraId;
@@ -50,7 +49,7 @@ export class HowellVideoPlayerBusiness {
     }
 
     params.CameraId = args.cameraId;
-    params.StreamType = StreamType.main;
+    params.StreamType = args.stream;
     let url = await this.sr.playback(params);
     let model = this.convert(url);
     model.sourceId = args.cameraId;

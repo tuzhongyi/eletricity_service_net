@@ -1,12 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { interval } from 'rxjs';
-import { Camera } from 'src/app/models/camera.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { VideoArgs } from 'src/app/models/args/video.args';
 import { StoreService } from 'src/app/tools/service/store.service';
 import { RealtimeDeviceModel } from './realtime-device-list.model';
@@ -17,12 +9,11 @@ import { RealtimeDeviceModel } from './realtime-device-list.model';
   styleUrls: ['./realtime-device-list.component.less'],
 })
 export class RealtimeDeviceListComponent implements OnInit {
-  @Output()
-  preview: EventEmitter<VideoArgs> = new EventEmitter();
-  @Output()
-  playback: EventEmitter<VideoArgs> = new EventEmitter();
-  @Output()
-  loaded: EventEmitter<RealtimeDeviceModel[]> = new EventEmitter();
+  @Output() preview: EventEmitter<VideoArgs> = new EventEmitter();
+  @Output() playback: EventEmitter<VideoArgs> = new EventEmitter();
+  @Output() loaded: EventEmitter<RealtimeDeviceModel[]> = new EventEmitter();
+  @Input() canplayback: boolean = true;
+
   constructor(private store: StoreService) {}
 
   load: EventEmitter<void> = new EventEmitter();

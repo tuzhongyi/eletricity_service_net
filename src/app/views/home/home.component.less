@@ -1,0 +1,122 @@
+.home {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+
+
+  @home-list-width: 600px;
+
+
+  .left {
+    width: @home-list-width;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+
+    &>* {
+      height: 50%;
+      margin: 20px;
+
+      margin-bottom: 0px;
+
+      &:last-child {
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  .right {
+    height: 100%;
+    width: calc(100% - @home-list-width);
+    padding: 20px;
+    padding-left: 0;
+    box-sizing: border-box;
+    position: relative;
+
+    .card-content {
+      width: 100%;
+      height: 100%;
+
+      &-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 44px;
+
+        .operation {
+          height: 24px;
+          margin-bottom: 20px;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+
+          &>* {
+            width: 24px;
+            height: 24px;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+          }
+        }
+      }
+
+      &-body {
+        height: calc(100% - 20px - 24px);
+      }
+    }
+
+
+
+    .information {
+      position: absolute;
+
+      top: 115px;
+      left: 55px;
+    }
+
+    .trigger {
+      width: 100%;
+      height: 100%;
+
+      &-head {
+        height: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        .title {
+          margin-bottom: 0;
+        }
+
+        .operation {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          gap: 10px;
+          color: #cefff5;
+
+
+          &>* {
+            cursor: pointer;
+
+            &:hover {
+              color: #fff;
+            }
+
+          }
+        }
+      }
+
+      &-body {
+        height: calc(100% - 24px - 20px);
+      }
+    }
+
+  }
+}

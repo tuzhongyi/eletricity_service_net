@@ -3,6 +3,7 @@
   <div class="realtime-device-list-table">
     <howell-realtime-device-table
       [load]="load"
+      [canplayback]="canplayback"
       (loaded)="onLoaded($event)"
       (preview)="onPreview($event)"
       (playback)="onPlayback($event)"

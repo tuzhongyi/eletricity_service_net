@@ -1,4 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { TimeArgs } from 'src/app/components/video-player/video-player.model';
 import { SubtitlingItem } from 'src/app/models/subtitling/subtitling-item.model';
 import { VideoModel } from 'src/app/models/video.model';
 import { ConfigRequestService } from 'src/app/network/request/config/config.service';

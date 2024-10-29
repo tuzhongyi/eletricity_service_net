@@ -132,6 +132,9 @@ class WSPlayerProxy {
         if (iframe.contentWindow) {
             iframe.contentWindow.postMessage(message, '*');
         }
+        else {
+            throw new Error('iframe.contentWindow is null');
+        }
     }
     stop() {
         this.postMessage({ command: player_command_1.PlayerCommand.stop });

@@ -1,0 +1,75 @@
+<div class="home">
+  <div class="left">
+    <howell-card>
+      <howell-realtime-device-list
+        [canplayback]="false"
+        (preview)="onPreview($event)"
+        (playback)="onPlayback($event)"
+      ></howell-realtime-device-list>
+    </howell-card>
+
+    <howell-card>
+      <howell-realtime-record-list
+        (playback)="onPlayback($event)"
+        (picture)="onPicture($event)"
+        (trigger)="onTrigger($event)"
+      ></howell-realtime-record-list>
+    </howell-card>
+  </div>
+  <div class="right">
+    <howell-card>
+      <div class="card-content">
+        <div class="card-content-head">
+          <div class="title">实时视频</div>
+          <div class="operation">
+            <button
+              (click)="screenModeChange(ScreenMode.one)"
+              [class.selected]="screen.mode === ScreenMode.one"
+            >
+              <i class="icon-sign-blank"></i>
+            </button>
+            <button
+              (click)="screenModeChange(ScreenMode.four)"
+              [class.selected]="screen.mode === ScreenMode.four"
+            >
+              <i class="icon-th-large"></i>
+            </button>
+            <button
+              (click)="screenModeChange(ScreenMode.nine)"
+              [class.selected]="screen.mode === ScreenMode.nine"
+            >
+              <i class="icon-th"></i>
+            </button>
+
+            <button (click)="fullScreen()">
+              <i class="icon-resize-full"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-content-body howell-video-player-list">
+          <howell-video-player-list
+            [mode]="screen.mode"
+            [play]="play"
+            [(index)]="screen.index"
+          ></howell-video-player-list>
+        </div>
+      </div>
+    </howell-card>
+  </div>
+
+  <app-alarm
+    *ngIf="window.alarm.show"
+    [model]="window.alarm"
+    [style]="window.alarm.style"
+    [title]="window.alarm.name"
+  >
+    <howell-video-player
+      [name]="window.alarm.name"
+      [preview]="window.alarm.event.preview"
+      [index]="window.alarm.index"
+      (viewed)="window.alarm.onpreview()"
+      (onPlaying)="window.alarm.autoclose()"
+      (onStoping)="window.alarm.stop()"
+    ></howell-video-player>
+  </app-alarm>
+</div>

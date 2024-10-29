@@ -32,18 +32,12 @@ export class RealtimeDeviceListTableComponent
     OnChanges,
     OnDestroy
 {
-  @Input()
-  business: IBusiness<IModel, RealtimeDeviceModel<any>[]>;
-  @Output()
-  preview: EventEmitter<VideoArgs> = new EventEmitter();
-  @Output()
-  playback: EventEmitter<VideoArgs> = new EventEmitter();
-
-  @Input()
-  load?: EventEmitter<void>;
-
-  @Output()
-  loaded: EventEmitter<RealtimeDeviceModel[]> = new EventEmitter();
+  @Input() canplayback: boolean = true;
+  @Input() business: IBusiness<IModel, RealtimeDeviceModel<any>[]>;
+  @Output() preview: EventEmitter<VideoArgs> = new EventEmitter();
+  @Output() playback: EventEmitter<VideoArgs> = new EventEmitter();
+  @Input() load?: EventEmitter<void>;
+  @Output() loaded: EventEmitter<RealtimeDeviceModel[]> = new EventEmitter();
 
   constructor(business: RealtimeDeviceListTableBusiness) {
     this.business = business;
@@ -91,5 +85,10 @@ export class RealtimeDeviceListTableComponent
     let args = VideoArgsConverter.Convert(item.data);
     args.autoplay = false;
     this.playback.emit(args);
+  }
+  onitemclick(item: RealtimeDeviceModel) {
+    if (!this.canplayback) {
+      this.onPreview(item);
+    }
   }
 }

@@ -1,13 +1,40 @@
 <div class="eletricity-service-net">
-  <div class="eletricity-service-net-header">
+  <div
+    class="eletricity-service-net-header"
+    [ngClass]="{
+      hidden: !head.show
+    }"
+  >
     <howell-header
       [path]="path"
       [title]="title"
       [date]="date"
       (navigate)="onnavigate($event)"
+      [(visibility)]="head.show"
     ></howell-header>
   </div>
-  <div class="eletricity-service-net-body">
+
+  <!-- <div class="eletricity-service-net-head-operation">
+    <div
+      class="eletricity-service-net-head-operation-control"
+      (click)="onheaddisplay()"
+    >
+      <i class="mdi mdi-chevron-up"></i>
+    </div>
+  </div> -->
+
+  <div
+    class="eletricity-service-net-body"
+    [ngClass]="{
+      full: !head.show
+    }"
+  >
+    <ng-container *ngIf="path === NavigationPath.home">
+      <howell-home
+        (playback)="trigger.realtime.playback($event)"
+        (picture)="trigger.realtime.picture($event)"
+      ></howell-home>
+    </ng-container>
     <ng-container *ngIf="path === NavigationPath.realtime">
       <howell-realtime
         [passenger]="passenger"

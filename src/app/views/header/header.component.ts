@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { WeatherType } from 'src/app/enums/weather-type.enum';
-import { CurrentDayPassengerFlow } from 'src/app/models/current-day-passenger-flow.model';
 import { NavigationPath } from './header-navigation/navigarion-path.enum';
 
 @Component({
@@ -9,14 +7,12 @@ import { NavigationPath } from './header-navigation/navigarion-path.enum';
   styleUrls: ['./header.component.less'],
 })
 export class HeaderComponent implements OnInit {
-  @Input()
-  path: NavigationPath = NavigationPath.realtime;
-  @Input()
-  title: string = '';
-  @Output()
-  navigate: EventEmitter<NavigationPath> = new EventEmitter();
-  @Input()
-  date: Date = new Date();
+  @Input() visibility: boolean = true;
+  @Output() visibilityChange = new EventEmitter<boolean>();
+  @Input() path: NavigationPath = NavigationPath.realtime;
+  @Input() title: string = '';
+  @Output() navigate: EventEmitter<NavigationPath> = new EventEmitter();
+  @Input() date: Date = new Date();
 
   constructor() {}
 
@@ -25,5 +21,10 @@ export class HeaderComponent implements OnInit {
   onpathchanged(path: NavigationPath) {
     this.path = path;
     this.navigate.emit(path);
+  }
+
+  onvisibility() {
+    this.visibility = !this.visibility;
+    this.visibilityChange.emit(this.visibility);
   }
 }

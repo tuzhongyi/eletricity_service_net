@@ -1,15 +1,36 @@
-<div class="header">
-  <div class="header-title">{{ title }}</div>
-  <div class="header-navigation">
-    <howell-header-navigation
-      [path]="path"
-      (changed)="onpathchanged($event)"
-    ></howell-header-navigation>
+<div
+  class="header"
+  [ngStyle]="{
+    height: visibility ? '100%' : '0'
+  }"
+  [ngClass]="{
+    hidden: !visibility
+  }"
+>
+  <div class="header-content">
+    <div class="header-content-title">{{ title }}</div>
+    <div class="header-content-navigation">
+      <howell-header-navigation
+        [path]="path"
+        (changed)="onpathchanged($event)"
+      ></howell-header-navigation>
+    </div>
+    <div class="header-content-info">
+      <howell-header-information [date]="date"></howell-header-information>
+    </div>
+    <div>
+      <app-account-operation></app-account-operation>
+    </div>
   </div>
-  <div class="header-info">
-    <howell-header-information [date]="date"></howell-header-information>
-  </div>
-  <div>
-    <app-account-operation></app-account-operation>
+  <div class="header-operation">
+    <div class="header-operation-control" (click)="onvisibility()">
+      <i
+        class="mdi"
+        [ngClass]="{
+          'mdi-chevron-up': visibility,
+          'mdi-chevron-down': !visibility
+        }"
+      ></i>
+    </div>
   </div>
 </div>

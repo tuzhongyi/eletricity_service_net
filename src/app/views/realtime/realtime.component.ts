@@ -64,6 +64,7 @@ export class RealtimeComponent implements OnInit {
       this.trigger.show = false;
     }
     setTimeout(() => {
+      console.log('窗口弹出');
       this.trigger.data = data;
       this.trigger.name = `${data.ResourceName ?? ''} ${Language.EventType(
         data.EventType

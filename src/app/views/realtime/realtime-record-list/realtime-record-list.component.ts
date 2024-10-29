@@ -26,6 +26,7 @@ export class RealtimeRecordListComponent implements OnInit {
       this.load.emit(this.types);
     });
     this.mqtt.event.subscribe((x) => {
+      console.log('收到消息，塞到列表中');
       if (!this.type || this.type === EventType.Business) {
         this.insert.emit(x);
       }

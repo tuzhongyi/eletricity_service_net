@@ -55,7 +55,12 @@ export class MqttRequestService {
 
   private async init() {
     let config = await this.config;
-    let client = new MqttClient(config.host, config.port);
+    let client = new MqttClient(
+      config.host,
+      config.port,
+      config.username,
+      config.password
+    );
     console.log(`mqtt connect to ${config.host}:${config.port}`);
     let hall = await this.store.getBusinessHall();
     if (config.trigger) {
@@ -69,6 +74,7 @@ export class MqttRequestService {
     types: EventType[] = []
   ) {
     types.forEach((type) => {
+      console.log(`mqtt subscribe BusinessHalls/${hall.Id}/Events/${type}`);
       client.subscribe(
         `BusinessHalls/${hall.Id}/Events/${type}`,
         async (data: EventRecord) => {

@@ -11,7 +11,7 @@
   >
     <howell-video-player
       *ngIf="!!datas[i]"
-      [index]="i"
+      [index]="datas[i].index"
       [preview]="datas[i].event.preview"
       [playback]="datas[i].event.playback"
       [subtitling]="datas[i].event.subtitling"

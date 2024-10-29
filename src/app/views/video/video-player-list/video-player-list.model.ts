@@ -17,6 +17,10 @@ export class VideoPlayerListEvent {
 }
 
 export class VideoPlayerListItem {
+  constructor(index: number) {
+    this.index = index;
+  }
+  index: number;
   seek = new EventEmitter<number>();
   selected = false;
   event = {

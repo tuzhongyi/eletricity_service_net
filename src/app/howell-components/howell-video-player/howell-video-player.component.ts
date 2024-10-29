@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TimeArgs } from 'src/app/components/video-player/video-player.model';
 import { VideoModel } from 'src/app/models/video.model';
 import {
   HowellVideoPlayerBusiness,

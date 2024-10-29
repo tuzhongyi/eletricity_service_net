@@ -1,8 +1,10 @@
 {
   "host": "localhost",
   "port": 15883,
+  "username": "admin",
+  "password": "howell.net.cn",
   "trigger": {
-    "duration": 10,
+    "duration": 60,
     "eventtypes": [
       3,
       4,
@@ -10,7 +12,7 @@
       6,
       8,
       9,
-      11,
+      15,
       14,
       16,
       21

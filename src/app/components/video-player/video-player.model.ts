@@ -31,3 +31,8 @@ export interface SubtitleFirstItem {
   end: number;
   text: string;
 }
+export interface TimeArgs {
+  current: number;
+  min: number;
+  max: number;
+}

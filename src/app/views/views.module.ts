@@ -23,6 +23,7 @@ import Adsame from 'src/assets/echart-theme/adsame.json';
 import { Howell_Components } from '../howell-components/howell-components.module';
 import { CustomDateItemPipe } from '../pipes/custom-date-item.pipe';
 import { EmployeeTrackComponents } from './employee-track/employee-track.module';
+import { HomeComponents } from './home/home.module';
 import { LoginComponent } from './login/login.component';
 import { PeopleStrangerComponents } from './people-stranger/people-stranger.module';
 import { PeoplePictureFaceComponent } from './people/people-picture-face/people-picture-face.component';
@@ -51,8 +52,10 @@ const ViewComponents = [
   PeopleComponent,
   PeoplePictureFaceComponent,
   ...PeopleStrangerComponents,
+
   components,
   CustomDateItemPipe,
+  ...HomeComponents,
 ];
 
 @NgModule({
