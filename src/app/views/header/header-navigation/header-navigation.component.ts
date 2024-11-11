@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { StoreService } from 'src/app/tools/service/store.service';
 import { NavigationPath } from './navigarion-path.enum';
 
 @Component({
@@ -12,7 +13,7 @@ export class HeaderNavigationComponent implements OnInit {
   @Output()
   changed: EventEmitter<NavigationPath> = new EventEmitter();
 
-  constructor() {}
+  constructor(public store: StoreService) {}
   NavigationPath = NavigationPath;
 
   ngOnInit(): void {}

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IBusiness } from 'src/app/interfaces/business.interface';
 import { IComponent } from 'src/app/interfaces/component.interfact';
 import { IModel } from 'src/app/models/model.interface';
@@ -18,10 +18,7 @@ export class RealtimeStatisticComponent
 {
   @Input()
   business: IBusiness<IModel, RealtimeStatisticModel>;
-  constructor(
-    business: RealtimeStatisticBusiness,
-    private store: StoreService
-  ) {
+  constructor(business: RealtimeStatisticBusiness, public store: StoreService) {
     this.business = business;
   }
 

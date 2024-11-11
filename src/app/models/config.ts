@@ -3,6 +3,9 @@ export interface Config {
   track: TrackConfig;
   videoUrl: string;
   user: UserConfig;
+  reload: number;
+  passenger: boolean;
+  people: boolean;
 }
 
 interface PlaybackConfig {

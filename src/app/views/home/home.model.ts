@@ -56,9 +56,12 @@ export class HomeAlarmWindow extends AlarmViewModel {
   }
 
   async autoclose() {
-    setTimeout(() => {
-      this.stop();
-    }, (await this.duration) * 1000);
+    let duration = await this.duration;
+    if (duration > 0) {
+      setTimeout(() => {
+        this.stop();
+      }, duration * 1000);
+    }
   }
 
   onpreview() {

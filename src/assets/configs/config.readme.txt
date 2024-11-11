@@ -1,0 +1,16 @@
+playback    视频回放配置参数
+  begin       开始时间，单位：秒
+  end         结束时间，单位：秒
+  subtitle  字幕配置参数
+    begin     字幕开始播放时间偏移，单位：秒
+    offset    字幕跟随视频播放便宜，单位：秒
+
+track       尾随事件配置参数
+  begin     事件回放开始时间，单位：秒
+  duration  事件回放持续时间，单位：秒
+  autoplay  是否自动播放视频
+videoUrl    视频播放器网址
+user        用户配置
+reload      视频持续播放一段时间后，自动重新加载，单位：分钟
+passenger   是否显示客流统计
+people      是否显示人员信息

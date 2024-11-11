@@ -136,7 +136,10 @@ export class VideoPlayerComponent
   async ngOnInit() {
     this.regist();
     await this.init();
-    this.load();
+    await this.load();
+    this.player.then((x) => {
+      this.business.keep.interval(x);
+    });
   }
   ngOnDestroy(): void {
     if (this.registHandle) {
@@ -147,6 +150,7 @@ export class VideoPlayerComponent
     this.player.then((x) => {
       x.destroy();
     });
+    this.business.keep.clear();
   }
 
   regist() {
@@ -247,28 +251,31 @@ export class VideoPlayerComponent
     this.isinited = true;
   }
   load() {
-    wait(
-      () => {
-        return this.isinited;
-      },
-      () => {
-        if (!this.isloaded) {
-          if (this.model) {
-            this.url = this.model.toString();
-            if (this.model.web) {
-              this.webUrl = this.model.web;
+    return new Promise<void>((resolve) => {
+      wait(
+        () => {
+          return this.isinited;
+        },
+        () => {
+          if (!this.isloaded) {
+            if (this.model) {
+              this.url = this.model.toString();
+              if (this.model.web) {
+                this.webUrl = this.model.web;
+              }
+            }
+
+            if (this.url) {
+              let src = this.getSrc(this.webUrl, this.url, this.name);
+              this.src = this.sanitizer.bypassSecurityTrustResourceUrl(src);
+              this.isloaded = true;
+              this.loaded.emit();
             }
           }
-
-          if (this.url) {
-            let src = this.getSrc(this.webUrl, this.url, this.name);
-            this.src = this.sanitizer.bypassSecurityTrustResourceUrl(src);
-            this.isloaded = true;
-            this.loaded.emit();
-          }
+          resolve();
         }
-      }
-    );
+      );
+    });
   }
 
   onLoad(event: Event) {
@@ -400,7 +407,7 @@ export class VideoPlayerComponent
       console.log('onStatusChanged', PlayerState[state]);
       switch (state) {
         case PlayerState.playing:
-          this.business.keep.clear({ play: true });
+          this.business.keep.clear({ tryplay: true });
 
           if (that.subtitle) {
             that.subtitleenable(that.subtitle);

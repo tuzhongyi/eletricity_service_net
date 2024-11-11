@@ -3,17 +3,25 @@ import { Subscription, interval } from 'rxjs';
 import { BusinessHall } from 'src/app/models/business-hall.model';
 import { Page } from 'src/app/models/page.model';
 import { BusinessHallRequestService } from 'src/app/network/request/business-hall/business-hall-request.service';
+import { ConfigRequestService } from 'src/app/network/request/config/config.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StoreService {
-  constructor(private service: BusinessHallRequestService) {}
+  constructor(
+    private service: BusinessHallRequestService,
+    config: ConfigRequestService
+  ) {
+    config.get().then((x) => {
+      this.passenger = x.passenger;
+      this.people = x.people;
+    });
+  }
   private hall?: BusinessHall;
 
-  track() {
-    localStorage;
-  }
+  passenger = true;
+  people = true;
 
   async getBusinessHall(): Promise<BusinessHall> {
     if (!this.hall) {

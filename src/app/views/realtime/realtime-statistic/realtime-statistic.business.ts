@@ -1,12 +1,10 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { IBusiness } from 'src/app/interfaces/business.interface';
-import {
-  IConverter,
-  IPromiseConverter,
-} from 'src/app/interfaces/converter.interface';
+import { IConverter } from 'src/app/interfaces/converter.interface';
 import { CurrentBusinessHallStatistic } from 'src/app/models/current-business-hall-statistic.model';
 import { CurrentDayPassengerFlow } from 'src/app/models/current-day-passenger-flow.model';
 import { BusinessHallRequestService } from 'src/app/network/request/business-hall/business-hall-request.service';
+import { ConfigRequestService } from 'src/app/network/request/config/config.service';
 import { StoreService } from 'src/app/tools/service/store.service';
 import { RealtimeStatisticPassengerBusiness } from './realtime-statistic-passenger.business';
 import { RealtimeStatisticConverter } from './realtime-statistic.converter';
@@ -19,7 +17,8 @@ export class RealtimeStatisticBusiness
   constructor(
     private store: StoreService,
     private service: BusinessHallRequestService,
-    private passenger: RealtimeStatisticPassengerBusiness
+    private passenger: RealtimeStatisticPassengerBusiness,
+    private _config: ConfigRequestService
   ) {}
   Converter: IConverter<CurrentBusinessHallStatistic, RealtimeStatisticModel> =
     new RealtimeStatisticConverter();
@@ -37,6 +36,11 @@ export class RealtimeStatisticBusiness
     let model = this.Converter.Convert(data, passenger);
     return model;
   }
+
+  get config() {
+    return this._config.get();
+  }
+
   getData(hallId: string): Promise<CurrentBusinessHallStatistic> {
     return this.service.statistic.current(hallId);
   }
