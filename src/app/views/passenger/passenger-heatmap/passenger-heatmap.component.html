@@ -9,7 +9,7 @@
           [format]="'yyyy-MM-dd HH:mm'"
           [startView]="DateTimePickerView.month"
           [minView]="DateTimePickerView.hour"
-          [(date)]="duration.begin"
+          [(date)]="args.duration.begin"
           class="date-select"
         />
       </div>
@@ -21,24 +21,37 @@
           [format]="'yyyy-MM-dd HH:mm'"
           [startView]="DateTimePickerView.month"
           [minView]="DateTimePickerView.hour"
-          [(date)]="duration.end"
+          [(date)]="args.duration.end"
           class="date-select"
         />
       </div>
       <div>
         <div class="passenger-heatmap-filter-title">选择楼层：</div>
         <div>
-          <select width="150px" name="" id="" (change)="changeFloor($event)">
-            <option *ngFor="let item of floors" [value]="item.value">
-              {{ item.language }}
+          <select
+            width="150px"
+            name=""
+            id=""
+            [(ngModel)]="floor"
+            (change)="changeFloor()"
+          >
+            <option *ngFor="let item of floors" [ngValue]="item">
+              {{ item.Name }}
             </option>
           </select>
         </div>
       </div>
       <div>
-        <button class="full"><i class="howell-icon-search2"></i> 查询</button>
+        <button class="full" (click)="onsearch()">
+          <i class="howell-icon-search2"></i> 查询
+        </button>
       </div>
     </div>
   </div>
-  <div class="passenger-heatmap-chart"></div>
+  <div class="passenger-heatmap-chart">
+    <!-- <howell-realtime-heatmap></howell-realtime-heatmap> -->
+    <ng-container *ngIf="url">
+      <howell-heatmap-chart [url]="url" [load]="load"></howell-heatmap-chart>
+    </ng-container>
+  </div>
 </div>

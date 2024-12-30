@@ -10,7 +10,6 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { ResizedEvent } from 'angular-resize-event';
 
 import * as echarts from 'echarts';
 import { EChartsOption } from 'echarts';
@@ -79,24 +78,24 @@ export class MapChartComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  getImage(url: string, width: number, height: number): Promise<string> {
-    return new Promise((resolve) => {
-      let image = new Image();
-      image.src = url;
-      image.onload = () => {
-        let canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        let ctx = canvas.getContext('2d')!;
-        let x = canvas.width / 2;
-        let y = canvas.height / 2;
-        ctx.translate(x, y);
-        ctx.drawImage(image, 0, 0, width, height);
-        let data = canvas.toDataURL();
-        resolve(data);
-      };
-    });
-  }
+  // getImage(url: string, width: number, height: number): Promise<string> {
+  //   return new Promise((resolve) => {
+  //     let image = new Image();
+  //     image.src = url;
+  //     image.onload = () => {
+  //       let canvas = document.createElement('canvas');
+  //       canvas.width = width;
+  //       canvas.height = height;
+  //       let ctx = canvas.getContext('2d')!;
+  //       let x = canvas.width / 2;
+  //       let y = canvas.height / 2;
+  //       ctx.translate(x, y);
+  //       ctx.drawImage(image, 0, 0, width, height);
+  //       let data = canvas.toDataURL();
+  //       resolve(data);
+  //     };
+  //   });
+  // }
   getPoints() {
     if (!this.element) return;
     this.points = new Array();

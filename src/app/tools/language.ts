@@ -105,6 +105,8 @@ export class Language {
       //   return '物品遗失';
       case EventType.PlayPhone:
         return '玩手机';
+      case EventType.SmashDevice:
+        return '打砸或移动设备';
       case EventType.IllegalAudio:
         return '非正常音频';
       default:

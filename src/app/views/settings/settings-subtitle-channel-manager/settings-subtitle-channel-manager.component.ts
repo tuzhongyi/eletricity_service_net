@@ -87,8 +87,8 @@ export class SettingsSubtitleChannelManagerComponent implements OnInit {
     this.window.confirm.message = '是否同步本地业务摄像机到字幕服务器？';
 
     this.window.confirm.yes = new Promise((resolve, reject) => {
-      this.business.sync.from
-        .business(this.opts.serverId!)
+      this.business.sync.to
+        .server(this.opts.serverId!)
         .then((x) => {
           resolve();
         })

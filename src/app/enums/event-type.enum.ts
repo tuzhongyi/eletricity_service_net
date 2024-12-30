@@ -24,6 +24,8 @@ export enum EventType {
   Unattended = 14,
   /**	玩手机	16 */
   PlayPhone = 16,
+  /**	打砸或移动设备	17 */
+  SmashDevice = 17,
   /** 非正常音频报警，（分贝、骂人） */
   IllegalAudio = 21,
 }

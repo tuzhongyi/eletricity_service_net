@@ -5,12 +5,13 @@
   margin-top: -1px;
   padding-top: 1px;
   padding-bottom: 15px;
-  background-size: 100%;
+  background-size: 100% 100%;
   background-repeat: no-repeat;
   background-position: bottom;
   box-sizing: border-box;
   transition: 0.4s;
   position: relative;
+
 
   &.hidden {
 
@@ -26,6 +27,11 @@
     align-items: center;
     width: 100%;
     height: 100%;
+    justify-content: space-between;
+
+    @title-width: 32%;
+    @info-width: 380px;
+    @navigation-width: calc(100% - @title-width - @info-width);
 
     &-title {
       height: 100%;
@@ -35,19 +41,26 @@
       display: flex;
       justify-content: start;
       align-items: center;
-      min-width: 570px;
+      width: @title-width;
     }
 
     &-navigation {
       padding: 17px;
       white-space: nowrap;
+      width: @navigation-width;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
     }
 
     &-info {
-      width: 440px;
+      width: @info-width;
       padding: 0 20px;
       padding-right: 30px;
       box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
   }
 

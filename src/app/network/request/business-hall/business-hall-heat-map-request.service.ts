@@ -1,4 +1,6 @@
+import { instanceToPlain } from 'class-transformer';
 import { HeatMap } from 'src/app/models/heat-map.model';
+import { HowellResponse } from 'src/app/models/response.model';
 import { BusinessHallsUrl } from '../../url/businesshall_service/business-halls.url';
 import {
   BaseRequestService,
@@ -11,8 +13,13 @@ export class BusinessHallHeatMapRequestService {
     this.type = basic.type(HeatMap);
   }
   type: BaseTypeRequestService<HeatMap>;
-  list(params: GetHeatMapParams) {
+  async list(params: GetHeatMapParams) {
     let url = BusinessHallsUrl.heatMap();
-    return this.type.array(url, params);
+    let plain = instanceToPlain(params);
+    return this.basic
+      .post<any, HowellResponse<HeatMap[]>>(url, plain)
+      .then((x) => {
+        return x.Data!;
+      });
   }
 }
