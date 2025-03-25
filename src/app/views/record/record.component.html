@@ -93,3 +93,40 @@
     </div>
   </howell-card>
 </div>
+
+<app-window
+  *ngIf="window.video.show"
+  [model]="window.video"
+  [style]="window.video.style"
+  [title]="window.video.title"
+>
+  <howell-video-player-window
+    [autoplay]="window.video.autoplay"
+    [cameraId]="window.video.cameraId"
+    [mode]="window.video.mode"
+    [begin]="window.video.begin"
+    [end]="window.video.end"
+    [subtitle]="window.video.subtitle"
+  ></howell-video-player-window>
+</app-window>
+
+<app-window
+  *ngIf="window.picture.show"
+  [model]="window.picture"
+  [style]="window.picture.style"
+  [title]="window.picture.title"
+>
+  <div
+    style="
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+    "
+    [ngStyle]="{
+      backgroundImage: 'url(' + window.picture.url + ')',
+      opacity: window.picture.isError ? 0.3 : 1,
+      backgroundSize: window.picture.isError ? 'auto' : '100% 100%'
+    }"
+  ></div>
+</app-window>

@@ -1,0 +1,17 @@
+<div class="statistic-card-passenger-flow">
+  <howell-statistic-card *ngIf="data">
+    <div class="statistic-card-passenger-flow-head">
+      <howell-statistic-card-head>
+        <div>{{ data.title }}</div>
+        <div>共 {{ data.count }} 人</div>
+      </howell-statistic-card-head>
+    </div>
+    <div class="statistic-card-passenger-flow-body">
+      <howell-statistic-chart-line
+        [color]="data.color"
+        [datas]="data.datas"
+        [xAxis]="data.xAxis"
+      ></howell-statistic-chart-line>
+    </div>
+  </howell-statistic-card>
+</div>

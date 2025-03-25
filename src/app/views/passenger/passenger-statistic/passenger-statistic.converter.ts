@@ -1,17 +1,11 @@
-import { formatDate } from '@angular/common';
 import {
   ITimeData,
   ITimeDataGroup,
 } from 'src/app/components/charts/chart.model';
 import { TimeUnit } from 'src/app/enums/time-unit.enum';
-import {
-  IConverter,
-  IExportConverter,
-} from 'src/app/interfaces/converter.interface';
+import { IConverter } from 'src/app/interfaces/converter.interface';
 import { ItemModel } from 'src/app/models/item.model';
 import { PassengerFlow } from 'src/app/models/passenger-flow.model';
-import { HowellExportModel } from 'src/app/tools/exports/hw-export.model';
-import { Language } from 'src/app/tools/language';
 
 export class PassengerStatisticConverter
   implements IConverter<PassengerFlow[], ITimeDataGroup<number>[]>

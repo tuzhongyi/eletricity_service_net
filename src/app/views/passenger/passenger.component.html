@@ -22,18 +22,18 @@
     </div>
     <div class="passenger-content">
       <ng-container *ngIf="path === PassengerPath.statistic">
-        <howell-passenger-statistic></howell-passenger-statistic>
+        <howell-passenger-statistic-manager></howell-passenger-statistic-manager>
       </ng-container>
       <ng-container *ngIf="path === PassengerPath.heatmap">
         <howell-passenger-heatmap></howell-passenger-heatmap>
       </ng-container>
 
       <ng-container *ngIf="path === PassengerPath.zone">
-        <howell-passenger-statistic
+        <howell-passenger-statistic-manager
           [chart]="ChartType.line"
           [title]="'区域客流统计'"
           [business]="zone"
-        ></howell-passenger-statistic>
+        ></howell-passenger-statistic-manager>
       </ng-container>
     </div>
   </howell-card>

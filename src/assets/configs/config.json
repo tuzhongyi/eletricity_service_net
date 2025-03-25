@@ -18,6 +18,6 @@
     "password": "howell.net.cn"
   },
   "reload": 240,
-  "passenger": false,
-  "people": false
+  "passenger": true,
+  "people": true
 }

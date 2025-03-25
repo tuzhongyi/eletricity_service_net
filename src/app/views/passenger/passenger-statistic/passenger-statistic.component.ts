@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { LegendComponentOption } from 'echarts';
-import { CallbackDataParams } from 'echarts/types/dist/shared';
 import { ITimeDataGroup } from 'src/app/components/charts/chart.model';
 import { DateTimePickerView } from 'src/app/directives/date-time-picker.directive';
 import { ChartType } from 'src/app/enums/chart-type.enum';
@@ -14,7 +12,6 @@ import { SelectItem } from 'src/app/models/select-item.model';
 import { DateTimeTool } from 'src/app/tools/datetime.tool';
 import { PassengerStatisticExportBusiness } from './passenger-statistic-export.business';
 import { PassengerStatisticBusiness } from './passenger-statistic.business';
-import { ChartConfig, EChartOptions } from './passenger-statistic.model';
 
 @Component({
   selector: 'howell-passenger-statistic',
@@ -49,20 +46,7 @@ export class PassengerStatisticComponent
 
   ChartType = ChartType;
   charts: SelectItem<ChartType>[] = [];
-  config: Config = { bar: {}, line: {}, datetime: new DateTimeConfig() };
-  echartsLegend: LegendComponentOption = {
-    selectedMode: true,
-    show: true,
-    right: '20px',
-    top: '0',
-
-    icon: '',
-    orient: 'horizontal',
-    textStyle: {
-      fontSize: 24,
-      color: '#fff',
-    },
-  };
+  config: Config = { datetime: new DateTimeConfig() };
 
   ngOnInit(): void {
     this.initTimeUnits();
@@ -110,105 +94,14 @@ export class PassengerStatisticComponent
     }
     this.loadData();
   }
-  changeChart(event: Event) {
-    this.loadChart(this.datas);
-  }
 
   async loadData() {
     let unit = this.unit;
-    // if (this.unit === TimeUnit.Week || this.unit === TimeUnit.Month) {
-    //   unit = TimeUnit.Day;
-    // }
     this.datas = await this.business.load(unit, this.duration);
-    this.loadChart(this.datas);
-  }
-  loadChart(datas: ITimeDataGroup<number>[]) {
-    let merge: EChartOptions = this.getEChartsMerge(this.chart, datas);
-    this.config.line = undefined;
-    this.config.bar = undefined;
-    switch (this.chart) {
-      case ChartType.line:
-        this.config.line = new ChartConfig(
-          this.unit,
-          this.duration.begin,
-          this.echartsLegend,
-          merge
-        );
-        break;
-      case ChartType.bar:
-        this.config.bar = new ChartConfig(
-          this.unit,
-          this.duration.begin,
-          this.echartsLegend,
-          merge
-        );
-        break;
-      default:
-        break;
-    }
   }
 
   search() {
     this.loadData();
-  }
-
-  getEChartsMerge(
-    type: ChartType,
-    datas: ITimeDataGroup<number>[]
-  ): EChartOptions {
-    switch (type) {
-      case ChartType.line:
-        return {
-          series: datas.map((data, i) => {
-            return {
-              type: 'line',
-              name: data.Name,
-              data: data.datas.map((x) => x.value),
-              smooth: true,
-              label: {
-                formatter: (params: CallbackDataParams) => {
-                  return params.value.toString();
-                },
-              },
-            };
-          }),
-        };
-      case ChartType.bar:
-      default:
-        let width = 30;
-        switch (this.unit) {
-          case TimeUnit.Month:
-            width = 15;
-            break;
-          case TimeUnit.Hour:
-            width = 20;
-            break;
-          default:
-            break;
-        }
-
-        return {
-          series: datas.map((data, i) => {
-            return {
-              type: 'bar',
-              name: data.Name,
-              data: data.datas.map((x) => x.value),
-              barWidth: `${width}px`,
-              barMinHeight: 5,
-              label: {
-                show: false,
-                position: 'top',
-                color: ChartConfig.color[i],
-                fontSize: '16px',
-                textBorderWidth: 0,
-                formatter: (params: CallbackDataParams) => {
-                  return params.value.toString();
-                },
-              },
-            };
-          }),
-        };
-    }
   }
 
   exportExcel() {
@@ -223,8 +116,6 @@ export class PassengerStatisticComponent
 }
 
 interface Config {
-  line: any;
-  bar: any;
   datetime: DateTimeConfig;
 }
 

@@ -1,0 +1,59 @@
+<div class="statistic-card-record-total">
+  <howell-statistic-card>
+    <div class="statistic-card-record-total-head">
+      <howell-statistic-card-head>
+        <div>今日事件统计</div>
+        <div>共 {{ data.count }} 起</div>
+      </howell-statistic-card-head>
+    </div>
+    <div class="statistic-card-record-total-body">
+      <div class="statistic-card-record-total-body-info left">
+        <ng-container *ngFor="let item of data.datas; let index = index">
+          <div class="info-item" *ngIf="index >= data.datas.length / 2">
+            <div
+              class="info-item-icon"
+              [ngStyle]="{
+                backgroundColor:
+                  'rgb(' +
+                  item.color.r +
+                  ',' +
+                  item.color.g +
+                  ',' +
+                  item.color.b +
+                  ')'
+              }"
+            ></div>
+            <div class="info-item-name">{{ item.name }}</div>
+            <div class="info-item-value">{{ item.value }}</div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="statistic-card-record-total-body-chart">
+        <howell-statistic-chart-pie-record
+          [datas]="data.datas"
+        ></howell-statistic-chart-pie-record>
+      </div>
+      <div class="statistic-card-record-total-body-info right">
+        <ng-container *ngFor="let item of data.datas; let index = index">
+          <div class="info-item" *ngIf="index < data.datas.length / 2">
+            <div
+              class="info-item-icon"
+              [ngStyle]="{
+                backgroundColor:
+                  'rgb(' +
+                  item.color.r +
+                  ',' +
+                  item.color.g +
+                  ',' +
+                  item.color.b +
+                  ')'
+              }"
+            ></div>
+            <div class="info-item-name">{{ item.name }}</div>
+            <div class="info-item-value">{{ item.value }}</div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </howell-statistic-card>
+</div>

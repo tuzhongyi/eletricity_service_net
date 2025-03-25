@@ -1,0 +1,16 @@
+<div class="passenger-statistic-chart">
+  <ng-container *ngIf="chart === ChartType.bar">
+    <howell-bar-chart
+      [theme]="config.bar.theme"
+      [options]="config.bar.options"
+      [merge]="config.bar.merge"
+    ></howell-bar-chart>
+  </ng-container>
+  <ng-container *ngIf="chart === ChartType.line">
+    <howell-line-chart
+      [theme]="config.line.theme"
+      [options]="config.line.options"
+      [merge]="config.line.merge"
+    ></howell-line-chart>
+  </ng-container>
+</div>

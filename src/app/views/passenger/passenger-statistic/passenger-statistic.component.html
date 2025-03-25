@@ -40,11 +40,7 @@
         </select>
       </div>
       <div>
-        <select
-          width="150px"
-          [(ngModel)]="chart"
-          (change)="changeChart($event)"
-        >
+        <select width="150px" [(ngModel)]="chart">
           <option *ngFor="let item of charts" [ngValue]="item.value">
             {{ item.language }}
           </option>
@@ -52,20 +48,5 @@
       </div>
     </div>
   </div>
-  <div class="passenger-statistic-chart">
-    <ng-container *ngIf="chart === ChartType.bar">
-      <howell-bar-chart
-        [theme]="config.bar.theme"
-        [options]="config.bar.options"
-        [merge]="config.bar.merge"
-      ></howell-bar-chart>
-    </ng-container>
-    <ng-container *ngIf="chart === ChartType.line">
-      <howell-line-chart
-        [theme]="config.line.theme"
-        [options]="config.line.options"
-        [merge]="config.line.merge"
-      ></howell-line-chart>
-    </ng-container>
-  </div>
+  <div class="passenger-statistic-chart"></div>
 </div>

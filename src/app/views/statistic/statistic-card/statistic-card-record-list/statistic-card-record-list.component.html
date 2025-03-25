@@ -1,0 +1,17 @@
+<div class="statistic-card-record-list">
+  <howell-statistic-card>
+    <div class="statistic-card-record-list-head">
+      <howell-statistic-card-head>
+        <div>今日报警记录</div>
+      </howell-statistic-card-head>
+    </div>
+    <div class="statistic-card-record-list-body">
+      <howell-realtime-record-list
+        [title]="false"
+        (playback)="onplayback($event)"
+        (picture)="onpicture($event)"
+        (trigger)="ontrigger($event)"
+      ></howell-realtime-record-list>
+    </div>
+  </howell-statistic-card>
+</div>

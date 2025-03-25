@@ -9,6 +9,8 @@ body {
   overflow: hidden;
   font-family: 'Howell Light';
   user-select: none;
+
+  background-color: #193c48;
 }
 
 

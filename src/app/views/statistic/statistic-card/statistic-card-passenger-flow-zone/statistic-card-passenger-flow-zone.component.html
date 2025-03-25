@@ -1,0 +1,17 @@
+<div class="statistic-card-passenger-flow-zone">
+  <howell-statistic-card [span]="2">
+    <div class="statistic-card-passenger-flow-zone-head">
+      <howell-statistic-card-head>
+        <div>今日区域客流热力统计</div>
+      </howell-statistic-card-head>
+    </div>
+    <div class="statistic-card-passenger-flow-zone-body">
+      <howell-statistic-chart-passenger-flow-zone
+        *ngIf="config"
+        [datas]="datas"
+        [begin]="config.begin"
+        [end]="config.end"
+      ></howell-statistic-chart-passenger-flow-zone>
+    </div>
+  </howell-statistic-card>
+</div>

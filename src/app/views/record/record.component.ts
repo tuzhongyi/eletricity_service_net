@@ -1,27 +1,24 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { DateTimePickerView } from 'src/app/directives/date-time-picker.directive';
 import { EventType } from 'src/app/enums/event-type.enum';
 import { PictureArgs } from 'src/app/models/args/picture.args';
 import { VideoArgs } from 'src/app/models/args/video.args';
 import { SelectItem } from 'src/app/models/select-item.model';
+import { Medium } from 'src/app/network/request/medium/medium';
 import { DateTimeTool } from 'src/app/tools/datetime.tool';
 import { Language } from 'src/app/tools/language';
 import { RecordEventTableOptions } from '../tables/record-event-table/record-event-table.model';
+import { RecordWindow } from './controller/record-window.controller';
 import { RecordBusiness } from './record.business';
 
 @Component({
   selector: 'howell-record',
   templateUrl: './record.component.html',
   styleUrls: ['./record.component.less'],
-  providers: [RecordBusiness],
+  providers: [RecordBusiness, RecordWindow],
 })
 export class RecordComponent implements OnInit {
-  @Output()
-  picture: EventEmitter<PictureArgs> = new EventEmitter();
-  @Output()
-  playback: EventEmitter<VideoArgs> = new EventEmitter();
-
-  constructor(private business: RecordBusiness) {}
+  constructor(private business: RecordBusiness, public window: RecordWindow) {}
 
   options: RecordEventTableOptions = {
     begin: new Date(),
@@ -93,11 +90,22 @@ export class RecordComponent implements OnInit {
     this.load.emit(this.options);
   }
 
-  onPicture(model: PictureArgs) {
-    this.picture.emit(model);
+  async onPicture(model: PictureArgs) {
+    this.window.picture.title = model.title;
+    let result = await Medium.img(model.id);
+    this.window.picture.url = result.url;
+    this.window.picture.isError = result.error;
+    this.window.picture.show = true;
   }
-  onPlayback(model: VideoArgs) {
-    this.playback.emit(model);
+  onPlayback(args: VideoArgs) {
+    this.window.video.cameraId = args.cameraId;
+    this.window.video.title = args.title;
+    this.window.video.autoplay = args.autoplay;
+    this.window.video.begin = args.begin;
+    this.window.video.end = args.end;
+    this.window.video.mode = args.mode;
+    this.window.video.subtitle = args.subtitle;
+    this.window.video.show = true;
   }
 
   onExport() {

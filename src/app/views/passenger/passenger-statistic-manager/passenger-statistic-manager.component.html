@@ -1,0 +1,59 @@
+<div class="passenger-statistic-manager">
+  <div class="passenger-statistic-manager-filter">
+    <div class="left">
+      <div class="passenger-statistic-manager-filter-date">
+        <div class="passenger-statistic-manager-filter-title">选择日期：</div>
+
+        <input
+          type="text"
+          DateTimePicker
+          [format]="config.datetime.format"
+          [startView]="config.datetime.min"
+          [minView]="config.datetime.min"
+          [week]="config.datetime.week"
+          [date]="date"
+          (dateChange)="changeDate($event)"
+          class="date-select"
+        />
+      </div>
+      <div>
+        <button class="full" (click)="search()">
+          <i class="howell-icon-search2"></i> 查询
+        </button>
+      </div>
+      <div>
+        <button class="full" (click)="exportExcel()">
+          <i class="howell-icon-export2"></i> 导出
+        </button>
+      </div>
+    </div>
+    <div class="right">
+      <div>
+        <select
+          width="150px"
+          [(ngModel)]="unit"
+          (change)="changeTimeUnit($event)"
+        >
+          <option *ngFor="let item of units" [ngValue]="item.value">
+            {{ item.language }}
+          </option>
+        </select>
+      </div>
+      <div>
+        <select width="150px" [(ngModel)]="chart">
+          <option *ngFor="let item of charts" [ngValue]="item.value">
+            {{ item.language }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="passenger-statistic-manager-chart">
+    <howell-passenger-statistic-chart
+      [unit]="unit"
+      [duration]="duration"
+      [datas]="datas"
+      [chart]="chart"
+    ></howell-passenger-statistic-chart>
+  </div>
+</div>

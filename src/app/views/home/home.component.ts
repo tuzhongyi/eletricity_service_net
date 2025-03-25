@@ -9,7 +9,11 @@ import { PictureArgs } from 'src/app/models/args/picture.args';
 import { VideoArgs } from 'src/app/models/args/video.args';
 import { EventRecord } from 'src/app/models/event-record.model';
 import { Language } from 'src/app/tools/language';
-import { HomeAlarmWindow, HomeWindow } from './home.model';
+
+import { PlayMode } from 'src/app/enums/play-mode.enum';
+import { Medium } from 'src/app/network/request/medium/medium';
+import { HomeAlarmWindow } from './controller/home-alarm-window.controller';
+import { HomeWindow } from './controller/home-window.controller';
 
 @Component({
   selector: 'howell-home',
@@ -19,8 +23,6 @@ import { HomeAlarmWindow, HomeWindow } from './home.model';
 })
 export class HomeComponent implements OnInit {
   @Output() preview: EventEmitter<VideoArgs> = new EventEmitter();
-  @Output() playback: EventEmitter<VideoArgs> = new EventEmitter();
-  @Output() picture: EventEmitter<PictureArgs> = new EventEmitter();
 
   constructor(public window: HomeWindow) {}
 
@@ -35,7 +37,15 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {}
 
   onPlayback(args: VideoArgs) {
-    this.playback.emit(args);
+    this.window.video.mode = PlayMode.vod;
+    this.window.video.cameraId = args.cameraId;
+    this.window.video.title = args.title;
+    this.window.video.autoplay = args.autoplay;
+
+    this.window.video.begin = args.begin;
+    this.window.video.end = args.end;
+    this.window.video.subtitle = args.subtitle;
+    this.window.video.show = true;
   }
   onPreview(args: VideoArgs) {
     let _args = new HowellPreviewArgs();
@@ -43,8 +53,13 @@ export class HomeComponent implements OnInit {
     _args.stream = StreamType.sub;
     this.play.emit(_args);
   }
-  onPicture(args: PictureArgs) {
-    this.picture.emit(args);
+  async onPicture(args: PictureArgs) {
+    this.window.picture.title = args.title;
+    let result = await Medium.img(args.id);
+    this.window.picture.url = result.url;
+    this.window.picture.isError = result.error;
+
+    this.window.picture.show = true;
   }
 
   onTrigger(data: EventRecord) {

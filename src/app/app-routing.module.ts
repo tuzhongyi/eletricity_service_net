@@ -1,17 +1,13 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { RoutePath } from './app-routing.path';
 
-import { IndexComponent } from './views/index/index.component';
 import { LoginComponent } from './views/login/login.component';
-import { ViewComponentsModule } from './views/views.module';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'index',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
 
@@ -21,13 +17,14 @@ const routes: Routes = [
   },
   {
     path: RoutePath.index,
-    component: IndexComponent,
+    loadChildren: () => import('./views/view.module').then((m) => m.ViewModule),
+    // canActivate: [AuthorizationActivate],
   },
 ];
 
 @NgModule({
   declarations: [], //, HeaderComponent
-  imports: [RouterModule.forRoot(routes), ViewComponentsModule],
-  exports: [RouterModule, ViewComponentsModule],
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

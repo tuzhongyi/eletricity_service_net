@@ -1,0 +1,23 @@
+<div class="statistic-card-record-item">
+  <howell-statistic-card *ngIf="data">
+    <div class="statistic-card-record-item-head">
+      <howell-statistic-card-head>
+        <div>
+          <select class="no-border" [(ngModel)]="type" (change)="load()">
+            <option *ngFor="let item of types" [ngValue]="item.value">
+              {{ item.language }}
+            </option>
+          </select>
+        </div>
+        <div>共 {{ data.count }} 起</div>
+      </howell-statistic-card-head>
+    </div>
+    <div class="statistic-card-record-item-body">
+      <howell-statistic-chart-line
+        [color]="data.color"
+        [datas]="data.datas"
+        [xAxis]="data.xAxis"
+      ></howell-statistic-chart-line>
+    </div>
+  </howell-statistic-card>
+</div>

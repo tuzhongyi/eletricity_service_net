@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { HowellPlaybackArgs } from 'src/app/howell-components/howell-video-player/howell-video-player.model';
-import { TrackConfig } from 'src/app/models/config';
+import { TrackConfig } from 'src/app/models/config/config';
 import { EmployeeTrackRecord } from 'src/app/models/employee-track-record.model';
 import default_config from 'src/assets/configs/config.json';
 import { EmployeesTableBusiness } from '../../tables/employees-table/employees-table.business';

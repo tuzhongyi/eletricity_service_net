@@ -89,3 +89,19 @@
     </div>
   </howell-card>
 </div>
+
+<app-window
+  *ngIf="window.video.show"
+  [model]="window.video"
+  [style]="window.video.style"
+  [title]="window.video.title"
+>
+  <howell-video-player-window
+    [autoplay]="window.video.autoplay"
+    [cameraId]="window.video.cameraId"
+    [mode]="window.video.mode"
+    [begin]="window.video.begin"
+    [end]="window.video.end"
+    [subtitle]="window.video.subtitle"
+  ></howell-video-player-window>
+</app-window>

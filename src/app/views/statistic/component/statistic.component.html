@@ -1,0 +1,95 @@
+<div class="howell-statistic">
+  <div class="howell-statistic-item">
+    <howell-statistic-card-device-state
+      [load]="load"
+    ></howell-statistic-card-device-state>
+  </div>
+  <div class="howell-statistic-item">
+    <howell-statistic-card-passenger-flow
+      [type]="0"
+      [load]="load"
+    ></howell-statistic-card-passenger-flow>
+  </div>
+  <div class="howell-statistic-item">
+    <howell-statistic-card-passenger-flow
+      [type]="1"
+      [load]="load"
+    ></howell-statistic-card-passenger-flow>
+  </div>
+  <div class="howell-statistic-item row-2">
+    <howell-statistic-card-record-list
+      (playback)="controller.recordlist.onPlayback($event)"
+      (picture)="controller.recordlist.onPicture($event)"
+      (trigger)="controller.recordlist.onTrigger($event)"
+    ></howell-statistic-card-record-list>
+  </div>
+
+  <div class="howell-statistic-item">
+    <howell-statistic-card-record-item
+      [load]="load"
+    ></howell-statistic-card-record-item>
+  </div>
+  <div class="howell-statistic-item">
+    <howell-statistic-card-record-total
+      [load]="load"
+    ></howell-statistic-card-record-total>
+  </div>
+  <div class="howell-statistic-item column-2">
+    <howell-statistic-card-passenger-flow-zone
+      [load]="load"
+    ></howell-statistic-card-passenger-flow-zone>
+  </div>
+</div>
+
+<app-alarm
+  *ngIf="window.alarm.show"
+  [model]="window.alarm"
+  [style]="window.alarm.style"
+  [title]="window.alarm.name"
+>
+  <howell-video-player
+    [name]="window.alarm.name"
+    [preview]="window.alarm.event.preview"
+    [index]="window.alarm.index"
+    (viewed)="window.alarm.onpreview()"
+    (onPlaying)="window.alarm.autoclose()"
+    (onStoping)="window.alarm.stop()"
+  ></howell-video-player>
+</app-alarm>
+
+<app-window
+  *ngIf="window.video.show"
+  [model]="window.video"
+  [style]="window.video.style"
+  [title]="window.video.title"
+>
+  <howell-video-player-window
+    [autoplay]="window.video.autoplay"
+    [cameraId]="window.video.cameraId"
+    [mode]="window.video.mode"
+    [begin]="window.video.begin"
+    [end]="window.video.end"
+    [subtitle]="window.video.subtitle"
+  ></howell-video-player-window>
+</app-window>
+
+<app-window
+  *ngIf="window.picture.show"
+  [model]="window.picture"
+  [style]="window.picture.style"
+  [title]="window.picture.title"
+>
+  <div
+    style="
+      width: 100%;
+      height: 100%;
+      background-repeat: no-repeat;
+      background-position: center center;
+    "
+    [ngStyle]="{
+      backgroundImage: 'url(' + window.picture.url + ')',
+      opacity: window.picture.isError ? 0.3 : 1,
+      backgroundSize: window.picture.isError ? 'auto' : '100% 100%'
+    }"
+  ></div>
+</app-window>

@@ -1,0 +1,79 @@
+.passenger-statistic-manager {
+  width: 100%;
+  height: 100%;
+  color: white;
+
+  &-filter {
+    height: 34px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .left {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+
+      &>* {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-right: 10px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+
+    .right {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+
+      &>* {
+        margin-right: 10px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
+      select {
+        width: 100px;
+      }
+    }
+
+    &-title {
+      font-size: 18px;
+    }
+
+    &-date {
+      input {
+        width: 330px;
+      }
+    }
+
+    &-time {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 34px;
+
+      ._ {
+        width: 10px;
+        margin: 0 10px;
+      }
+
+      input {
+        width: 100px;
+        min-width: 100px;
+      }
+    }
+  }
+
+  &-chart {
+    height: calc(100% - 34px - 20px);
+  }
+}

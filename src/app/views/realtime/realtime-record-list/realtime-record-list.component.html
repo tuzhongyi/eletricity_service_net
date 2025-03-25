@@ -1,5 +1,5 @@
 <div class="realtime-record-list">
-  <div class="realtime-record-list-title title">报警记录</div>
+  <div class="realtime-record-list-title title" *ngIf="title">报警记录</div>
   <div class="realtime-record-list-filter">
     <button [class.selected]="type === undefined" (click)="eventFilter()">
       全部报警

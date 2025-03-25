@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TrackConfig } from 'src/app/models/config';
+import { TrackConfig } from 'src/app/models/config/config';
 import { EmployeesTableBusiness } from '../../tables/employees-table/employees-table.business';
 import { EmployeeTrackManagerService } from './employee-track-manager.service';
 

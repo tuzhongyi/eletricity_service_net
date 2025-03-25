@@ -1,6 +1,6 @@
 export enum NavigationPath {
-  home = 'home',
-  realtime = 'realtime',
+  statistic = 'statistic',
+  preview = 'preview',
   passenger = 'passenger',
   record = 'record',
   video = 'video',

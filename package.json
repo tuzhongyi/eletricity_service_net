@@ -24,7 +24,7 @@
     "@types/underscore": "^1.11.4",
     "angular-resize-event": "^3.1.1",
     "class-transformer": "^0.5.1",
-    "echarts": "^5.2.1",
+    "echarts": "^5.6.0",
     "es6-shim": "^0.35.6",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",

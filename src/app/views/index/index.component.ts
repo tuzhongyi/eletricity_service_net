@@ -8,23 +8,20 @@ import { CurrentBusinessHallStatistic } from 'src/app/models/current-business-ha
 import { StoreService } from 'src/app/tools/service/store.service';
 import { NavigationPath } from '../header/header-navigation/navigarion-path.enum';
 import { RealtimePassengerInfo } from '../realtime/realtime-information/realtime-information.model';
-import { IndexEventTriggerBusiness } from './business/event-trigger.business';
-import { IndexWindowBusiness } from './business/index-window.business';
+
 import { IndexBusiness } from './business/index.business';
 
 @Component({
   selector: 'howell-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.less'],
-  providers: [IndexBusiness, IndexWindowBusiness, IndexEventTriggerBusiness],
+  providers: [IndexBusiness],
 })
 export class IndexComponent implements OnInit, OnDestroy {
   constructor(
     private titleService: Title,
     private business: IndexBusiness,
     private store: StoreService,
-    public window: IndexWindowBusiness,
-    public trigger: IndexEventTriggerBusiness,
     private route: ActivatedRoute,
     private router: Router,
     private cookie: CookieService
@@ -33,7 +30,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.store.stopInterval();
   }
   title: string = '';
-  path: NavigationPath = NavigationPath.home;
+  path: NavigationPath = NavigationPath.statistic;
   NavigationPath = NavigationPath;
   current?: CurrentBusinessHallStatistic;
   date: Date = new Date();
@@ -54,6 +51,7 @@ export class IndexComponent implements OnInit, OnDestroy {
         let lower = key.toLocaleLowerCase();
         if (lower == 'config') {
           this.path = NavigationPath.setting;
+          this.router.navigateByUrl(`/index/${this.path}`);
         }
       }
     });
@@ -66,11 +64,12 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   onnavigate(path: NavigationPath) {
     this.path = path;
-    if (this.path === NavigationPath.realtime) {
+    if (this.path === NavigationPath.statistic) {
       this.store.runInterval();
     } else {
       this.store.stopInterval();
     }
+    this.router.navigateByUrl(`/index/${this.path}`);
   }
   onheaddisplay() {
     this.head.show = !this.head.show;

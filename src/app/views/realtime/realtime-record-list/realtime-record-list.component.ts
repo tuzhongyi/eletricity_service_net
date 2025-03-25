@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EventType } from 'src/app/enums/event-type.enum';
 import { PictureArgs } from 'src/app/models/args/picture.args';
 import { VideoArgs } from 'src/app/models/args/video.args';
@@ -14,6 +14,7 @@ import { RealtimeRecordModel } from '../../tables/realtime-record-table/realtime
   styleUrls: ['./realtime-record-list.component.less'],
 })
 export class RealtimeRecordListComponent implements OnInit {
+  @Input() title = true;
   @Output() loaded: EventEmitter<RealtimeRecordModel[]> = new EventEmitter();
   @Output() picture: EventEmitter<PictureArgs> = new EventEmitter();
   @Output() playback: EventEmitter<VideoArgs> = new EventEmitter();

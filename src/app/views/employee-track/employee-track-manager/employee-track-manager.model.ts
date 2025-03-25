@@ -4,7 +4,7 @@ import {
   HowellPlaybackArgs,
   HowellPreviewArgs,
 } from 'src/app/howell-components/howell-video-player/howell-video-player.model';
-import { TrackConfig } from 'src/app/models/config';
+import { TrackConfig } from 'src/app/models/config/config';
 import { IdNameModel } from 'src/app/models/model.interface';
 import { EmployeesTrackRecordTableLastCommand } from '../../tables/employees-track-record-table/employees-track-record-table.model';
 

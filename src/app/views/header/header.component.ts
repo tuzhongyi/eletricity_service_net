@@ -9,7 +9,7 @@ import { NavigationPath } from './header-navigation/navigarion-path.enum';
 export class HeaderComponent implements OnInit {
   @Input() visibility: boolean = true;
   @Output() visibilityChange = new EventEmitter<boolean>();
-  @Input() path: NavigationPath = NavigationPath.realtime;
+  @Input() path: NavigationPath = NavigationPath.statistic;
   @Input() title: string = '';
   @Output() navigate: EventEmitter<NavigationPath> = new EventEmitter();
   @Input() date: Date = new Date();

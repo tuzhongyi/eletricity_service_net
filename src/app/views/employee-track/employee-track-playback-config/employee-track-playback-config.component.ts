@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TrackConfig } from 'src/app/models/config';
+import { TrackConfig } from 'src/app/models/config/config';
 
 @Component({
   selector: 'howell-employee-track-playback-config',

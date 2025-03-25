@@ -1,15 +1,15 @@
 <div class="header-navigation">
   <button
-    [class.selected]="path === NavigationPath.home"
-    (click)="onchanged(NavigationPath.home)"
+    [class.selected]="path === NavigationPath.statistic"
+    (click)="onchanged(NavigationPath.statistic)"
   >
     <div>首页</div>
   </button>
   <button
-    [class.selected]="path === NavigationPath.realtime"
-    (click)="onchanged(NavigationPath.realtime)"
+    [class.selected]="path === NavigationPath.preview"
+    (click)="onchanged(NavigationPath.preview)"
   >
-    <div>实时统计</div>
+    <div>多路预览</div>
   </button>
   <button
     [class.selected]="path === NavigationPath.passenger"

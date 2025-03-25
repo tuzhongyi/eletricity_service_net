@@ -1,0 +1,24 @@
+<div class="statistic-card">
+  <div class="statistic-card-background">
+    <div class="statistic-card-background-top">
+      <div class="statistic-card-background-top-left"></div>
+      <div
+        class="statistic-card-background-top-center"
+        [class.span-2]="span > 1"
+      ></div>
+      <div class="statistic-card-background-top-right"></div>
+    </div>
+    <div class="statistic-card-background-content"></div>
+    <div class="statistic-card-background-bottom">
+      <div class="statistic-card-background-bottom-left"></div>
+      <div
+        class="statistic-card-background-bottom-center"
+        [class.span-2]="span > 1"
+      ></div>
+      <div class="statistic-card-background-bottom-right"></div>
+    </div>
+  </div>
+  <div class="statistic-card-content">
+    <ng-content></ng-content>
+  </div>
+</div>

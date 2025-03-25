@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
-import { Config, TrackConfig } from 'src/app/models/config';
+import { Config, TrackConfig } from 'src/app/models/config/config';
+import { StatisticConfig } from 'src/app/models/config/config-statistic';
 import { UrlTool } from 'src/app/tools/url-tool/url.tool';
 
 enum ConfigKey {
   track = 'track',
+  statistic = 'statistic',
 }
 
 @Injectable({
@@ -41,6 +43,14 @@ export class ConfigRequestService {
     }
     return this._track;
   }
+
+  private _statistic?: StatisticConfigRequestService;
+  public get statistic(): StatisticConfigRequestService {
+    if (!this._statistic) {
+      this._statistic = new StatisticConfigRequestService(this.http);
+    }
+    return this._statistic;
+  }
 }
 
 class TrackConfigRequestService {
@@ -59,5 +69,27 @@ class TrackConfigRequestService {
   set(track: TrackConfig) {
     let str = JSON.stringify(track);
     localStorage.setItem(ConfigKey.track, str);
+  }
+}
+
+class StatisticConfigRequestService {
+  constructor(private http: HttpClient) {}
+
+  private _get(): Promise<StatisticConfig> {
+    let protocol = location.protocol;
+    if (!protocol.includes(':')) {
+      protocol += ':';
+    }
+    let port = '';
+    if (location.port) {
+      port = ':' + location.port;
+    }
+    let url = `${protocol}//${location.hostname}${port}/assets/configs/config-statistic.json`;
+    return firstValueFrom(this.http.get<StatisticConfig>(url));
+  }
+
+  async get(): Promise<StatisticConfig> {
+    let config = await this._get();
+    return config;
   }
 }
