@@ -14,3 +14,4 @@ user        用户配置
 reload      视频持续播放一段时间后，自动重新加载，单位：分钟
 passenger   是否显示客流统计
 people      是否显示人员信息
+realtime    是否显示实时统计

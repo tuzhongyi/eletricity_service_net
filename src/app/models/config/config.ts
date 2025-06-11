@@ -4,8 +4,9 @@ export interface Config {
   videoUrl: string;
   user: UserConfig;
   reload: number;
-  passenger: boolean;
-  people: boolean;
+  passenger?: boolean;
+  people?: boolean;
+  realtime?: boolean;
 }
 
 interface PlaybackConfig {

@@ -2,6 +2,7 @@ export class RealtimeStatisticModel {
   [key: string]: number;
   in: number = 0;
   out: number = 0;
+  customer: number = 0;
   record: number = 0;
   business: number = 0;
   delivery: number = 0;

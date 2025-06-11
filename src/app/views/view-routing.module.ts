@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { IndexComponent } from './index/index.component';
 import { PassengerComponent } from './passenger/passenger.component';
 import { PeopleComponent } from './people/people.component';
+import { RealtimeComponent } from './realtime/realtime.component';
 import { RecordComponent } from './record/record.component';
 import { SettingsComponent } from './settings/settings.component';
 import { StatisticComponent } from './statistic/component/statistic.component';
@@ -20,6 +21,10 @@ const routes: Routes = [
       {
         path: NavigationPath.statistic,
         component: StatisticComponent,
+      },
+      {
+        path: NavigationPath.realtime,
+        component: RealtimeComponent,
       },
       {
         path: NavigationPath.preview,

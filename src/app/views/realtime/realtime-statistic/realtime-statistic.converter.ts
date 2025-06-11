@@ -19,6 +19,7 @@ export class RealtimeStatisticConverter
     if (passenger) {
       model.in = passenger.InNum;
       model.out = passenger.OutNum;
+      model.customer = passenger.CustomerNum ?? 0;
     }
     if (source.EventNumbers) {
       for (let i = 0; i < source.EventNumbers.length; i++) {

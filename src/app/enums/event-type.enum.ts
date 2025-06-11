@@ -28,4 +28,6 @@ export enum EventType {
   SmashDevice = 17,
   /** 非正常音频报警，（分贝、骂人） */
   IllegalAudio = 21,
+  /**	未开早班会	22 */
+  NoMorningMeeting = 22,
 }

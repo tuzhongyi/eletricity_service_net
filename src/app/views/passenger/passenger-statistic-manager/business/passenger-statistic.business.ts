@@ -43,6 +43,12 @@ export class PassengerStatisticManagerBusiness
         Name: '出客流',
       },
     ];
+
+    itmes.push({
+      Id: '2',
+      Name: '顾客数量',
+    });
+
     let model = this.Converter.Convert(data, itmes, unit, duration.begin);
     return model;
   }

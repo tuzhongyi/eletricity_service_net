@@ -6,4 +6,5 @@ export enum NavigationPath {
   video = 'video',
   setting = 'setting',
   people = 'people',
+  realtime = 'realtime',
 }

@@ -6,6 +6,13 @@
     <div>首页</div>
   </button>
   <button
+    [class.selected]="path === NavigationPath.realtime"
+    (click)="onchanged(NavigationPath.realtime)"
+    *ngIf="store.realtime"
+  >
+    <div>实时统计</div>
+  </button>
+  <button
     [class.selected]="path === NavigationPath.preview"
     (click)="onchanged(NavigationPath.preview)"
   >

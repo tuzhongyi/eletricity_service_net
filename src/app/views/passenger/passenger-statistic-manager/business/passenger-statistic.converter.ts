@@ -76,6 +76,13 @@ export class PassengerStatisticManagerConverter
           index: index,
         };
         array[1].datas.push(out_data);
+
+        let customer_data: ITimeData<number> = {
+          value: 0,
+          time: current,
+          index: index,
+        };
+        array[2].datas.push(customer_data);
       }
 
       source[0].BeginTime;
@@ -96,6 +103,13 @@ export class PassengerStatisticManagerConverter
         index: index + i + 1,
       };
       array[1].datas.push(out_data);
+
+      let customer_data: ITimeData<number> = {
+        value: item.CustomerNum ?? 0,
+        time: item.BeginTime,
+        index: index + i + 1,
+      };
+      array[2].datas.push(customer_data);
     }
     return array;
   }

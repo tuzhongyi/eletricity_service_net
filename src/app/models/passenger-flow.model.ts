@@ -29,4 +29,8 @@ export class PassengerFlow implements IModel {
   OutNum!: number;
   /**	Int32	滞留客流数量	O */
   RetentionNum?: number;
+  /**	Int32	顾客数量	O */
+  CustomerNum?: number;
+  /**	Int32	顾客组数量	O */
+  CustomerGroupNum?: number;
 }

@@ -109,6 +109,8 @@ export class Language {
         return '设备异常';
       case EventType.IllegalAudio:
         return '非正常音频';
+      case EventType.NoMorningMeeting:
+        return '未开早班会';
       default:
         return '';
     }

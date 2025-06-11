@@ -28,4 +28,8 @@ export class CurrentDayPassengerFlow implements IModel {
   LowTemp?: number;
   /**	Double	最高气温，单位：摄氏度	O */
   HighTemp?: number;
+  /**	Int32	顾客数量	O */
+  CustomerNum?: number;
+  /**	Int32	顾客组数量	O */
+  CustomerGroupNum?: number;
 }

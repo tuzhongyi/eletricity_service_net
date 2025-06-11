@@ -14,14 +14,16 @@ export class StoreService {
     config: ConfigRequestService
   ) {
     config.get().then((x) => {
-      this.passenger = x.passenger;
-      this.people = x.people;
+      this.passenger = x.passenger ?? true; // 默认开启客流统计
+      this.people = x.people ?? true; // 默认开启人流统计
+      this.realtime = x.realtime ?? false; // 默认不开启实时统计
     });
   }
   private hall?: BusinessHall;
 
   passenger = true;
   people = true;
+  realtime = false;
 
   async getBusinessHall(): Promise<BusinessHall> {
     if (!this.hall) {

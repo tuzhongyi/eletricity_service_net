@@ -65,6 +65,7 @@ export class HeatmapChartComponent implements OnInit, AfterViewInit {
     }
 
     if (!this.echarts) return;
+    console.log(this.option);
     this.echarts.setOption(this.option!);
   }
 

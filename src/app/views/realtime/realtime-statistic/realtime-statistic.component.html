@@ -16,6 +16,14 @@
       >
       </howell-realtime-statistic-head-item>
     </div>
+    <div class="" *ngIf="store.passenger">
+      <howell-realtime-statistic-head-item
+        [icon]="'howell-icon-people-stay'"
+        [value]="data.customer"
+        [title]="'顾客数量'"
+      >
+      </howell-realtime-statistic-head-item>
+    </div>
     <div class="">
       <howell-realtime-statistic-head-item
         [icon]="'howell-icon-task_misson'"

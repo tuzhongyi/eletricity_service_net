@@ -19,5 +19,6 @@
   },
   "reload": 240,
   "passenger": true,
-  "people": true
+  "people": true,
+  "realtime": false
 }
