@@ -36,10 +36,7 @@
         <tr
           *ngFor="let item of datas"
           [ngStyle]="{
-            height:
-              page && page.RecordCount === options.pageSize && body_height
-                ? 'unset'
-                : body_height! / options.pageSize + 'px'
+            height: table.item.height.value
           }"
         >
           <td>{{ item.Name }}</td>

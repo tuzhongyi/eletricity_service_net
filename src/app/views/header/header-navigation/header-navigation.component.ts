@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable, filter } from 'rxjs';
 import { EnumTool } from 'src/app/tools/enum-tool/enum.tool';
@@ -11,13 +11,12 @@ import { NavigationPath } from './navigarion-path.enum';
   styleUrls: ['./header-navigation.component.less'],
 })
 export class HeaderNavigationComponent implements OnInit {
-  @Input()
-  path: NavigationPath = NavigationPath.statistic;
   @Output()
-  changed: EventEmitter<NavigationPath> = new EventEmitter();
+  navigate = new EventEmitter<NavigationPath>();
 
   constructor(public store: StoreService, private router: Router) {}
   NavigationPath = NavigationPath;
+  path: NavigationPath = NavigationPath.statistic;
 
   ngOnInit(): void {
     this.regist();
@@ -45,6 +44,6 @@ export class HeaderNavigationComponent implements OnInit {
 
   onchanged(path: NavigationPath) {
     this.path = path;
-    this.changed.emit(this.path);
+    this.navigate.emit(this.path);
   }
 }

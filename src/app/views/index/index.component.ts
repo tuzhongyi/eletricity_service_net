@@ -30,7 +30,6 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.store.stopInterval();
   }
   title: string = '';
-  path: NavigationPath = NavigationPath.statistic;
   NavigationPath = NavigationPath;
   current?: CurrentBusinessHallStatistic;
   date: Date = new Date();
@@ -39,7 +38,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     show: true,
   };
 
-  async ngOnInit() {
+  ngOnInit() {
     if (!this.cookie.get(CookieKey.username)) {
       this.router.navigateByUrl(RoutePath.login);
       return;
@@ -50,26 +49,30 @@ export class IndexComponent implements OnInit, OnDestroy {
       for (const key in params) {
         let lower = key.toLocaleLowerCase();
         if (lower == 'config') {
-          this.path = NavigationPath.setting;
-          this.router.navigateByUrl(`/index/${this.path}`);
+          this.router.navigateByUrl(`/index/${NavigationPath.setting}`);
         }
       }
     });
-    let hall = await this.store.getBusinessHall();
-    this.title = hall.Name;
-    this.titleService.setTitle(hall.Name);
-    this.current = await this.business.current(hall.Id);
-    this.date = this.current.Time;
+    this.store.getBusinessHall().then((hall) => {
+      this.title = hall.Name;
+      this.titleService.setTitle(hall.Name);
+
+      this.business.current(hall.Id).then((current) => {
+        this.current = current;
+        this.date = this.current.Time;
+      });
+    });
   }
 
   onnavigate(path: NavigationPath) {
-    this.path = path;
-    if (this.path === NavigationPath.statistic) {
+    if (path === NavigationPath.statistic) {
       this.store.runInterval();
     } else {
       this.store.stopInterval();
     }
-    this.router.navigateByUrl(`/index/${this.path}`);
+    if (location.pathname.indexOf(path) < 0) {
+      this.router.navigateByUrl(`/index/${path}`);
+    }
   }
   onheaddisplay() {
     this.head.show = !this.head.show;

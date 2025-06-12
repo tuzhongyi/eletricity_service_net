@@ -42,20 +42,31 @@ export class SettingsSubtitleChannelTableComponent
   @Output() schedule = new EventEmitter<SubtitlingChannel>();
 
   constructor(private business: SettingsSubtitleChannelTableBusiness) {}
-
+  isNaN = isNaN;
   datas?: SubtitlingChannelModel[];
   widths = ['auto', '200px', '8%', '8%', '10%', '10%', '10%', '10%', '6%'];
   Language = Language;
   page?: Page;
-  @ViewChild('body') bodyElement?: ElementRef;
-
-  get body_height() {
-    if (this.bodyElement) {
-      let div = this.bodyElement.nativeElement as HTMLDivElement;
-      return div.clientHeight;
+  @ViewChild('body') set body(e: ElementRef) {
+    if (e) {
+      Promise.resolve().then(() => {
+        this.table.item.height.set(e.nativeElement);
+      });
     }
-    return undefined;
   }
+
+  table = {
+    item: {
+      height: {
+        value: 'unset',
+        set: (body: HTMLElement) => {
+          this.table.item.height.value = `${
+            body.clientHeight / this.options.pageSize
+          }px`;
+        },
+      },
+    },
+  };
 
   ngOnDestroy(): void {
     if (this.load) {

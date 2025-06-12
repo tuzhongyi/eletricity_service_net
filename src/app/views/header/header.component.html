@@ -11,8 +11,7 @@
     <div class="header-content-title">{{ title }}</div>
     <div class="header-content-navigation">
       <howell-header-navigation
-        [path]="path"
-        (changed)="onpathchanged($event)"
+        (navigate)="onpathchanged($event)"
       ></howell-header-navigation>
     </div>
     <div class="header-content-info">

@@ -6,10 +6,9 @@
     }"
   >
     <howell-header
-      [path]="path"
+      (navigate)="onnavigate($event)"
       [title]="title"
       [date]="date"
-      (navigate)="onnavigate($event)"
       [(visibility)]="head.show"
     ></howell-header>
   </div>
