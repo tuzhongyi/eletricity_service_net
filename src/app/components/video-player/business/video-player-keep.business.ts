@@ -67,7 +67,10 @@ export class VideoPlayerKeepBusiness {
   }
 
   reload(player: WSPlayerProxy) {
-    this.try.stop(player);
+    this.try.stop(player).catch((e) => {
+      console.error(e, player);
+      player.status = PlayerState.closed;
+    });
     console.log('keep to stop');
     this.try.play(player);
   }
