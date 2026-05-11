@@ -23,6 +23,10 @@ export class GetEventRecordsParams
   ZoneIds?: string[];
   /**	String	区域名称	O */
   ZoneName?: string;
+  /**	Boolean	是否已确认	O */
+  Confirmed?: boolean;
+  /**	Boolean	是否未误报	O */
+  IsMisInfo?: boolean;
   /**	String	正常排序	O */
   Asc?: string;
   /**	String	倒置排序	O */

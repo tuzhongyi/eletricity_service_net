@@ -1,4 +1,7 @@
+import { Type } from 'class-transformer';
+import 'reflect-metadata';
 import { IdNameModel } from '../model.interface';
+import { SubtitlingChannelPolygon } from './subtitling-channel-polygon';
 
 /**	Channel (字幕生成通道)	*/
 export class SubtitlingChannel implements IdNameModel {
@@ -28,4 +31,7 @@ export class SubtitlingChannel implements IdNameModel {
   ServerId!: string;
   /**	Boolean	是否启用，True：启用	M	*/
   Enabled!: boolean;
+  /**	Polygon[]	分析区域	O */
+  @Type(() => SubtitlingChannelPolygon)
+  Polygons?: SubtitlingChannelPolygon[];
 }

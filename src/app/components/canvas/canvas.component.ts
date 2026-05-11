@@ -1,10 +1,8 @@
-import { DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
-  Inject,
   Input,
   OnChanges,
   OnDestroy,
@@ -13,11 +11,13 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PercentPolygonConverter } from 'src/app/converters/polygon.converter';
 import { OperationType } from 'src/app/enums/operation-type.enum';
 import { Point } from 'src/app/models/point.model';
 import { Polygon } from 'src/app/models/polygon.model';
 import { Resolution } from 'src/app/models/resolution.model';
+import { wait } from 'src/app/tools/tools';
 import { CanvasBusiness } from './canvas.business';
 
 @Component({
@@ -47,7 +47,7 @@ export class CanvasComponent
   @Input()
   type: OperationType = OperationType.select;
 
-  constructor() {
+  constructor(private sanitizer: DomSanitizer) {
     // doc.addEventListener("contextmenu", this.oncontextmenu)
   }
 
@@ -60,52 +60,89 @@ export class CanvasComponent
   converter = new PercentPolygonConverter();
   resolution!: Resolution;
   drawing = false;
+  src?: SafeUrl;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['type']) {
-      if (this.business) {
-        this.business.type = this.type;
-        this.business.contextStyle();
-      }
+      wait(
+        () => {
+          return !!this.business;
+        },
+        () => {
+          if (this.business) {
+            this.business.type = this.type;
+            this.business.contextStyle();
+          }
+        }
+      );
     }
     if (changes['url']) {
-      if (this.url) {
-        if (this.business) {
-          this.business.clear();
+      wait(
+        () => {
+          return !!this.business;
+        },
+        () => {
+          if (this.url) {
+            if (this.business) {
+              this.business.clear();
+            }
+            this.src = this.sanitizer.bypassSecurityTrustUrl(this.url);
+          }
         }
-      }
+      );
     }
     if (changes['polygon']) {
-      if (this.polygon) {
-        if (this.business) {
-          this.business.polygon = this.converter.from(
-            this.polygon,
-            this.business.resolution
-          );
-          this.business.draw();
+      wait(
+        () => {
+          return !!this.business;
+        },
+        () => {
+          if (this.polygon) {
+            if (this.business) {
+              this.business.polygon = this.converter.from(
+                this.polygon,
+                this.business.resolution
+              );
+              this.business.draw();
+            }
+          }
         }
-      }
+      );
     }
     if (changes['clear']) {
       if (this.clear) {
         this.clear.subscribe((x) => {
-          if (this.business) {
-            this.business.clear();
-          }
+          wait(
+            () => {
+              return !!this.business;
+            },
+            () => {
+              if (this.business) {
+                this.business.clear();
+              }
+            }
+          );
         });
       }
     }
     if (changes['load']) {
       if (this.load) {
         this.load.subscribe((x) => {
-          if (this.business) {
-            this.polygon = x;
-            this.business.polygon = this.converter.from(
-              x,
-              this.business.resolution
-            );
-            this.business.draw();
-          }
+          wait(
+            () => {
+              return !!this.business;
+            },
+            () => {
+              if (this.business) {
+                this.polygon = x;
+                this.business.polygon = this.converter.from(
+                  x,
+                  this.business.resolution
+                );
+                this.business.draw();
+              }
+            }
+          );
         });
       }
     }

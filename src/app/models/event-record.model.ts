@@ -1,10 +1,10 @@
-import { EventResourceType } from '../enums/event-resource-type.enum';
 import { Transform } from 'class-transformer';
+import { EventResourceType } from '../enums/event-resource-type.enum';
 import { EventType } from '../enums/event-type.enum';
-import { transformDateTime } from './transform.model';
 import { IModel } from './model.interface';
+import { transformDateTime } from './transform.model';
 /** 事件基础类型 */
-export class EventRecord  implements IModel{
+export class EventRecord implements IModel {
   /**	String	事件ID	M */
   Id!: string;
   /**	DateTime	事件时间	M */
@@ -40,4 +40,19 @@ export class EventRecord  implements IModel{
   ZoneName?: string;
   /**	String	中心服务器上的唯一ID	O */
   CenterId?: string;
+
+  /**	Boolean	是否为误报	O */
+  IsMisInfo?: boolean;
+  /**	Double	置信度[0-100]	O */
+  Confidence?: number;
+  /**	Boolean	是否二次认证	O */
+  Confirmed?: boolean;
+  /**	DateTime	认证时间	O */
+  ConfirmedTime?: Date;
+  /**	String	认证结果描述	O */
+  ConfirmedDescription?: string;
+  /**	Boolean	是否需要上传中心服务器	O */
+  NeedUpload?: boolean;
+  /**	Boolean	是否已上传中心服务器	O */
+  Uploaded?: boolean;
 }

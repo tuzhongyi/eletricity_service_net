@@ -75,6 +75,7 @@
       (remove)="onremove($event)"
       (enablechange)="onenablechange($event)"
       (schedule)="onschedule($event)"
+      (polygon)="on.polygon.open($event)"
     ></howell-settings-subtitle-channel-table>
   </div>
 
@@ -117,5 +118,40 @@
       (close)="onscheduleclose($event)"
     >
     </howell-settings-subtitle-channel-schedule>
+  </app-window>
+
+  <app-window
+    *ngIf="window.picture.show"
+    [model]="window.picture"
+    [style]="window.picture.style"
+    [title]="window.picture.title"
+  >
+    <div class="window-picture">
+      <!-- <div class="window-picture-head">
+        <div class="window-picture-head-operation">
+          <select value="1">
+            <option value="1">人员检测</option>
+          </select>
+        </div>
+      </div> -->
+      <div class="window-picture-body">
+        <howell-canvas
+          [url]="window.picture.url"
+          [fixed]="4"
+          [clear]="window.picture.clear"
+          [polygon]="window.picture.polygon"
+          (finish)="on.polygon.finish($event)"
+        ></howell-canvas>
+      </div>
+      <div class="window-picture-foot">
+        <div class="window-picture-foot-reset" (click)="on.polygon.reset()">
+          清空
+        </div>
+        <div class="window-picture-foot-operation">
+          <button (click)="on.polygon.yes()">确认</button>
+          <button (click)="on.polygon.close()">取消</button>
+        </div>
+      </div>
+    </div>
   </app-window>
 </div>

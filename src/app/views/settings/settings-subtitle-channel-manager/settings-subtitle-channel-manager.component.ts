@@ -1,5 +1,7 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { Polygon } from 'src/app/models/polygon.model';
+import { SubtitlingChannelPolygon } from 'src/app/models/subtitling/subtitling-channel-polygon';
 import { SubtitlingChannel } from 'src/app/models/subtitling/subtitling-channel.model';
 import { SubtitlingServer } from 'src/app/models/subtitling/subtitling-server.model';
 import { SettingsSubtitleChannelTableOptions } from '../../tables/settings-subtitle-channel-table/settings-subtitle-channel-table.model';
@@ -150,4 +152,59 @@ export class SettingsSubtitleChannelManagerComponent implements OnInit {
     }
     this.window.schedule.show = false;
   }
+
+  on = {
+    polygon: {
+      data: undefined as SubtitlingChannel | undefined,
+      changed: undefined as Polygon | undefined,
+      open: async (item: SubtitlingChannel) => {
+        this.on.polygon.data = item;
+
+        let url = await this.business.camera.picture(item);
+        this.window.picture.url = url;
+        this.window.picture.title = item.Name;
+        if (item.Polygons && item.Polygons.length > 0) {
+          this.window.picture.polygon = item.Polygons[0];
+          this.on.polygon.changed = this.window.picture.polygon;
+        }
+
+        this.window.picture.show = true;
+      },
+      finish: (data: Polygon) => {
+        this.on.polygon.changed = data;
+      },
+      reset: () => {
+        this.on.polygon.changed = undefined;
+        this.window.picture.polygon = undefined;
+        this.window.picture.clear.emit();
+      },
+      yes: () => {
+        if (this.on.polygon.data) {
+          let channel = this.on.polygon.data;
+
+          if (this.on.polygon.changed) {
+            let polygon = new SubtitlingChannelPolygon();
+            polygon.Points = [...this.on.polygon.changed.Points];
+            channel.Polygons = [polygon];
+          } else {
+            channel.Polygons = undefined;
+          }
+
+          this.business
+            .update(channel)
+            .then((x) => {
+              this.toastr.success('操作成功');
+              this.load.emit(this.opts);
+              this.window.picture.show = false;
+            })
+            .catch((x) => {
+              this.toastr.error('操作失败');
+            });
+        }
+      },
+      close: () => {
+        this.window.picture.show = false;
+      },
+    },
+  };
 }

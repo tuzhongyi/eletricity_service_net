@@ -9,6 +9,7 @@ import { StoreService } from 'src/app/tools/service/store.service';
 import { NavigationPath } from '../header/header-navigation/navigarion-path.enum';
 import { RealtimePassengerInfo } from '../realtime/realtime-information/realtime-information.model';
 
+import { ConfigRequestService } from 'src/app/network/request/config/config.service';
 import { IndexBusiness } from './business/index.business';
 
 @Component({
@@ -24,7 +25,8 @@ export class IndexComponent implements OnInit, OnDestroy {
     private store: StoreService,
     private route: ActivatedRoute,
     private router: Router,
-    private cookie: CookieService
+    private cookie: CookieService,
+    private config: ConfigRequestService
   ) {}
   ngOnDestroy(): void {
     this.store.stopInterval();
@@ -37,8 +39,15 @@ export class IndexComponent implements OnInit, OnDestroy {
   head = {
     show: true,
   };
+  private version = '1.0.0.1';
 
   ngOnInit() {
+    this.config.version.then((version) => {
+      if (this.version !== version) {
+        location.replace(window.location.href);
+        return;
+      }
+    });
     if (!this.cookie.get(CookieKey.username)) {
       this.router.navigateByUrl(RoutePath.login);
       return;

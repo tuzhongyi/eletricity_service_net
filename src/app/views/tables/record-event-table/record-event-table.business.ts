@@ -1,9 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { IBusiness } from 'src/app/interfaces/business.interface';
-import {
-  IConverter,
-  IPromiseConverter,
-} from 'src/app/interfaces/converter.interface';
+import { IConverter } from 'src/app/interfaces/converter.interface';
 import { EventRecord } from 'src/app/models/event-record.model';
 import { Page, PagedList } from 'src/app/models/page.model';
 import { GetEventRecordsParams } from 'src/app/network/request/events/event-request.params';
@@ -66,6 +63,12 @@ export class RecordEventTableBusiness
     }
     if (opts.name) {
       params.ResourceName = opts.name;
+    }
+    if (opts.misinfo != undefined) {
+      params.IsMisInfo = opts.misinfo;
+    }
+    if (opts.confirmed != undefined) {
+      params.Confirmed = opts.confirmed;
     }
     return this.service.list(params);
   }

@@ -40,6 +40,7 @@ export class SettingsSubtitleChannelTableComponent
   @Output() remove = new EventEmitter<SubtitlingChannel>();
   @Output() enablechange = new EventEmitter<SubtitlingChannel>();
   @Output() schedule = new EventEmitter<SubtitlingChannel>();
+  @Output() polygon = new EventEmitter<SubtitlingChannel>();
 
   constructor(private business: SettingsSubtitleChannelTableBusiness) {}
   isNaN = isNaN;
@@ -111,5 +112,9 @@ export class SettingsSubtitleChannelTableComponent
   onschedule(e: Event, item: SubtitlingChannelModel) {
     e.stopImmediatePropagation();
     this.schedule.emit(item);
+  }
+  onpolygon(e: Event, item: SubtitlingChannelModel) {
+    e.stopImmediatePropagation();
+    this.polygon.emit(item);
   }
 }

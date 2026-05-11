@@ -3,82 +3,95 @@
     <div class="record-content">
       <div class="record-content-title title">报警记录</div>
       <div class="record-content-filter">
-        <div class="left">
-          <div class="record-content-filter-item">
-            <div>开始时间：</div>
-            <div>
-              <input
-                width="200px"
-                type="text"
-                DateTimePicker
-                [format]="'yyyy-MM-dd HH:mm'"
-                [startView]="DateTimePickerView.month"
-                [minView]="DateTimePickerView.day"
-                [(date)]="options.begin"
-                class="date-select"
-              />
-            </div>
+        <div class="record-content-filter-item">
+          <div>开始时间：</div>
+          <div>
+            <input
+              width="200px"
+              type="text"
+              DateTimePicker
+              [format]="'yyyy-MM-dd HH:mm'"
+              [startView]="DateTimePickerView.month"
+              [minView]="DateTimePickerView.day"
+              [(date)]="options.begin"
+              class="date-select"
+            />
           </div>
-          <div class="record-content-filter-item">
-            <div>结束时间：</div>
-            <div>
-              <input
-                width="200px"
-                type="text"
-                DateTimePicker
-                [format]="'yyyy-MM-dd HH:mm'"
-                [startView]="DateTimePickerView.month"
-                [minView]="DateTimePickerView.day"
-                [(date)]="options.end"
-                class="date-select"
-              />
-            </div>
+        </div>
+        <div class="record-content-filter-item">
+          <div>结束时间：</div>
+          <div>
+            <input
+              width="200px"
+              type="text"
+              DateTimePicker
+              [format]="'yyyy-MM-dd HH:mm'"
+              [startView]="DateTimePickerView.month"
+              [minView]="DateTimePickerView.day"
+              [(date)]="options.end"
+              class="date-select"
+            />
           </div>
-          <div class="record-content-filter-item">
-            <div>选择楼层：</div>
-            <div>
-              <select
-                width="150px"
-                name=""
-                id=""
-                (change)="floorChange($event)"
-              >
-                <option *ngFor="let item of floors" [value]="item.value">
-                  {{ item.language }}
-                </option>
-              </select>
-            </div>
+        </div>
+        <div class="record-content-filter-item">
+          <div>楼层：</div>
+          <div>
+            <select (change)="floorChange($event)">
+              <option *ngFor="let item of floors" [value]="item.value">
+                {{ item.language }}
+              </option>
+            </select>
           </div>
-          <div class="record-content-filter-item">
-            <div>报警类型：</div>
-            <div>
-              <select width="150px" name="" id="" (change)="changeType($event)">
-                <option *ngFor="let item of eventTypes" [value]="item.value">
-                  {{ item.language }}
-                </option>
-              </select>
-            </div>
+        </div>
+        <div class="record-content-filter-item">
+          <div>报警类型：</div>
+          <div>
+            <select (change)="changeType($event)">
+              <option *ngFor="let item of eventTypes" [value]="item.value">
+                {{ item.language }}
+              </option>
+            </select>
           </div>
-          <div class="record-content-filter-item">
-            <div>摄像机名称：</div>
-            <div>
-              <input
-                type="text"
-                [(ngModel)]="options.name"
-                [placeholder]="'请输入摄像机名...'"
-              />
-            </div>
+        </div>
+        <div class="record-content-filter-item">
+          <div>是否误报：</div>
+          <div>
+            <select [(ngModel)]="options.misinfo">
+              <option [ngValue]="undefined">全部</option>
+              <option [ngValue]="true">确认误报</option>
+              <option [ngValue]="false">非误报</option>
+            </select>
           </div>
-          <div class="record-content-filter-item">
-            <button class="full" (click)="onSearch()">
-              <i class="howell-icon-search2"></i> 查询
-            </button>
+        </div>
+        <div class="record-content-filter-item">
+          <div>是否确认：</div>
+          <div>
+            <select [(ngModel)]="options.confirmed">
+              <option [ngValue]="undefined">全部</option>
+              <option [ngValue]="true">已确认</option>
+              <option [ngValue]="false">未确认</option>
+            </select>
           </div>
-          <div class="record-content-filter-item">
-            <button class="full" (click)="onExport()">
-              <i class="howell-icon-export2"></i> 导出
-            </button>
+        </div>
+        <div class="record-content-filter-item">
+          <div>摄像机名称：</div>
+          <div>
+            <input
+              type="text"
+              [(ngModel)]="options.name"
+              [placeholder]="'请输入摄像机名...'"
+            />
           </div>
+        </div>
+        <div class="record-content-filter-item">
+          <button class="full" (click)="onSearch()">
+            <i class="howell-icon-search2"></i> 查询
+          </button>
+        </div>
+        <div class="record-content-filter-item">
+          <button class="full" (click)="onExport()">
+            <i class="howell-icon-export2"></i> 导出
+          </button>
         </div>
       </div>
 

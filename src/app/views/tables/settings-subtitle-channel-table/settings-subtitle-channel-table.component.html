@@ -59,6 +59,13 @@
             <div class="operation">
               <div
                 class="sheet"
+                (click)="onpolygon($event, item)"
+                title="绘制分析区域"
+              >
+                <i class="howell-icon-focus-nearness"></i>
+              </div>
+              <div
+                class="sheet"
                 (click)="onschedule($event, item)"
                 title="工作表"
               >

@@ -25,6 +25,19 @@ export class BusinessHallCameraPictureRequestService {
     await this.basic.howellPost<string>(url);
     return url;
   }
+  async captureBlob(hallId: string, cameraId: string) {
+    let url = BusinessHallsUrl.camera(hallId).capturePicture(cameraId);
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    // 关键：转成 blob
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
+  }
 
   get(hallId: string, cameraId: string, pictureId: string) {
     return BusinessHallsUrl.camera(hallId).picture(cameraId).item(pictureId);

@@ -43,6 +43,21 @@ export class BaseRequestService {
         });
     });
   }
+  postBlob(url: string) {
+    return new Promise<Blob>((resolve, reject) => {
+      firstValueFrom(this.http.post<Blob>(url, undefined))
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((res) => {
+          if (res.status === 200) {
+            resolve(res.error.text);
+          } else {
+            reject(res);
+          }
+        });
+    });
+  }
   delete<R>(url: string) {
     return firstValueFrom(this.http.delete<R>(url));
   }

@@ -56,3 +56,52 @@
     font-size: 18px;
   }
 }
+
+
+.window {
+  &-picture {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+
+    &-head {
+      height: 34px;
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      position: absolute;
+    }
+
+    &-body {
+      height: calc(100% - 34px - 10px);
+      width: 100%;
+    }
+
+    &-foot {
+      height: 34px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &-reset {
+        color: white;
+        opacity: 0.9;
+        cursor: pointer;
+
+        &:hover {
+          opacity: 1;
+          text-shadow: #fff 0px 0 10px;
+        }
+      }
+
+      &-operation {
+        display: flex;
+      }
+    }
+  }
+}

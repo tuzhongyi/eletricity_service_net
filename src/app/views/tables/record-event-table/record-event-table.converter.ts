@@ -43,6 +43,17 @@ export class RecordEventTableItemConverter
     model.data = source;
     model.hasPic = !!source.ImageUrl;
 
+    model.misinfo = source.IsMisInfo ? '误报' : '非误报';
+    model.confidence =
+      source.Confidence == undefined ? '-' : `${source.Confidence}%`;
+    model.confirmed = {
+      did: source.Confirmed ? '已确认' : '未确认',
+      description: source.ConfirmedDescription ?? '',
+      time: source.ConfirmedTime
+        ? formatDate(source.ConfirmedTime, 'yyyy-MM-dd HH:mm:ss', 'en')
+        : '-',
+    };
+
     return model;
   }
 }
