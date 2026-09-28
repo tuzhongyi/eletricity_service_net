@@ -2,38 +2,44 @@
   <howell-card>
     <div class="settings-title title">
       <div
-        (click)="changePath(SettingPath.camera_position)"
-        [class.selected]="path === SettingPath.camera_position"
+        (click)="on.path(Node.camera_position)"
+        [class.selected]="path === Path.camera_position"
       >
         相机配置
       </div>
       <div
-        (click)="changePath(SettingPath.camera_zone)"
-        [class.selected]="path === SettingPath.camera_zone"
+        (click)="on.path(Node.camera)"
+        [class.selected]="path === Path.camera"
+      >
+        摄像机配置
+      </div>
+      <div
+        (click)="on.path(Node.camera_zone)"
+        [class.selected]="path === Path.camera_zone"
       >
         区域配置
       </div>
       <div
-        (click)="changePath(SettingPath.service_sync)"
-        [class.selected]="path === SettingPath.service_sync"
+        (click)="on.path(Node.service_sync)"
+        [class.selected]="path === Path.service_sync"
       >
         服务配置
       </div>
       <div
-        (click)="changePath(SettingPath.employees_manager)"
-        [class.selected]="path === SettingPath.employees_manager"
+        (click)="on.path(Node.employees_manager)"
+        [class.selected]="path === Path.employees_manager"
       >
         员工管理
       </div>
       <div
-        (click)="changePath(SettingPath.subtitle)"
-        [class.selected]="path === SettingPath.subtitle"
+        (click)="on.path(Node.subtitle)"
+        [class.selected]="path === Path.subtitle"
       >
         字幕配置
       </div>
     </div>
     <div class="settings-content">
-      <ng-container *ngIf="path === SettingPath.camera_position">
+      <!-- <ng-container *ngIf="path === SettingPath.camera_position">
         <howell-camera-position-setting></howell-camera-position-setting>
       </ng-container>
       <ng-container *ngIf="path === SettingPath.camera_zone">
@@ -48,6 +54,10 @@
       <ng-container *ngIf="path === SettingPath.subtitle">
         <howell-settings-subtitle-channel-manager></howell-settings-subtitle-channel-manager>
       </ng-container>
+      <ng-container *ngIf="path === SettingPath.camera">
+        <howell-setting-camera-manager></howell-setting-camera-manager>
+      </ng-container> -->
+      <router-outlet></router-outlet>
     </div>
   </howell-card>
 </div>

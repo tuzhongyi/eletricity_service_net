@@ -27,7 +27,7 @@ import { IndexComponent } from './index/index.component';
 import { PeopleStrangerComponents } from './people-stranger/people-stranger.module';
 import { PeoplePictureFaceComponent } from './people/people-picture-face/people-picture-face.component';
 import { PeopleComponent } from './people/people.component';
-import { SettingComponents } from './settings/settings.module';
+import { SettingComponents } from './settings/component/settings.module';
 import { StatisticComponents } from './statistic/statistic.module';
 import { TreeComponents } from './trees/trees.module';
 import { WindowComponents } from './windows/windows.module';

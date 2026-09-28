@@ -4,4 +4,5 @@ export enum SettingPath {
   service_sync,
   employees_manager,
   subtitle,
+  camera,
 }

@@ -7,7 +7,6 @@ import { PassengerComponent } from './passenger/passenger.component';
 import { PeopleComponent } from './people/people.component';
 import { RealtimeComponent } from './realtime/realtime.component';
 import { RecordComponent } from './record/record.component';
-import { SettingsComponent } from './settings/settings.component';
 import { StatisticComponent } from './statistic/component/statistic.component';
 import { VideoComponent } from './video/video.component';
 
@@ -43,12 +42,13 @@ const routes: Routes = [
         component: VideoComponent,
       },
       {
-        path: NavigationPath.setting,
-        component: SettingsComponent,
-      },
-      {
         path: NavigationPath.people,
         component: PeopleComponent,
+      },
+      {
+        path: NavigationPath.setting,
+        loadChildren: () =>
+          import('./settings/setting.module').then((m) => m.SettingModule),
       },
     ],
   },

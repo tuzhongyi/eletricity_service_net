@@ -2,11 +2,12 @@
   color: white;
   height: 100%;
   width: 100%;
+  @head-height: 9.0909090909%;
 
   .head {
     background-color: rgba(23, 241, 198, 0.3);
 
-    height: 40px;
+    height: @head-height;
     width: calc(100%);
 
     table {
@@ -35,7 +36,7 @@
 
   .body {
 
-    height: calc(100% - 40px);
+    height: calc(100% - @head-height);
     overflow-y: scroll;
 
     &.nohead {

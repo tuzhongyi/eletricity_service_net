@@ -20,6 +20,12 @@ const routes: Routes = [
     loadChildren: () => import('./views/view.module').then((m) => m.ViewModule),
     // canActivate: [AuthorizationActivate],
   },
+  {
+    path: RoutePath.setting,
+    loadChildren: () =>
+      import('./views/settings/setting.module').then((m) => m.SettingModule),
+    // canActivate: [AuthorizationActivate],
+  },
 ];
 
 @NgModule({
