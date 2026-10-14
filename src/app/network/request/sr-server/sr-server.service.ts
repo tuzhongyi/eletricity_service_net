@@ -29,7 +29,7 @@ export class SRServerRequestService {
 
   preview(
     args: GetPreviewUrlParams | string,
-    stream: StreamType = StreamType.main
+    stream: StreamType = StreamType.main,
   ) {
     let data: any;
     if (typeof args === 'string') {
@@ -48,14 +48,14 @@ export class SRServerRequestService {
   playback(
     cameraId: string,
     interval: DurationParams,
-    stream?: StreamType
+    stream?: StreamType,
   ): Promise<VideoUrl>;
   playback(params: GetVodUrlParams): Promise<VideoUrl>;
 
   playback(
     args: GetVodUrlParams | string,
     interval?: DurationParams,
-    stream: StreamType = StreamType.main
+    stream: StreamType = StreamType.main,
   ) {
     let data: any;
 
@@ -81,7 +81,7 @@ export class SRServerRequestService {
     return this.type.get(SRServerUrl.item(id));
   }
   set(item: SRServer) {
-    return this.type.post(SRServerUrl.item(item.Id), item);
+    return this.type.put(SRServerUrl.item(item.Id), item);
   }
 
   array() {

@@ -1,0 +1,54 @@
+<div class="settings-service-sr-server-address-table table">
+  <div class="head">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col
+          [ngStyle]="{ width: width, minWidth: minwidths[i] }"
+          *ngFor="let width of widths; let i = index"
+        />
+      </colgroup>
+      <thead>
+        <tr>
+          <td>IP地址</td>
+          <td>端口号</td>
+          <td><div class="center">联网方式</div></td>
+          <td><div class="center">RTSP</div></td>
+          <td><div class="center">RTMP</div></td>
+          <td><div class="center">HTTP</div></td>
+          <td><div class="center">WS</div></td>
+          <td><div class="center">操作</div></td>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="body" *ngIf="!!datas">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <tbody>
+        <tr *ngFor="let item of datas">
+          <td>{{ item.IPAddress }}</td>
+          <td>{{ item.Port }}</td>
+          <td class="center">
+            <ng-container *ngIf="item.IsInternet">互联网</ng-container
+            ><ng-container *ngIf="item.IsInternet && item.IsDefault"
+              >/</ng-container
+            ><ng-container *ngIf="item.IsDefault">直连</ng-container>
+          </td>
+          <td class="center">{{ item.RtspPort ?? "-" }}</td>
+          <td class="center">{{ item.RtmpPort ?? "-" }}</td>
+          <td class="center">{{ item.HttpPort ?? "-" }}</td>
+          <td class="center">{{ item.WsPort ?? "-" }}</td>
+          <td>
+            <div class="operation center">
+              <div (click)="onremove(item)">
+                <i class="howell-icon-delete-bin"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

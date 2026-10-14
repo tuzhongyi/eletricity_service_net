@@ -1,20 +1,20 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { SubtitlingServer } from 'src/app/models/subtitling/subtitling-server.model';
-import { SettingsSubtitleServerBusiness } from './settings-subtitle-server.business';
+import { SettingsServiceSubtitleServerBusiness } from './settings-service-subtitle-server.business';
 
 @Component({
-  selector: 'howell-settings-subtitle-server',
-  templateUrl: './settings-subtitle-server.component.html',
-  styleUrls: ['./settings-subtitle-server.component.less'],
-  providers: [SettingsSubtitleServerBusiness],
+  selector: 'howell-settings-service-subtitle-server',
+  templateUrl: './settings-service-subtitle-server.component.html',
+  styleUrls: ['./settings-service-subtitle-server.component.less'],
+  providers: [SettingsServiceSubtitleServerBusiness],
 })
-export class SettingsSubtitleServerComponent implements OnInit {
+export class SettingsServiceSubtitleServerComponent implements OnInit {
   @Output() close: EventEmitter<void> = new EventEmitter();
 
   constructor(
-    private business: SettingsSubtitleServerBusiness,
-    private toastr: ToastrService
+    private business: SettingsServiceSubtitleServerBusiness,
+    private toastr: ToastrService,
   ) {}
 
   model = new SubtitlingServer();

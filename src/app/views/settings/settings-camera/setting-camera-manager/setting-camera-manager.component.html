@@ -1,1 +1,124 @@
-<p>setting-camera-manager works!</p>
+<div class="setting-camera-manager">
+  <div class="setting-camera-manager-head">
+    <div class="setting-camera-manager-head-filter">
+      <div class="setting-camera-manager-head-filter-item">
+        <div>楼层：</div>
+        <div>
+          <select [(ngModel)]="table.args.floor">
+            <option [ngValue]="undefined">全部</option>
+            <option [ngValue]="item.Id" *ngFor="let item of source.floors">
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="setting-camera-manager-head-filter-item">
+        <div>用途：</div>
+        <div>
+          <select [(ngModel)]="table.args.usage">
+            <option [ngValue]="undefined">全部</option>
+            <option [ngValue]="item" *ngFor="let item of source.camerausages">
+              {{ Language.CameraUsage(item) }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="setting-camera-manager-head-filter-item">
+        <div>状态：</div>
+        <div>
+          <select [(ngModel)]="table.args.status">
+            <option [ngValue]="undefined">全部</option>
+            <option [ngValue]="Status.online">在线</option>
+            <option [ngValue]="Status.offline">离线</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="setting-camera-manager-head-filter-item">
+        <div>摄像机名称：</div>
+        <div>
+          <input
+            type="text"
+            [(ngModel)]="table.args.name"
+            [placeholder]="'请输入...'"
+          />
+        </div>
+      </div>
+      <div class="setting-camera-manager-head-filter-item">
+        <button class="full" (click)="manager.on.search()">
+          <i class="howell-icon-search2"></i> 查询
+        </button>
+      </div>
+    </div>
+    <div class="setting-camera-manager-head-operation">
+      <button
+        class="full"
+        [disabled]="table.selecteds.length === 0"
+        (click)="manager.on.removes()"
+      >
+        <i class="howell-icon-delete-bin"></i> 删除
+      </button>
+      <button class="full" (click)="manager.on.create()">
+        <i class="howell-icon-plus"></i> 添加
+      </button>
+    </div>
+  </div>
+
+  <div class="setting-camera-manager-body">
+    <howell-setting-camera-table
+      [args]="table.args"
+      [load]="table.load"
+      [selecteds]="table.selecteds"
+      (selectedsChange)="table.on.selecteds($event)"
+      (details)="table.on.details($event)"
+      (remove)="table.on.remove($event)"
+      (preview)="table.on.preview($event)"
+    ></howell-setting-camera-table>
+  </div>
+</div>
+
+<app-window
+  [title]="'添加摄像机'"
+  [model]="window.details"
+  [style]="window.details.style"
+  *ngIf="window.details.show"
+>
+  <howell-setting-camera-details
+    [data]="window.details.data"
+    (ok)="table.to.load(false)"
+    (close)="window.details.show = false"
+  ></howell-setting-camera-details>
+</app-window>
+<app-window
+  [model]="window.confirm"
+  *ngIf="window.confirm.show"
+  [style]="window.confirm.style"
+>
+  <div class="confirm">
+    <div class="confirm-head">
+      <div class="title"><i class="mdi mdi-alert"></i> 提示</div>
+    </div>
+    <div class="confirm-body">
+      <div class="hw-simple-title">{{ window.confirm.language }}</div>
+    </div>
+    <div class="confirm-foot">
+      <button class="full" (click)="manager.confirm.ok()">确定</button>
+      <button (click)="manager.confirm.close()">取消</button>
+    </div>
+  </div>
+</app-window>
+<app-window
+  *ngIf="window.video.show"
+  [model]="window.video"
+  [style]="window.video.style"
+  [title]="window.video.title"
+>
+  <howell-video-player-window
+    [autoplay]="window.video.autoplay"
+    [cameraId]="window.video.cameraId"
+    [mode]="window.video.mode"
+    [begin]="window.video.begin"
+    [end]="window.video.end"
+    [subtitle]="window.video.subtitle"
+  ></howell-video-player-window>
+</app-window>

@@ -6,39 +6,56 @@ import { IBusiness } from 'src/app/interfaces/business.interface';
 import { Employee } from 'src/app/models/employee.model';
 import { EventRecord } from 'src/app/models/event-record.model';
 import { BusinessHallRequestService } from 'src/app/network/request/business-hall/business-hall-request.service';
+import { ConfigRequestService } from 'src/app/network/request/config/config.service';
 import { Medium } from 'src/app/network/request/medium/medium';
 import { Language } from 'src/app/tools/language';
 import { StoreService } from 'src/app/tools/service/store.service';
 import { EmployeeModel, EmployeeTableArgs } from './employees-table.model';
 
 @Injectable()
-export class EmployeesTableBusiness
-  implements IBusiness<Employee[], EmployeeModel[]>
-{
+export class EmployeesTableBusiness implements IBusiness<
+  Employee[],
+  EmployeeModel[]
+> {
   constructor(
     private service: BusinessHallRequestService,
-    private store: StoreService
+    private store: StoreService,
+    private config: ConfigRequestService,
   ) {}
 
   async load(args?: EmployeeTableArgs): Promise<EmployeeModel[]> {
     let hall = await this.store.getBusinessHall();
-    let data = await this.getData(hall.Id).catch((x) => {
-      let array = new Array();
-      for (let i = 0; i < 20; i++) {
-        let record = new EventRecord();
-        record.Id = i.toString();
-        record.ResourceName = '记录' + i;
-        record.EventTime = new Date();
-        record.FloorName = i + 'F';
-        record.EventType = EventType.Business;
-        array.push(record);
+
+    try {
+      let data = await this.getData(hall.Id);
+      if (args) {
+        data = this.filter(data, args);
       }
-      return array;
-    });
-    if (args) {
-      data = this.filter(data, args);
+      let model = data.map((x) => this.convert(x));
+      return model;
+    } catch (error) {
+      if ((await this.config.get()).test) {
+        return this.test(args);
+      }
+      throw error;
     }
-    let model = data.map((x) => this.convert(x));
+  }
+
+  private test(args?: EmployeeTableArgs) {
+    let array = new Array();
+    for (let i = 0; i < 20; i++) {
+      let record = new EventRecord();
+      record.Id = i.toString();
+      record.ResourceName = '记录' + i;
+      record.EventTime = new Date();
+      record.FloorName = i + 'F';
+      record.EventType = EventType.Business;
+      array.push(record);
+    }
+    if (args) {
+      array = this.filter(array, args);
+    }
+    let model = array.map((x) => this.convert(x));
     return model;
   }
 
@@ -53,7 +70,7 @@ export class EmployeesTableBusiness
     }
     if (args.name) {
       data = data.filter((x) =>
-        x.Name.toLowerCase().includes(args.name!.toLowerCase())
+        x.Name.toLowerCase().includes(args.name!.toLowerCase()),
       );
     }
     if (args.idnumber) {

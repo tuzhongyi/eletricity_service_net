@@ -25,7 +25,7 @@ export class ConfigRequestService {
 
   get version() {
     return new Promise<string>((resolve) => {
-      fetch(`/assets/config/version.json?t=${new Date().getTime()}`)
+      fetch(`/assets/configs/version.json?t=${new Date().getTime()}`)
         .then((res) => res.json())
         .then((data) => {
           resolve(data.version);

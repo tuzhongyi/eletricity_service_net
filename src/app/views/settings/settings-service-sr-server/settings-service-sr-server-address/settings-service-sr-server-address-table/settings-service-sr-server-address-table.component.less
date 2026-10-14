@@ -1,0 +1,43 @@
+.settings-service-sr-server-address-table {
+  height: 100%;
+  width: 100%;
+  @head-height: 16.6666666666666%;
+
+  .head {
+    height: @head-height;
+
+    table {
+      td {
+        font-size: 18px;
+      }
+    }
+
+  }
+
+  .body {
+    // 滚动条占的是 5px（styles.css 里的 ::-webkit-scrollbar），补回来表头和内容才对齐
+    width: calc(100% + 5px);
+    height: calc(100% - @head-height);
+    container-type: size;
+
+
+    table {
+      // 公共样式里是 width: calc(100% - 5px)，撑满后列宽才和表头一致
+      width: 100%;
+
+      // 这三个属性只对 table 生效，写在 tbody 上会被忽略；
+      // 公共样式里是 separate + 0px 10px 行间距，这里覆盖掉，行才挨在一起
+      border-collapse: collapse;
+      border-spacing: 0;
+      margin: 0;
+
+      tr {
+        height: 20cqb;
+
+        td {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

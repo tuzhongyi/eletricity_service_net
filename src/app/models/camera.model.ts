@@ -49,4 +49,6 @@ export class Camera implements IModel {
   AlarmId?: string;
   /**	分辨率	O */
   Resolution?: Resolution;
+  /**	String	音频报警来源ID	O */
+  AudioSourceId?: string;
 }

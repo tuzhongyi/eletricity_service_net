@@ -1,0 +1,113 @@
+.setting-camera-table {
+  height: 100%;
+  width: 100%;
+
+  @head-height: 9.0909090909%;
+  @foot-height: 50px;
+
+  &>* {
+    box-sizing: border-box;
+  }
+
+  .head {
+    height: @head-height;
+    border: solid #07a990 1px;
+    margin-bottom: 0;
+    width: 100%
+  }
+
+  .head table td .center {
+    text-align: center;
+  }
+
+  // 勾选列：抵消 table-list.less 给首列留的 20px 左内边距，把框居中
+  .head table td:first-child,
+  .body table tr td:first-child {
+    padding: 0;
+
+    .check {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+  }
+
+  // 整行都是点击区；行里的框不吃点击，不然框的内部状态会和 selecteds 差一拍
+  .body table tr:not(.filler) {
+    cursor: pointer;
+
+    td:first-child .check {
+      pointer-events: none;
+    }
+  }
+
+  .body {
+    border: solid #07a990 1px;
+    border-top: none;
+    height: calc(100% - @head-height - @foot-height);
+    width: 100%;
+
+    table {
+      height: 100%;
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0px 0px;
+      margin: 0;
+
+      tr {
+        background-color: transparent;
+        height: 10%;
+
+        &.filler {
+          &:hover {
+            background-color: transparent;
+          }
+
+          &:last-child {
+            height: 0.1%;
+          }
+        }
+
+        .glyphicon {
+          top: 0;
+          font-size: 15px;
+        }
+
+        .online {
+          color: #17f1c6;
+        }
+
+        .offline {
+          color: #ff8373;
+        }
+      }
+    }
+  }
+
+  .footer {
+    height: @foot-height;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: solid #07a990 1px;
+    border-top: none;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+
+    &-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 200px;
+    }
+
+    &-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+    }
+  }
+}

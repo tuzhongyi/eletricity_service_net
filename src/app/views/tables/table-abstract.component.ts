@@ -47,7 +47,7 @@ export abstract class PagedTableAbstractComponent<T> {
 
 export abstract class ListAbstractComponent<
   TData,
-  TSource
+  TSource,
 > extends PagedTableAbstractComponent<TData> {
   override pageSize = 15;
   list: TSource[] = [];

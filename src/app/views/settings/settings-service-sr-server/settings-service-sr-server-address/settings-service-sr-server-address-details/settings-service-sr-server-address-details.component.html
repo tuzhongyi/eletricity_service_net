@@ -1,0 +1,73 @@
+<div class="settings-service-sr-server-address-details">
+  <div class="settings-service-sr-server-address-details-body">
+    <div class="form">
+      <div class="form-item">
+        <div class="form-item-title">
+          <div class="must">*</div>
+          <div text-space-between suffix="：">主机地址</div>
+        </div>
+
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.IPAddress" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div class="must">*</div>
+          <div text-space-between suffix="：">主机端口号</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.Port" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div text-space-between suffix="：">联网方式</div>
+        </div>
+        <div class="form-item-value checkbox-group">
+          <mat-checkbox [(ngModel)]="data.IsInternet"> 互联网 </mat-checkbox>
+          <mat-checkbox [(ngModel)]="data.IsDefault"> 直连 </mat-checkbox>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div text-space-between suffix="：">RTSP端口</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.RtspPort" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div text-space-between suffix="：">RTMP端口</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.RtmpPort" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div text-space-between suffix="：">HTTP端口</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.HttpPort" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div text-space-between suffix="：">WebSocket</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="data.WsPort" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-service-sr-server-address-details-foot">
+    <button class="full" (click)="on.ok()">
+      <i class="mdi mdi-check"></i> 确认
+    </button>
+    <button (click)="on.cancel()"><i class="mdi mdi-close"></i> 取消</button>
+  </div>
+</div>

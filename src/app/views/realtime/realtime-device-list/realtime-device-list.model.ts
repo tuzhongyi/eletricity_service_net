@@ -4,6 +4,6 @@ import { DeviceStatus } from 'src/app/enums/device-status.enum';
 export class RealtimeDeviceModel {
   id: string = '';
   name: string = '';
-  usage: CameraUsage = CameraUsage.monitor;
+  usage: CameraUsage = CameraUsage.Monitor;
   status: DeviceStatus = DeviceStatus.offline;
 }

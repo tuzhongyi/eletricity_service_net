@@ -5,11 +5,11 @@ import { SubtitlingRequestService } from 'src/app/network/request/subtitling/sub
 import { StoreService } from 'src/app/tools/service/store.service';
 
 @Injectable()
-export class SettingsSubtitleServerBusiness {
+export class SettingsServiceSubtitleServerBusiness {
   constructor(
     private service: SubtitlingRequestService,
     private medium: Medium,
-    private store: StoreService
+    private store: StoreService,
   ) {}
 
   private _server?: SubtitlingServer;

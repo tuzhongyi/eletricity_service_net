@@ -1,0 +1,143 @@
+<div class="setting-camera-details">
+  <div class="setting-camera-details-body">
+    <div class="form">
+      <div class="form-item">
+        <div class="form-item-title">
+          <div class="must">*</div>
+          <div text-space-between suffix="：">摄像机名称</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.Name" />
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div text-space-between suffix="：" [keepword]="true">
+            客流服务器ID
+          </div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.PassengerServerUnid" />
+        </div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-title">
+          <div text-space-between suffix="：">用途</div>
+        </div>
+        <div class="form-item-value select-control">
+          <select [(ngModel)]="model.Usage">
+            <option [ngValue]="item" *ngFor="let item of source.camerausages">
+              {{ Language.CameraUsage(item) }}
+            </option>
+          </select>
+          <div class="please" *ngIf="model.Usage === undefined">请选择</div>
+        </div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-title">
+          <div text-space-between suffix="：" [keepword]="true">
+            流转服务器ID
+          </div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.SRServerId" />
+        </div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-title">
+          <div text-space-between suffix="：">分辨率</div>
+        </div>
+        <div class="form-item-value select-control">
+          <select
+            [(ngModel)]="resolution.selected"
+            (ngModelChange)="resolution.change()"
+          >
+            <option
+              [ngValue]="item.value"
+              *ngFor="let item of source.resolutions"
+            >
+              {{ item.label }}
+            </option>
+          </select>
+          <div class="please" *ngIf="model.Resolution === undefined">
+            请选择
+          </div>
+        </div>
+      </div>
+      <div class="form-item">
+        <div class="form-item-title">
+          <div text-space-between suffix="：" [keepword]="true">中心ID</div>
+        </div>
+        <div class="form-item-value select-control">
+          <input type="text" [(ngModel)]="model.CenterId" />
+        </div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-title">
+          <div text-space-between suffix="：">楼层</div>
+        </div>
+        <div class="form-item-value select-control">
+          <select [(ngModel)]="model.FloorId">
+            <option [ngValue]="undefined">无</option>
+            <option [ngValue]="item.Id" *ngFor="let item of source.floors">
+              {{ item.Name }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-item">
+        <div class="form-item-title">
+          <div text-space-between suffix="：">音频来源</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.AudioSourceId" />
+        </div>
+      </div>
+      <div class="form-item full">
+        <div class="form-item-title">
+          <div text-space-between suffix="：">主机地址</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.IP" />
+        </div>
+      </div>
+      <div class="form-item full">
+        <div class="form-item-title">
+          <div text-space-between suffix="：" [keepword]="true">流转相机ID</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.SRCameraId" />
+        </div>
+      </div>
+
+      <div class="form-item full">
+        <div class="form-item-title">
+          <div text-space-between suffix="：" [keepword]="true">报警接入ID</div>
+        </div>
+        <div class="form-item-value">
+          <input type="text" [(ngModel)]="model.AlarmId" />
+        </div>
+      </div>
+      <div class="form-item full">
+        <div class="form-item-title">
+          <div text-space-between suffix="：">描述信息</div>
+        </div>
+        <div class="form-item-value">
+          <textarea [(ngModel)]="model.Description"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="setting-camera-details-foot">
+    <button class="full" (click)="on.ok()">
+      <i class="mdi mdi-check"></i> 确认
+    </button>
+    <button (click)="on.cancel()"><i class="mdi mdi-close"></i> 取消</button>
+  </div>
+</div>

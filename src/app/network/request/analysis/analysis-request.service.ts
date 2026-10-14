@@ -50,14 +50,20 @@ export class AnalysisServerRequestService {
   private _audio?: AnalysisServerAudioSourcesRequestService;
   public get audio(): AnalysisServerAudioSourcesRequestService {
     if (!this._audio) {
-      this._audio = new AnalysisServerAudioSourcesRequestService(this.basic);
+      this._audio = new AnalysisServerAudioSourcesRequestService(
+        this.basic,
+        this,
+      );
     }
     return this._audio;
   }
 }
 class AnalysisServerAudioSourcesRequestService {
   private type: BaseTypeRequestService<AudioSource>;
-  constructor(basic: BaseRequestService) {
+  constructor(
+    basic: BaseRequestService,
+    private server: AnalysisServerRequestService,
+  ) {
     this.type = basic.type(AudioSource);
   }
   array(serverId: string) {
@@ -79,5 +85,12 @@ class AnalysisServerAudioSourcesRequestService {
   delete(serverId: string, id: string) {
     let url = AnalysisServerUrl.audio(serverId).item(id);
     return this.type.delete(url);
+  }
+
+  async all() {
+    let servers = await this.server.array();
+    let promise = servers.map((x) => this.array(x.Id));
+    let all = await Promise.all(promise);
+    return all.flat(1);
   }
 }

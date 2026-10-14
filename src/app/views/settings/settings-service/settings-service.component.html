@@ -1,18 +1,70 @@
 <div class="settings-service">
   <div>
-    <button (click)="onconfirm(Type.sr_server)">同步流转服务器</button>
+    <button (click)="confirm.open(Type.analysis_server)">同步分析服务器</button>
   </div>
   <div>
-    <button (click)="onconfirm(Type.passenger_server)">同步客流服务器</button>
+    <button (click)="confirm.open(Type.center_id)">同步中心ID</button>
   </div>
   <div>
-    <button (click)="onconfirm(Type.analysis_server)">同步分析服务器</button>
+    <button (click)="on.sr.manager.open()">配置流转服务器</button>
   </div>
   <div>
-    <button (click)="onconfirm(Type.center_id)">同步中心ID</button>
+    <button (click)="on.passenger()">配置客流服务器</button>
   </div>
-  <div><button (click)="onsubtitle()">配置字幕服务</button></div>
+  <div>
+    <button (click)="on.subtitle()">配置字幕服务</button>
+  </div>
 
+  <app-window
+    *ngIf="window.subtitle.show"
+    [model]="window.subtitle"
+    [style]="window.subtitle.style"
+    [title]="window.subtitle.title"
+  >
+    <howell-settings-service-subtitle-server
+      (close)="window.subtitle.show = false"
+    ></howell-settings-service-subtitle-server>
+  </app-window>
+
+  <app-window
+    *ngIf="window.passenger.show"
+    [model]="window.passenger"
+    [style]="window.passenger.style"
+    [title]="window.passenger.title"
+  >
+    <howell-settings-service-passenger-server
+      (sync)="confirm.open(Type.passenger_server)"
+      (close)="window.passenger.show = false"
+      (confirm)="confirm.open(Type.passenger_server)"
+      [sync]="confirm.yes"
+    ></howell-settings-service-passenger-server>
+  </app-window>
+  <app-window
+    *ngIf="window.sr.manager.show"
+    [model]="window.sr.manager"
+    [style]="window.sr.manager.style"
+    [title]="window.sr.manager.title"
+  >
+    <howell-settings-service-sr-server-manager
+      [addressadd]="addressadd"
+      (addressopen)="on.sr.address.open()"
+      (sync)="confirm.open(Type.sr_server)"
+      (close)="window.sr.manager.show = false"
+      (confirm)="confirm.open(Type.sr_server)"
+      [sync]="confirm.yes"
+    ></howell-settings-service-sr-server-manager>
+  </app-window>
+  <app-window
+    *ngIf="window.sr.address.show"
+    [model]="window.sr.address"
+    [style]="window.sr.address.style"
+    [title]="window.sr.address.title"
+  >
+    <howell-settings-service-sr-server-address-details
+      (close)="window.sr.address.show = false"
+      (ok)="on.sr.address.ok($event)"
+    ></howell-settings-service-sr-server-address-details>
+  </app-window>
   <app-window
     *ngIf="window.confirm.show"
     [model]="window.confirm"
@@ -26,19 +78,9 @@
         <div class="hw-simple-title">{{ window.confirm.message }}</div>
       </div>
       <div class="confirm-foot">
-        <button class="full" (click)="onyes()">确定</button>
+        <button class="full" (click)="confirm.on.yes()">确定</button>
         <button (click)="window.confirm.show = false">取消</button>
       </div>
     </div>
-  </app-window>
-  <app-window
-    *ngIf="window.subtitle.show"
-    [model]="window.subtitle"
-    [style]="window.subtitle.style"
-    [title]="window.subtitle.title"
-  >
-    <howell-settings-subtitle-server
-      (close)="window.subtitle.show = false"
-    ></howell-settings-subtitle-server>
   </app-window>
 </div>

@@ -1,1 +1,119 @@
-<p>setting-camera-table works!</p>
+<div class="setting-camera-table table">
+  <div class="head">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col
+          [ngStyle]="{ width: width }"
+          *ngFor="let width of widths; let i = index"
+        />
+      </colgroup>
+      <thead>
+        <tr>
+          <td>
+            <div class="check">
+              <mat-checkbox
+                [disableRipple]="true"
+                [checked]="all"
+                (change)="on.all($event)"
+              ></mat-checkbox>
+            </div>
+          </td>
+          <td>名称</td>
+          <td>用途</td>
+          <td>客流服务器</td>
+          <td>流转服务器</td>
+          <td>中心ID</td>
+          <td>楼层</td>
+          <td>状态</td>
+          <td><div class="center">操作</div></td>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="body" *ngIf="!!datas">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col
+          [ngStyle]="{ width: width }"
+          *ngFor="let width of widths; let i = index"
+        />
+      </colgroup>
+      <tbody>
+        <tr
+          *ngFor="let item of datas"
+          [class.selected]="selecteds.includes(item)"
+          (click)="on.check(item)"
+        >
+          <td>
+            <div class="check">
+              <mat-checkbox
+                [disableRipple]="true"
+                [checked]="selecteds.includes(item)"
+              ></mat-checkbox>
+            </div>
+          </td>
+          <td [title]="item.Name">{{ item.Name }}</td>
+
+          <td>{{ Language.CameraUsage(item.Usage) }}</td>
+          <td>{{ (item.SRServerName | async) || "-" }}</td>
+          <td>{{ (item.PassengerServerName | async) || "-" }}</td>
+          <td>{{ item.CenterId || "-" }}</td>
+          <td>{{ (item.FloorName | async) || "-" }}</td>
+          <td
+            [ngClass]="{
+              online: item.Status == 0,
+              offline: item.Status != 0
+            }"
+          >
+            {{ Language.DeviceStatus(item.Status) }}
+          </td>
+          <td>
+            <div class="operation center">
+              <div
+                [class.disabled]="!item.SRCameraId"
+                (click)="on.preview(item, $event)"
+              >
+                <i class="howell-icon-video"></i>
+              </div>
+              <div (click)="on.details(item, $event)">
+                <i class="howell-icon-modification"></i>
+              </div>
+              <div (click)="on.remove(item, $event)">
+                <i class="howell-icon-delete-bin"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <!-- 补足到 10 排，每排才都是 10%；末尾那排吃掉 1/64px 的取整余数 -->
+        <tr
+          class="filler"
+          *ngFor="let i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] | slice: datas.length"
+        >
+          <td colspan="8"></td>
+        </tr>
+        <tr class="filler">
+          <td colspan="8"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="footer" *ngIf="page">
+    <div class="footer-item">
+      <div class="footer-info">
+        <div class="info-item">当前数量: {{ page && page.RecordCount }}</div>
+        <div class="info-item">总数量: {{ page && page.TotalRecordCount }}</div>
+      </div>
+    </div>
+    <div class="footer-item">
+      <app-paginator
+        [length]="page ? page.TotalRecordCount : 0"
+        [pageSize]="page ? page.PageSize : 0"
+        [pagerCount]="5"
+        [pageIndex]="page.PageIndex - 1"
+        [showFirstLastButtons]="true"
+        (page)="on.page($event)"
+      >
+      </app-paginator>
+    </div>
+  </div>
+</div>

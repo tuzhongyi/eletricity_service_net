@@ -18,7 +18,7 @@ import { HowellVideoPlayerTrackBusiness } from './howell-video-player-track.busi
 export class HowellVideoPlayerBusiness {
   constructor(
     private sr: SRServerRequestService,
-    private config: HowellVideoPlayerConfigBusiness
+    private config: HowellVideoPlayerConfigBusiness,
   ) {}
 
   async preview(args: HowellPreviewArgs) {
@@ -58,6 +58,7 @@ export class HowellVideoPlayerBusiness {
 
   private convert(url: VideoUrl) {
     let model = VideoModel.fromUrl(url.Url);
+
     if (url.Username) {
       model.username = url.Username;
     }

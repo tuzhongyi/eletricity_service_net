@@ -12,7 +12,7 @@
     "duration": 30,
     "autoplay": true
   },
-  "videoUrl": "http://127.0.0.1:8800/video/wsplayer/wsplayer.html",
+  "videoUrl": "http://127.0.0.1:80/video/wsplayer/wsplayer.html",
   "user": {
     "username": "admin",
     "password": "howell.net.cn"
@@ -20,5 +20,6 @@
   "reload": 240,
   "passenger": true,
   "people": true,
-  "realtime": false
+  "realtime": false,
+  "setting": true
 }

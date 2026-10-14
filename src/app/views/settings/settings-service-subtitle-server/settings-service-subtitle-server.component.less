@@ -1,4 +1,4 @@
-.settings-subtitle-server {
+.settings-service-subtitle-server {
   width: 100%;
   height: 100%;
   color: white;
@@ -11,6 +11,12 @@
 
     .form-item-title {
       width: 100px;
+
+      // 指令宿主是 flex 子项，默认宽度收缩到文字宽，space-between 没有富余空间可分配
+      > div[text-space-between] {
+        flex: 1;
+        min-width: 0;
+      }
     }
 
     .form-item-value {

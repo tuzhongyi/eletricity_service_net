@@ -1,0 +1,77 @@
+.setting-camera-details {
+  width: 100%;
+  height: 100%;
+  color: white;
+  border-top: 1px solid #006764;
+  padding: 20px 0;
+  padding-bottom: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  @gap: 20px;
+  @foot-height: 50px;
+  @title-width: 110px;
+  gap: @gap;
+
+  &-body {
+    height: calc(100% - @foot-height - @gap);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    .form {
+      width: 100%;
+      flex-wrap: wrap;
+      flex-direction: row;
+      gap: 15px;
+
+
+
+
+
+      &-item {
+
+        width: calc((100% - 20px) * 0.5);
+        height: 34px;
+
+        &.full {
+          width: 100%;
+          height: auto;
+          flex-grow: 1;
+
+          .form-item-title {
+            height: 36px;
+          }
+
+          textarea {
+            height: 100%;
+            min-height: 0;
+          }
+        }
+
+        // 标题最长 7 个字（报警接入ID：），全局的 80px 放不下，按这个宽度覆盖
+        &-title {
+          width: @title-width;
+          flex-shrink: 0;
+
+          &>div[text-space-between] {
+            flex: 1;
+            min-width: 0;
+          }
+        }
+
+        &-value {
+          width: calc(100% - @title-width);
+          min-width: 0;
+        }
+      }
+    }
+  }
+
+  &-foot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: @foot-height;
+  }
+}

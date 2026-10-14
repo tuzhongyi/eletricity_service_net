@@ -5,7 +5,7 @@ import { Duration } from 'src/app/models/duration.model';
 export class RealtimeDeviceModel<T = any> {
   id: string = '';
   name: string = '';
-  usage: CameraUsage = CameraUsage.monitor;
+  usage: CameraUsage = CameraUsage.Monitor;
   status: DeviceStatus = DeviceStatus.offline;
   data?: T;
   duration?: Duration;

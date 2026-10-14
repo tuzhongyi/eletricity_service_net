@@ -1,0 +1,89 @@
+.settings-service-sr-server {
+
+  @gap: 20px;
+  @foot-height: 50px;
+  @title-width: 115px;
+
+
+
+  &-manager {
+    width: 100%;
+    height: 100%;
+    color: white;
+    border-top: 1px solid #006764;
+    padding-top: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: @gap;
+
+    .form {
+      display: flex;
+
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 20px;
+
+
+      &-item {
+        width: calc((100% - 20px) * 0.5);
+
+        &.full {
+          width: 100%;
+          height: auto;
+          flex-grow: 1;
+        }
+
+        &-title {
+          width: @title-width;
+
+          &>div[text-space-between] {
+            width: 100%;
+          }
+        }
+
+        &-value {
+          width: calc(100% - @title-width);
+
+          &.checkbox-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+
+            // checkbox 的文案用的字体是 Roboto（material 主题里引的 google 字体，第一次用到才去下载），
+            // 首次打开的头 300ms 先用回退字体渲染，Roboto 到位后字体度量变了：
+            // 一是 mat-checkbox 自己从 26.7px 变 24px（下面几个表单项跟着缩），
+            // 二是文字的基线挪 2px。看起来就是“抖一下”，而且只有第一次打开会（之后字体有缓存）。
+            // 让它跟弹窗里其它文字用同一个字体（这个字体是本地打包的，页面一加载就已经加载好了），
+            // 没有字体替换，这两下就都没有了。
+            mat-checkbox {
+              font-family: inherit;
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  &-body {
+    flex: 1;
+    min-height: 0;
+
+  }
+
+  &-foot {
+    height: @foot-height;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .same {
+      height: 34px;
+      width: auto;
+      aspect-ratio: 1;
+    }
+  }
+
+}

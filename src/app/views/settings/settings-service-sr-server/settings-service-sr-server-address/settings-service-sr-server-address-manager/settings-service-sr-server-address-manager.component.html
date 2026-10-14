@@ -1,0 +1,13 @@
+<div class="settings-service-sr-server-address-manager">
+  <div class="settings-service-sr-server-address-manager-body">
+    <howell-settings-service-sr-server-address-table
+      [datas]="datas"
+      (remove)="on.remove($event)"
+    ></howell-settings-service-sr-server-address-table>
+  </div>
+  <div class="settings-service-sr-server-address-manager-foot">
+    <button class="full" (click)="on.add()">
+      <i class="mdi mdi-plus"></i> 添加
+    </button>
+  </div>
+</div>

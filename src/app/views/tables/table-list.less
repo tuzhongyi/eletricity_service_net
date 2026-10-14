@@ -57,7 +57,13 @@
 
         &.selected {
           background-color: rgba(239, 111, 89, 0.6);
-          color: white;
+          color: rgba(255, 255, 255, 0.9);
+
+          &:hover {
+
+            background-color: rgba(239, 111, 89, 0.5);
+            color: white !important;
+          }
 
           .operation {
             color: white !important;
@@ -103,7 +109,13 @@
               cursor: pointer;
 
               &:hover {
-                color: #ffa899
+                color: #ffa899;
+              }
+
+              &.disabled {
+                color: #888;
+                cursor: default;
+                pointer-events: none;
               }
             }
 

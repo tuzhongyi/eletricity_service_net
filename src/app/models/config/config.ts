@@ -7,6 +7,8 @@ export interface Config {
   passenger?: boolean;
   people?: boolean;
   realtime?: boolean;
+  test?: boolean;
+  setting?: boolean;
 }
 
 interface PlaybackConfig {

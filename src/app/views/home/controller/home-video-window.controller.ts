@@ -16,7 +16,8 @@ export class HomeVideoWindow extends WindowViewModel {
   end?: Date;
   subtitle = false;
   style = {
-    width: '80%',
-    height: 'calc(80% + 40px)',
+    height: '80%',
+    width: 'auto',
+    aspectRatio: '16 / 10.2',
   };
 }

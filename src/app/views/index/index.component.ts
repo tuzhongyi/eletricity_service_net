@@ -26,7 +26,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private cookie: CookieService,
-    private config: ConfigRequestService
+    private config: ConfigRequestService,
   ) {}
   ngOnDestroy(): void {
     this.store.stopInterval();
@@ -39,7 +39,7 @@ export class IndexComponent implements OnInit, OnDestroy {
   head = {
     show: true,
   };
-  private version = '1.0.0.1';
+  private version = '1.0.1.1';
 
   ngOnInit() {
     this.config.version.then((version) => {

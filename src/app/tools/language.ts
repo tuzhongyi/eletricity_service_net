@@ -47,23 +47,29 @@ export class Language {
     }
   }
 
-  static CameraUsage(usage: CameraUsage) {
+  static CameraUsage(usage?: CameraUsage, def = '未知') {
     switch (usage) {
       case CameraUsage.AI:
         return 'AI';
-      case CameraUsage.hotmap:
+      case CameraUsage.Heatmap:
         return '热力图';
-      case CameraUsage.monitor:
+      case CameraUsage.Monitor:
         return '摄像机';
-      case CameraUsage.passenger:
+      case CameraUsage.PassengerFlow:
         return '客流统计';
+      case CameraUsage.Face:
+        return '人脸';
+      case CameraUsage.DeviceSmash:
+        return '打砸设备';
+      case CameraUsage.MorningMeeting:
+        return '早会';
 
       default:
-        return '未知';
+        return def;
     }
   }
 
-  static DeviceStatus(status: DeviceStatus) {
+  static DeviceStatus(status?: DeviceStatus) {
     switch (status) {
       case DeviceStatus.online:
         return '在线';

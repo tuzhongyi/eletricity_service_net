@@ -8,20 +8,15 @@ html {
 
 
 .form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
   &-item {
     display: flex;
     justify-content: space-between;
 
     @title-width: 80px;
-    margin: 20px 0;
-
-    &:first-child {
-      margin-top: 0;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
-    }
 
     &-title {
       text-align: justify;

@@ -41,6 +41,7 @@ yarn-error.log
 testem.log
 /typings
 /private
+*copy.ts
 
 # System Files
 .DS_Store

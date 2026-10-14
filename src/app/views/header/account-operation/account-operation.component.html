@@ -8,6 +8,10 @@
         <i class="howell-icon-account pmx"></i>
         {{ username }}
       </button>
+      <button mat-menu-item *ngIf="display.setting" (click)="tosetting()">
+        <i class="howell-icon-setting2"></i>
+        设置配置
+      </button>
       <button
         mat-menu-item
         (click)="logoutHandler()"

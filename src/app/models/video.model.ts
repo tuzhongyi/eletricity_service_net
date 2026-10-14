@@ -49,7 +49,7 @@ export class VideoModel {
           endTime?: Date;
           web?: string;
         }
-      | string
+      | string,
   ) {
     if (options) {
       if (typeof options === 'string') {
@@ -72,6 +72,15 @@ export class VideoModel {
   fromString(str: string) {
     let url = new HowellUrl(str);
     this.host = url.Host;
+    switch (this.host) {
+      case '127.0.0.1':
+      case 'localhost':
+        this.host = location.hostname;
+        break;
+
+      default:
+        break;
+    }
     this.port = url.Port;
     if (url.Querys) {
       this.username = url.Querys.user;
