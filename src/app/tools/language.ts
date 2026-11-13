@@ -1,4 +1,5 @@
 import { formatDate } from '@angular/common';
+import { AudioSourceAlarmEmotion } from '../enums/audio-source-alarm-emotion.enum';
 import { CameraUsage } from '../enums/camera-usage.enum';
 import { DeviceStatus } from '../enums/device-status.enum';
 import { EventType } from '../enums/event-type.enum';
@@ -129,6 +130,24 @@ export class Language {
         return '女';
       default:
         return '未知';
+    }
+  }
+
+  static AlarmEmotion(type?: AudioSourceAlarmEmotion, def = '未知') {
+    switch (type) {
+      case AudioSourceAlarmEmotion.Normal:
+        return '正常';
+      case AudioSourceAlarmEmotion.Happy:
+        return '快乐';
+      case AudioSourceAlarmEmotion.Sad:
+        return '悲伤';
+      case AudioSourceAlarmEmotion.Angry:
+        return '愤怒';
+      case AudioSourceAlarmEmotion.Excited:
+        return '兴奋';
+
+      default:
+        return def;
     }
   }
 }

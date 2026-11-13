@@ -1,0 +1,18 @@
+<div class="settings-service-analysis-server-audio-manager">
+  <howell-card>
+    <div class="audio-manager">
+      <div class="audio-manager-head">
+        <div class="audio-manager-title">音频源</div>
+        <button (click)="on.add()"><i class="mdi mdi-plus"></i> 添加</button>
+      </div>
+      <div class="audio-manager-body">
+        <howell-settings-service-analysis-server-audio-card-list
+          [serverId]="serverId"
+          [reload]="reload"
+          (edit)="on.edit($event)"
+          (remove)="on.remove($event)"
+        ></howell-settings-service-analysis-server-audio-card-list>
+      </div>
+    </div>
+  </howell-card>
+</div>

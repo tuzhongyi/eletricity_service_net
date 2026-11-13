@@ -1,0 +1,86 @@
+<div class="settings-service-analysis-server-audio-card-list">
+  <div class="item" *ngFor="let item of datas">
+    <howell-statistic-card>
+      <div class="audio">
+        <div class="audio-head">
+          <howell-statistic-card-head>
+            <div class="audio-title">
+              <span class="audio-name" title="{{ item.Name }}">{{
+                item.Name
+              }}</span>
+              <span class="audio-type">{{ sourceType(item.SourceType) }}</span>
+            </div>
+            <div class="audio-operation">
+              <div title="编辑" (click)="on.edit(item)">
+                <i class="howell-icon-modification"></i>
+              </div>
+              <div title="删除" (click)="on.remove(item)">
+                <i class="howell-icon-delete-bin"></i>
+              </div>
+            </div>
+          </howell-statistic-card-head>
+        </div>
+
+        <div class="audio-body">
+          <div class="form">
+            <div class="form-item full">
+              <div class="form-item-title">
+                <div text-space-between suffix="：" [keepword]="true">
+                  数据来源地址
+                </div>
+              </div>
+              <div class="form-item-value" title="{{ item.Urls }}">
+                {{ item.Urls ?? "-" }}
+              </div>
+            </div>
+
+            <div class="form-item short">
+              <div class="form-item-title">
+                <div text-space-between suffix="：">分贝阈值</div>
+              </div>
+              <div class="form-item-value">
+                {{ item.VolumeThreshold ?? "-" }}
+              </div>
+            </div>
+            <div class="form-item long">
+              <div class="form-item-title">
+                <div text-space-between suffix="：">报警情绪</div>
+              </div>
+              <div class="form-item-value">{{ emotions(item) }}</div>
+            </div>
+
+            <div class="form-item short">
+              <div class="form-item-title">
+                <div text-space-between suffix="：">默认报警</div>
+              </div>
+              <div class="form-item-value">
+                {{ item.DefaultIsAlarm ? "是" : "否" }}
+              </div>
+            </div>
+            <div class="form-item long">
+              <div class="form-item-title">
+                <div text-space-between suffix="：" [keepword]="true">
+                  关键字报警
+                </div>
+              </div>
+              <div class="form-item-value" title="{{ keywords(item) }}">
+                {{ keywords(item) }}
+              </div>
+            </div>
+
+            <div class="form-item full">
+              <div class="form-item-title">
+                <div text-space-between suffix="：">描述信息</div>
+              </div>
+              <div class="form-item-value" title="{{ item.Description }}">
+                {{ item.Description || "-" }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </howell-statistic-card>
+  </div>
+
+  <div class="empty" *ngIf="datas.length === 0">暂无音频源</div>
+</div>

@@ -4,6 +4,7 @@ import { CardComponent } from './card/card.component';
 import { CHART_COMPONENTS } from './charts/charts.module';
 import { CommonLabelSelecComponent } from './common-label-select/common-label-select.component';
 import { CommonTreeComponent } from './common-tree/common-tree.component';
+import { HwSwitchComponent } from './hw-switch/hw-switch.component';
 import { ImageControlComponent } from './image-control/image-control.component';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { ImageVideoControlComponent } from './image-video-control/image-video-control.component';
@@ -28,4 +29,5 @@ export const components = [
   ImageUploadComponent,
   ImageComponent,
   AlarmComponent,
+  HwSwitchComponent,
 ];

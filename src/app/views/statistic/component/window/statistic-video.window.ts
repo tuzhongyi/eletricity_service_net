@@ -16,7 +16,8 @@ export class StatisticVideoWindow extends WindowViewModel {
   end?: Date;
   subtitle = false;
   style = {
-    width: '80%',
+    width: 'auto',
     height: 'calc(80% + 40px)',
+    aspectRatio: '16/10.2',
   };
 }

@@ -1,0 +1,45 @@
+<div class="settings-service-analysis-server-audio-table table">
+  <div class="head">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <thead>
+        <tr>
+          <td>名称</td>
+          <td><div class="center">来源类型</div></td>
+
+          <td><div class="center">分贝阈值</div></td>
+          <td><div class="center">默认报警</div></td>
+          <td><div class="center">操作</div></td>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="body" *ngIf="!!datas">
+    <table border="0" cellpadding="0" cellspacing="0">
+      <colgroup>
+        <col [ngStyle]="{ width: width }" *ngFor="let width of widths" />
+      </colgroup>
+      <tbody>
+        <tr *ngFor="let item of datas">
+          <td title="{{ item.Name }}">{{ item.Name }}</td>
+          <td class="center">{{ sourceType(item.SourceType) }}</td>
+          <td title="{{ item.Urls }}">{{ item.Urls ?? "-" }}</td>
+          <td class="center">{{ item.VolumeThreshold ?? "-" }}</td>
+          <td class="center">{{ item.DefaultIsAlarm ? "是" : "否" }}</td>
+          <td>
+            <div class="operation center">
+              <div title="编辑" (click)="on.edit(item)">
+                <i class="howell-icon-modification"></i>
+              </div>
+              <div title="删除" (click)="on.remove(item)">
+                <i class="howell-icon-delete-bin"></i>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

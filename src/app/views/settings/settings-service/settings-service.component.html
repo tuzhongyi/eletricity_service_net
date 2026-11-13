@@ -1,9 +1,9 @@
 <div class="settings-service">
   <div>
-    <button (click)="confirm.open(Type.analysis_server)">同步分析服务器</button>
+    <button (click)="confirm.open(Type.center_id)">同步中心ID</button>
   </div>
   <div>
-    <button (click)="confirm.open(Type.center_id)">同步中心ID</button>
+    <button (click)="on.analysis.open()">配置分析服务器</button>
   </div>
   <div>
     <button (click)="on.sr.manager.open()">配置流转服务器</button>
@@ -38,6 +38,45 @@
       (confirm)="confirm.open(Type.passenger_server)"
       [sync]="confirm.yes"
     ></howell-settings-service-passenger-server>
+  </app-window>
+  <app-window
+    *ngIf="window.analysis.show"
+    [model]="window.analysis"
+    [style]="window.analysis.style"
+    [title]="window.analysis.title"
+  >
+    <howell-settings-service-analysis-server-manager
+      [sync]="confirm.yes"
+      [reload]="audio.reload"
+      (confirm)="confirm.open(Type.analysis_server)"
+      (close)="window.analysis.show = false"
+      (add)="audio.add($event)"
+      (edit)="audio.open($event)"
+      (remove)="audio.remove($event)"
+    ></howell-settings-service-analysis-server-manager>
+  </app-window>
+  <app-window
+    *ngIf="window.audio.show"
+    [model]="window.audio"
+    [style]="window.audio.style"
+    [title]="window.audio.title"
+  >
+    <div class="audio-form">
+      <div class="audio-form-body">
+        <howell-settings-service-analysis-server-audio-details
+          [data]="audio.data"
+          [check]="audio.check"
+        ></howell-settings-service-analysis-server-audio-details>
+      </div>
+      <div class="audio-form-foot">
+        <button class="full" (click)="on.audio.ok()">
+          <i class="mdi mdi-check"></i> 确认
+        </button>
+        <button (click)="on.audio.cancel()">
+          <i class="mdi mdi-close"></i> 取消
+        </button>
+      </div>
+    </div>
   </app-window>
   <app-window
     *ngIf="window.sr.manager.show"

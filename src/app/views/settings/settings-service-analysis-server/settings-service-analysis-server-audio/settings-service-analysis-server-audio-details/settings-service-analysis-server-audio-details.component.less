@@ -1,0 +1,125 @@
+.settings-service-analysis-server-audio-details {
+  width: 100%;
+
+  @title-width: 115px;
+
+  .form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    &-item {
+      width: calc((100% - 20px) * 0.5);
+
+      &.check-box {
+        .form-item-title {
+          height: auto;
+        }
+      }
+
+      &.full {
+        width: 100%;
+      }
+
+      &-title {
+        width: @title-width;
+
+        height: 36px;
+
+        &>div[text-space-between] {
+          width: 100%;
+        }
+      }
+
+      &-value {
+        width: calc(100% - @title-width);
+
+        &.checkbox-group {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+
+
+
+          mat-checkbox {
+            width: 56px;
+            font-family: inherit;
+          }
+        }
+
+        textarea {
+          height: 100%;
+          min-height: 0;
+        }
+
+        .keyword-list {
+          width: 100%;
+          min-height: 34px;
+          padding: 4px 8px;
+          box-sizing: border-box;
+          border: 1px solid #17f1c6;
+          background-color: rgba(6, 153, 156, 0.3);
+          display: block;
+
+          &:focus-within {
+            background-color: rgba(194, 83, 68, 0.1);
+          }
+
+          ::ng-deep .mat-chip-list-wrapper {
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px;
+          }
+
+          mat-chip {
+            min-height: 22px;
+            height: 22px;
+            padding: 0 4px 0 8px;
+            font-size: 13px;
+            color: white;
+            font-family: inherit;
+            border-radius: 11px;
+
+            button.mat-chip-remove {
+              width: 16px;
+              height: 16px;
+              padding: 0;
+              margin-left: 2px;
+              border: none;
+              background: transparent;
+              color: white;
+              opacity: 0.7;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              i {
+                font-size: 13px;
+                line-height: 16px;
+              }
+
+              &:hover {
+                opacity: 1;
+              }
+            }
+          }
+
+          input {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 28px;
+            margin: 0;
+            padding: 0;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}

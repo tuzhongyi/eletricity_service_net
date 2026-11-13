@@ -1,0 +1,47 @@
+<div class="settings-service-analysis-server-manager">
+  <div class="settings-service-analysis-server-manager-body">
+    <howell-statistic-card class="panel panel-info">
+      <div class="panel-inner">
+        <div class="panel-head">
+          <div class="panel-title">基本信息</div>
+        </div>
+        <div class="panel-body">
+          <howell-settings-service-analysis-server-info
+            [data]="model"
+          ></howell-settings-service-analysis-server-info>
+        </div>
+      </div>
+    </howell-statistic-card>
+
+    <howell-statistic-card class="panel panel-audio">
+      <div class="panel-inner">
+        <div class="panel-head">
+          <div class="panel-title">视频源</div>
+          <button (click)="on.add()"><i class="mdi mdi-plus"></i></button>
+        </div>
+        <div class="panel-body">
+          <howell-settings-service-analysis-server-audio-card-list
+            [serverId]="model.Id"
+            [reload]="input_reload"
+            (edit)="on.edit($event)"
+            (remove)="on.remove($event)"
+          ></howell-settings-service-analysis-server-audio-card-list>
+        </div>
+      </div>
+    </howell-statistic-card>
+  </div>
+
+  <div class="settings-service-analysis-server-manager-foot">
+    <div>
+      <button title="服务器同步" class="same" (click)="on.sync()">
+        <i class="mdi mdi-sync"></i>
+      </button>
+    </div>
+    <div class="button-group">
+      <button class="full" (click)="on.ok()">
+        <i class="mdi mdi-check"></i> 确认
+      </button>
+      <button (click)="on.cancel()"><i class="mdi mdi-close"></i> 取消</button>
+    </div>
+  </div>
+</div>

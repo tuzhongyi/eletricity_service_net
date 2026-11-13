@@ -1,0 +1,129 @@
+.settings-service-analysis-server-audio-card-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-right: 5px;
+  box-sizing: border-box;
+  color: white;
+
+  @head-height: 60px;
+  @title-width: 115px;
+  @line-color: rgba(23, 241, 198, 0.3);
+  @text-color: rgba(23, 241, 198, 0.9);
+
+  .item {
+    flex-shrink: 0;
+  }
+
+  .audio {
+    display: flex;
+    flex-direction: column;
+
+    &-head {
+      height: @head-height;
+      flex-shrink: 0;
+    }
+
+    &-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    &-name {
+      max-width: 420px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &-type {
+      flex-shrink: 0;
+      font-size: 13px;
+      line-height: 18px;
+      font-weight: normal;
+      padding: 1px 10px;
+      color: @text-color;
+      border: 1px solid rgba(23, 241, 198, 0.6);
+      border-radius: 10px;
+    }
+
+    &-operation {
+      display: flex;
+      gap: 16px;
+      font-size: 16px;
+      color: rgba(23, 241, 198, 0.7);
+
+      &>div {
+        cursor: pointer;
+
+        &:hover {
+          color: #ffa899;
+        }
+      }
+    }
+
+    &-body {
+      padding: 12px 0 14px;
+      box-sizing: border-box;
+    }
+  }
+
+  // 覆盖全局 .form 的竖排样式，卡片里排成两列
+  .form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    width: 100%;
+
+    &-item {
+      width: calc((100% - 20px) * 0.5);
+
+      // 左边只有阈值/是否，右边是要显示长文本的情绪和关键字
+      &.short {
+        width: calc((100% - 20px) * 0.36);
+      }
+
+      &.long {
+        width: calc((100% - 20px) * 0.64);
+      }
+
+      &.full {
+        width: 100%;
+      }
+
+      &-title {
+        width: @title-width;
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.75);
+
+        &>div[text-space-between] {
+          width: 100%;
+        }
+      }
+
+      &-value {
+        width: calc(100% - @title-width);
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.95);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .empty {
+    padding: 60px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.5);
+    border: 1px dashed @line-color;
+    box-sizing: border-box;
+  }
+}

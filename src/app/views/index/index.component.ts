@@ -39,10 +39,11 @@ export class IndexComponent implements OnInit, OnDestroy {
   head = {
     show: true,
   };
-  private version = '1.0.1.1';
+  private version = '1.0.1.4';
 
   ngOnInit() {
     this.config.version.then((version) => {
+      console.log(version);
       if (this.version !== version) {
         location.replace(window.location.href);
         return;

@@ -1,4 +1,5 @@
 import { WindowViewModel } from 'src/app/components/window-control/window.model';
+import { AudioSource } from 'src/app/models/audio-source.model';
 
 export class SettingsServiceWindow {
   confirm = new ConfirmWindow();
@@ -8,6 +9,8 @@ export class SettingsServiceWindow {
     address: new SRServerAddressWindow(),
   };
   passenger = new PassengerServerWindow();
+  analysis = new AnalysisServerWindow();
+  audio = new AudioSourceWindow();
 }
 
 class ConfirmWindow extends WindowViewModel {
@@ -18,6 +21,7 @@ class ConfirmWindow extends WindowViewModel {
   title = '提示';
   message = '';
   type!: SettingServiceType;
+  data?: AudioSource;
 }
 
 class SubtitleServerWindow extends WindowViewModel {
@@ -48,10 +52,25 @@ class PassengerServerWindow extends WindowViewModel {
   };
   title = '客流服务器';
 }
+class AnalysisServerWindow extends WindowViewModel {
+  style = {
+    width: '70%',
+    height: '700px',
+  };
+  title = '分析服务器';
+}
+class AudioSourceWindow extends WindowViewModel {
+  style = {
+    width: '800px',
+    height: '665px',
+  };
+  title = '编辑音频源';
+}
 
 export enum SettingServiceType {
   sr_server,
   passenger_server,
   center_id,
   analysis_server,
+  audio_source,
 }

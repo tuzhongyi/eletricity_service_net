@@ -95,7 +95,16 @@
           <div text-space-between suffix="：">音频来源</div>
         </div>
         <div class="form-item-value">
-          <input type="text" [(ngModel)]="model.AudioSourceId" />
+          <!-- <input type="text" [(ngModel)]="model.AudioSourceId" /> -->
+          <select [(ngModel)]="model.AudioSourceId">
+            <option [ngValue]="undefined">无</option>
+            <option
+              [ngValue]="item.Id"
+              *ngFor="let item of source.server.analysis.audio.source"
+            >
+              {{ item.Name }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="form-item full">

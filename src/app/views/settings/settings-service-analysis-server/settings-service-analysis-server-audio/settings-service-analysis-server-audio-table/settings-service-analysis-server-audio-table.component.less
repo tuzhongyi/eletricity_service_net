@@ -1,0 +1,38 @@
+.settings-service-analysis-server-audio-table {
+  height: 100%;
+  width: 100%;
+  @head-height: 9.0909090909%;
+
+  .head {
+    height: @head-height;
+    min-height: 30px;
+
+    table {
+      td {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .body {
+    // 滚动条占的是 5px，补回来表头和内容才对齐
+    width: calc(100% + 5px);
+    height: calc(100% - @head-height);
+    container-type: size;
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0;
+      margin: 0;
+
+      tr {
+        height: 20cqb;
+
+        td {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

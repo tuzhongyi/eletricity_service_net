@@ -1,0 +1,143 @@
+<div class="settings-service-analysis-server-audio-details">
+  <div class="form">
+    <div class="form-item full">
+      <div class="form-item-title">
+        <div text-space-between suffix="：" [keepword]="true">音频源ID</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [readOnly]="true" [(ngModel)]="data.Id" />
+      </div>
+    </div>
+
+    <div class="form-item full">
+      <div class="form-item-title">
+        <div text-space-between suffix="：">音频源地址</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="data.Urls" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-title">
+        <div class="must">*</div>
+        <div text-space-between suffix="：">音频源名称</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="data.Name" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-title">
+        <div class="must">*</div>
+        <div text-space-between suffix="：">音频源类型</div>
+      </div>
+      <div class="form-item-value select-control">
+        <select [(ngModel)]="data.SourceType">
+          <option [ngValue]="SourceType.Camera">摄像机音频</option>
+          <option [ngValue]="SourceType.SoundHead">拾音头</option>
+        </select>
+        <div class="please" *ngIf="data.SourceType == undefined">请选择</div>
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-title">
+        <div text-space-between suffix="：">音频源用户名</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="data.Username" autocomplete="off" />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-title">
+        <div text-space-between suffix="：">音频源密码</div>
+      </div>
+      <div class="form-item-value">
+        <input
+          type="password"
+          [(ngModel)]="data.Password"
+          autocomplete="new-password"
+        />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-title">
+        <div text-space-between suffix="：">报警分贝阈值</div>
+      </div>
+      <div class="form-item-value">
+        <input
+          type="number"
+          min="0"
+          max="100"
+          [(ngModel)]="data.VolumeThreshold"
+        />
+      </div>
+    </div>
+    <div class="form-item">
+      <div class="form-item-title">
+        <div text-space-between suffix="：">描述信息</div>
+      </div>
+      <div class="form-item-value">
+        <input type="text" [(ngModel)]="data.Description" />
+      </div>
+    </div>
+    <div class="form-item full">
+      <div class="form-item-title">
+        <div text-space-between suffix="：">关键字报警</div>
+      </div>
+      <div class="form-item-value">
+        <mat-chip-list
+          #keywordList
+          class="keyword-list"
+          aria-label="关键字报警"
+        >
+          <mat-chip
+            *ngFor="let keyword of data.Keywords"
+            (removed)="on.keyword.remove(keyword)"
+          >
+            {{ keyword }}
+            <button matChipRemove type="button" title="移除">
+              <i class="mdi mdi-close"></i>
+            </button>
+          </mat-chip>
+          <input
+            [matChipInputFor]="keywordList"
+            [matChipInputSeparatorKeyCodes]="separatorKeys"
+            (matChipInputTokenEnd)="on.keyword.add($event)"
+            placeholder="输入关键字后按回车"
+          />
+        </mat-chip-list>
+      </div>
+    </div>
+    <!-- <div class="form-item full">
+      <div class="form-item-title">
+        <div text-space-between suffix="：">描述信息</div>
+      </div>
+      <div class="form-item-value">
+        <textarea [(ngModel)]="data.Description"></textarea>
+      </div>
+    </div> -->
+
+    <div class="form-item full check-box">
+      <div class="form-item-title">
+        <div text-space-between suffix="：">报警情绪</div>
+      </div>
+      <div class="form-item-value checkbox-group emotions">
+        <mat-checkbox
+          *ngFor="let item of source.emotions"
+          [checked]="emotion(item.key)"
+          (change)="on.emotion(item.key, $event.checked)"
+        >
+          {{ item.value }}
+        </mat-checkbox>
+      </div>
+    </div>
+    <div class="form-item check-box">
+      <div class="form-item-title">
+        <div text-space-between suffix="：">默认报警</div>
+      </div>
+      <div class="form-item-value checkbox-group">
+        <hw-switch [(checked)]="data.DefaultIsAlarm"></hw-switch>
+      </div>
+    </div>
+  </div>
+</div>

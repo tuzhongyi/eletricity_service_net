@@ -9,7 +9,8 @@ export class HomePictureWindow extends WindowViewModel {
   isError: boolean = false;
   title: string = '';
   style = {
-    width: '80%',
+    width: 'auto',
     height: 'calc(80% + 40px)',
+    aspectRatio: '16/10.2',
   };
 }
